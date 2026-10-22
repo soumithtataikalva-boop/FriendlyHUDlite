@@ -1,0 +1,104 @@
+--- original/game/gui/_old/components/guiTooltipComponent.ws
++++ FHUD 5.01/game/gui/_old/components/guiTooltipComponent.ws
+@@ -560,8 +560,9 @@
+ 		AddOilInfo(item, itemInvComponent, tooltipData);
+ 		AddSocketsInfo(item, itemInvComponent, socketsList);
+ 		
+-		//if(weightValue != 0)
+-		//{
++		// FHUD 5.01: retain vanilla zero-weight hiding unless quantities are requested.
++		if( weightValue != 0 || GetFHUDConfig().showStashItemQuantity )
++		{
+ 			tmpStr = FloatToStringPrec( weightValue, 2 );
+ 			//---=== modFriendlyHUD ===---
+ 			if(GetFHUDConfig().showStashItemQuantity)
+@@ -585,7 +586,7 @@
+ 			}
+ 			//---=== modFriendlyHUD ===---
+ 			addGFxItemStat(propsList, "weight", tmpStr, "attribute_name_weight");
+-		//}
++		}
+ 		
+ 		durMult = 1;
+ 		if ( isArmorOrWeapon && !itemInvComponent.IsItemBolt( item ) )
+--- original/game/gui/hud/hud.ws
++++ FHUD 5.01/game/gui/hud/hud.ws
+@@ -703,7 +703,7 @@
+ 				module = (CR4HudModuleBase)(GetHudModule(NameToString(configName)));
+ 				if (module)
+ 				{
+-					module.SetEnabled( "true" );
++					module.SetEnabled( true );
+ 				}
+ 			}
+ 			break;
+--- original/game/gui/hud/modules/hudModuleBase.ws
++++ FHUD 5.01/game/gui/hud/modules/hudModuleBase.ws
+@@ -127,7 +127,15 @@
+ 			return;
+ 		fModule = GetModuleFlash();
+ 		//a proper linear fade that doesn't fight with vanilla fade
+-		mAlpha = fModule.GetAlpha() - 100 * timeDelta / fadeOutCfgTime;
++		// FHUD 5.01: a zero-second fade means hide immediately.
++		if( fadeOutCfgTime <= 0 )
++		{
++			mAlpha = 0;
++		}
++		else
++		{
++			mAlpha = fModule.GetAlpha() - 100 * timeDelta / fadeOutCfgTime;
++		}
+ 		//fadeOutTime -= timeDelta;
+ 		//if( fadeOutTime >= 0 )
+ 		if( mAlpha > 0 )
+--- original/game/gui/hud/modules/hudModuleMinimap2.ws
++++ FHUD 5.01/game/gui/hud/modules/hudModuleMinimap2.ws
+@@ -217,9 +217,11 @@
+ 		//this is what happens when you copy-paste...
+ 		//fadeTime -= dt;
+ 		
++		// FHUD 5.01: initialize alpha even while vanilla pauses fading.
++		fModule = GetModuleFlash();
++		mAlpha = fModule.GetAlpha();
+ 		if(!theGame.IsDialogOrCutscenePlaying() && !theGame.IsFading())
+ 		{
+-			fModule = GetModuleFlash();
+ 			mAlpha = fModule.GetAlpha() - 100 * dt / fadeOutTime;
+ 			fModule.SetAlpha( MaxF( 0, mAlpha ) );
+ 			//GetModuleFlash().SetAlpha( 100 * MaxF( 0, fadeTime / fadeOutTime ) );
+--- original/game/gui/hud/modules/hudModuleOneliners.ws
++++ FHUD 5.01/game/gui/hud/modules/hudModuleOneliners.ws
+@@ -102,7 +102,6 @@
+ 			return true;
+ 		//modFriendlyHUD end
+ 		
+-		LogChannel( 'Oneliner', "SHOW " + ID + ": " + value + " [" + target.GetName() + "]" );
+ 		
+ 		
+ 		value = "<font size = '"+ IntToString( 25 + onelinerScale ) + "' >" + value + "</font>";
+--- original/game/gui/main_menu/ingameMenu.ws
++++ FHUD 5.01/game/gui/main_menu/ingameMenu.ws
+@@ -4794,7 +4794,7 @@
+ 	//---=== modFriendlyHUD ===---
+ 	function ShouldHideDLCIcons() : bool
+ 	{
+-		return theGame.GetInGameConfigWrapper().GetVarValue('fhudMainMenu', 'fhudHideDLC');
++		return theGame.GetInGameConfigWrapper().GetVarValue('fhudMainMenu', 'fhudHideDLC') == "true";
+ 	}
+ 	//---=== modFriendlyHUD ===---
+ 
+--- original/game/gui/menus/alchemyMenu.ws
++++ FHUD 5.01/game/gui/menus/alchemyMenu.ws
+@@ -84,7 +84,11 @@
+ 		{
+ 			//---=== modFriendlyHUD ===---
+ 			l_merchantComponent = (W3MerchantComponent)m_npc.GetComponentByClassName('W3MerchantComponent');
+-			bHerbalist = ((l_merchantComponent.GetMapPinType() == 'Herbalist') || (l_merchantComponent.GetMapPinType() == 'Alchemic'));
++			// FHUD 5.01: some NPCs have no merchant component.
++			if( l_merchantComponent )
++			{
++				bHerbalist = ((l_merchantComponent.GetMapPinType() == 'Herbalist') || (l_merchantComponent.GetMapPinType() == 'Alchemic'));
++			}
+ 			if( bHerbalist )
+ 			{
+ 				m_npcInventory = m_npc.GetInventory();

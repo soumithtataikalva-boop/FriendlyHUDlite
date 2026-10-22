@@ -1,0 +1,185 @@
+{
+  "baseline": "User-supplied Vanilla Scripts 5.01; version label not independently verified",
+  "upstream": "User-supplied FriendlyHUD archive; original README identifies 5.00b and v0.9.1R",
+  "rebased_game_files": [
+    {
+      "path": "game/components/inventoryComponent.ws",
+      "vanilla_sha256": "8d6167f0dd5b92cac5be597260417003155c270f30676765bb0b20270fee5738",
+      "original_mod_sha256": "bf168994b1c45fc980d73f7a470c0732b13e6baa01982d00ea11d92c8b1d3ba6"
+    },
+    {
+      "path": "game/gameplay/effects/effects/potion/Cat.ws",
+      "vanilla_sha256": "5ba029323f4543751151264d092e7cdc7ec7483cbe9ae84764e70939a34962f1",
+      "original_mod_sha256": "17a134b02424ce433ebd95feb08104cfd051d8f8a2294b1ba80eb2fe184c9509"
+    },
+    {
+      "path": "game/gameplay/focus/focus.ws",
+      "vanilla_sha256": "8034f3728bd3d614298495b268506f9e16fadff4c468044011b474cb5977574c",
+      "original_mod_sha256": "10f4491b999c5a7efbb1c2c0fc1727ce4a2767585229f23f74781ac5bfd5e7c5"
+    },
+    {
+      "path": "game/gui/_old/components/guiTooltipComponent.ws",
+      "vanilla_sha256": "b290c96f6faf60ac7976ce1cb3d2fc503a26dfe8a874ca154f63bb5ea63d902b",
+      "original_mod_sha256": "d10293bd6b806047447e6bc82e345f0d32503e59ed2666b49080eaa1283ef803"
+    },
+    {
+      "path": "game/gui/hud/hud.ws",
+      "vanilla_sha256": "5a917faa30d33cf23ccbc99bb2684c6ead0ee6e84c0d6bcb7842f6e95d3a05c5",
+      "original_mod_sha256": "1c808f94320f1c8768b57d7b842c29e03516cffd3ec4869a88bfc6b111fa18c3"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleBase.ws",
+      "vanilla_sha256": "b3753d365b44799f6b883de8d7c2ec688d134d48a656511df6a8525cd3921c3c",
+      "original_mod_sha256": "5b4735213dbdb7d31244bf35dbb252b247562afbd70c22f3c7671bd768869ac5"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleBuffs.ws",
+      "vanilla_sha256": "c097c18505078793afce91364cec3eda8a318029c9094038234a2999c8e8cfaa",
+      "original_mod_sha256": "9d32b748314a3a20b55d9262ee8c789d59f7a35612b72f8047f2400bfc9b04e6"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleCompanion.ws",
+      "vanilla_sha256": "d71510d0af2f1d6a8ea26c559daa71ec1bbd5246e1a7176d6f366e371ba02f83",
+      "original_mod_sha256": "b2f06666fb782ebc940ee3b3b9f3ddd56ab0a0abe11085181faa5b5500eac013"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleControlsFeedback.ws",
+      "vanilla_sha256": "b7448df283b873a06f62b8fa046d88fde9155bb12d29aebb23bdbe7450c9b37f",
+      "original_mod_sha256": "8630097fee2d9a807db3bcf2c1f38a7138d9f4bd5b3b21d8ba09885bb499b040"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleDamagedItems.ws",
+      "vanilla_sha256": "3e667938d902ace9c4f2cec7ce21879b3330f86575b87cace85fac62f7c0c0a0",
+      "original_mod_sha256": "562216c0028c0d87bea05a3b6aa7895d1d5ad9fa57ab6aeb070a06bc8f3d4551"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleEnemyFocus.ws",
+      "vanilla_sha256": "d2fef5473e2e53e37b2638b855989c0ff5ffd5f312f2655a667cf7e6ffb92596",
+      "original_mod_sha256": "afcaea5ca80ee53b119a67190ae5af1c7c8f4b48521be3321088d89eeac23200"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleInteractions.ws",
+      "vanilla_sha256": "b4f84bfed4124686d0d983dc96ce34adac78e43c879d44b5c51d012a69658048",
+      "original_mod_sha256": "030abacdf99db978c32cb0bc12f704df5bc69d151ed0b4de25dacbfc1ae93693"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleItemInfo.ws",
+      "vanilla_sha256": "70595e985792c9f9f8561953e08e0547bb190dbab600f4070b87fc001bedd124",
+      "original_mod_sha256": "0ed3a76b32524c8046a0e53b7dc53c50abc0bac0261fc499a09f3b74f57446f3"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleJournalUpdate.ws",
+      "vanilla_sha256": "9af95c1bc68a0a49cd1b94e3308565c011309696f601216b1cdc28ef4978da48",
+      "original_mod_sha256": "e1e1d6b9b12e3149aca5ad60f61bb7f5671c4c8e494aa46b684835a77814e226"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleMinimap2.ws",
+      "vanilla_sha256": "d8b49731fd10b1004252d7276d02bd57db967da9b8b11cf4f6e7ece3344690ec",
+      "original_mod_sha256": "dbaab08dd7791b2a91d37b8d869133ded94875420c0af0e8d8ebda677970e976"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleOneliners.ws",
+      "vanilla_sha256": "04e89280ee054856676176ddac70ff54e0f21f3058e23be171583fc8aff3f43c",
+      "original_mod_sha256": "e6667b4a46cd2134ca9c350d7433d383c2ceef10c86c8529a95eb09b881bbe38"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleQuests.ws",
+      "vanilla_sha256": "31a46d865394bcbcbef1bb2942b37ff7b296500803fb031a1a7b57647f58cf5e",
+      "original_mod_sha256": "5dea85d7a200632c1f8dfae76a211b83f40b7604658c55ef027e80dcf04f1fa6"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleRadialMenu.ws",
+      "vanilla_sha256": "1c767309b27f1c988240072828c14e4dc2b4af3548047845683ec9fff835244d",
+      "original_mod_sha256": "ee8ea16c43a26a0e7afa1b501644bd43e13fd598165638357ba9a27413cc2750"
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleWolfHead.ws",
+      "vanilla_sha256": "10e9c27d26482aec271a0437307806413f342b27ddd4de5b8d2f799ea685133b",
+      "original_mod_sha256": "fe782a50905dd1a64050e09315f4261b66c7114d1124afb90520a99da613cb3a"
+    },
+    {
+      "path": "game/gui/main_menu/ingameMenu.ws",
+      "vanilla_sha256": "fe051467b393dc3b0ac15dfdcf1d6064210853600cc254ba3fd20b32b1a6518e",
+      "original_mod_sha256": "6ba29fb09508e58f2cd4bb83bbd4dcd9e11bce50070cb566f0f110be82d2e136"
+    },
+    {
+      "path": "game/gui/menus/alchemyMenu.ws",
+      "vanilla_sha256": "e38bad9446bd9fb3a00c448227071f0408efb73a149490a9cc3235253f7f7544",
+      "original_mod_sha256": "43322fa5b628cf1147d5c54be837a66a8d61ade1a5f38d6cd1f4e10e78cf83c9"
+    },
+    {
+      "path": "game/gui/menus/craftingMenu.ws",
+      "vanilla_sha256": "4bbe25ee49c6c7c8a49b488c8c7abf58440cfe4e9084119415d16c8f964322b9",
+      "original_mod_sha256": "03664f349d4c9aeb87f04c9a83c9a735c30ee516c74cfb665550a3410b40ed81"
+    },
+    {
+      "path": "game/gui/menus/inventoryMenu.ws",
+      "vanilla_sha256": "2e9b4b5f18b31ce7a17032027ead07bb71fe998d21fe07bd5b6dd9ed45a05676",
+      "original_mod_sha256": "bf39b8b8492af880e2d6ea54c4978d41933264ec00dc43dc62ed1b7af9cceda2"
+    },
+    {
+      "path": "game/gui/menus/mapMenu.ws",
+      "vanilla_sha256": "a27a6e00f587c9361af587c7c7e30d8a2c8bf174880dbf2bb4661194356bdf27",
+      "original_mod_sha256": "70075af18c95e67e2af75f67abb31a0856956711dd8fc7f039222353df59c38d"
+    },
+    {
+      "path": "game/player/playerInput.ws",
+      "vanilla_sha256": "ecfe93c188dc140c2a650353ddd5fdda7d7d50b59e7957d167dcd1f5fedf2b13",
+      "original_mod_sha256": "b9f7f40c29994b08b90ee8ed0c2f9708796608738998cf7e47dd28496766a69e"
+    },
+    {
+      "path": "game/player/playerWeaponHolster.ws",
+      "vanilla_sha256": "1b7c1110d1f5e3cc9ef0629597ed1020719031760dde72d86b16589af1f3065e",
+      "original_mod_sha256": "454f53e853b5ea87f937e62046b123a088d742f4737610dd5067ec785bcd8418"
+    },
+    {
+      "path": "game/player/playerWitcher.ws",
+      "vanilla_sha256": "12d089b69c5abe3a6f930acf3f5e963c5d4aa0c60b397dce0ce3d68705f3b0aa",
+      "original_mod_sha256": "f762a25c9110726e81c2cc3b33a10f9839f1e516465fa5d09c4d8455f637992d"
+    },
+    {
+      "path": "game/player/r4Player.ws",
+      "vanilla_sha256": "0436236b18d73dfad7e10f767458f8dd4a2542b406d06d067878227d9abb8865",
+      "original_mod_sha256": "3f2f37149ac6fa45800ff0311d3d96da515e5c70b34b4f60512ef90cd162c622"
+    },
+    {
+      "path": "game/r4Game.ws",
+      "vanilla_sha256": "045cdddff8fff73a68b2c3ea37e8bf6bf2da47c40b2a09dfe82d4fa97548ec9b",
+      "original_mod_sha256": "d59765673aee54f6776adff537744135bf3ba022d75fe3f1b82add2a63626b09"
+    }
+  ],
+  "port_changes": [
+    {
+      "path": "game/gui/hud/modules/hudModuleBase.ws",
+      "reason": "Handle the menu-supported zero-second fade without division by zero."
+    },
+    {
+      "path": "game/gui/menus/alchemyMenu.ws",
+      "reason": "Check the merchant component before reading its map-pin type."
+    },
+    {
+      "path": "game/gui/hud/hud.ws",
+      "reason": "Pass a boolean to the boolean SetEnabled parameter."
+    },
+    {
+      "path": "game/gui/main_menu/ingameMenu.ws",
+      "reason": "Compare the saved string explicitly when returning the DLC visibility boolean."
+    },
+    {
+      "path": "game/gui/_old/components/guiTooltipComponent.ws",
+      "reason": "Preserve vanilla zero-weight tooltip behavior when quantity display is disabled."
+    },
+    {
+      "path": "game/gui/_old/components/guiTooltipComponent.ws",
+      "reason": "Close the restored weight-row condition."
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleOneliners.ws",
+      "reason": "Remove the extra unmarked dialogue debug logging identified in the audit."
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleMinimap2.ws",
+      "reason": "Avoid testing an unassigned local alpha while minimap fading is paused."
+    }
+  ]
+}
