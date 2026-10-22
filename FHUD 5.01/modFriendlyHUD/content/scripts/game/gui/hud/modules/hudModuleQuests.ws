@@ -159,7 +159,6 @@ class CR4HudModuleQuests extends CR4HudModuleBase
 	private var fadeInTimer : float;
 	private var isFading, currentlyFading : bool;
 	private var fadeOutTime : float;	default fadeOutTime = 0.3f;
-	//private var fadeTime : float; //modFriendlyHUD
 	
 	private function FadeObjectiveOut(dt : float)
 	{		
@@ -176,14 +175,10 @@ class CR4HudModuleQuests extends CR4HudModuleBase
 	
 		currentlyFading = true;
 		//---=== modFriendlyHUD ===---
-		//this is what happens when you copy-paste...
-		//fadeTime -= dt;
-		//GetModuleFlash().SetAlpha( 100 * MaxF( 0, fadeTime / fadeOutTime ) );
 		fModule = GetModuleFlash();
 		mAlpha = fModule.GetAlpha() - 100 * dt / fadeOutTime;
 		fModule.SetAlpha( MaxF( 0, mAlpha ) );
 		
-		//if(fadeTime <= 0)
 		if( mAlpha <= 0 )
 		{
 			SetEnabled(false);
@@ -242,7 +237,6 @@ class CR4HudModuleQuests extends CR4HudModuleBase
 			else if (!isFading && GetEnabled())
 			{
 				isFading = true;
-				//fadeTime = fadeOutTime; //modFriendlyHUD
 				FadeObjectiveOut(timeDelta);
 				
 			}
@@ -671,16 +665,7 @@ class CR4HudModuleQuests extends CR4HudModuleBase
 	}
 	
 	//---=== modFriendlyHUD ===---
-	/*function ShowElement( show : bool, optional bImmediately : bool )
-	{
-		m_fxShowElementSFF.InvokeSelfTwoArgs( FlashArgBool( show ), FlashArgBool( bImmediately ) );
-	}	
 
-	function SetEnabled( value : bool )
-	{
-		m_bEnabled = value;
-		m_fxSetEnabledSFF.InvokeSelfOneArg( FlashArgBool( m_bEnabled ) );
-	}*/
 	//---=== modFriendlyHUD ===---
 }
 

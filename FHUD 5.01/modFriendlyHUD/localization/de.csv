@@ -79,8 +79,6 @@
 2110365099|        |preset_value_fhud_compass|Kompass
 2110365101|        |option_fhud_hideJournalUpdates|Verstecke Journal Updates
 2110365102|        |option_fhud_silentJournalUpdates|Kein Sound bei Journal Updates
-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Pausiere Katzeneffekt wenn nicht in Höhle
-2110365104|        |option_fhud_enableCatAtNight|Stoppe Pausierung des Katzeneffekts bei Nacht
 2110365105|        |option_fhud_talkBubbleMode|NPC-Sprechblase Anzeigemodus
 2110365106|        |preset_value_fhud_interactionMode_All|Alle
 2110365107|        |preset_value_fhud_interactionMode_Icon|Symbol

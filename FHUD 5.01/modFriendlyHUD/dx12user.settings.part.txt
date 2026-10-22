@@ -94,5 +94,3 @@ fhudHideDLC=false
 fhudDoNotShowDamage=false
 fhudDoNotShowLevels=0
 fhudSilentJournalUpdates=false
-fhudDisableCatWhenNotInDarkPlace=false
-fhudEnableCatAtNight=false

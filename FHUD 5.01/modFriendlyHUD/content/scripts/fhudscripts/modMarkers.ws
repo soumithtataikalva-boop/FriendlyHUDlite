@@ -120,6 +120,7 @@ class CModMarkers
 	var cacheQuestPins						: bool; default cacheQuestPins = false;
 	var delayedCacheTime					: float;
 	var compassLocs							: array< Vector >;
+	private var markerTexts : array< string >;
 	
 	
 	public function Init()
@@ -132,6 +133,7 @@ class CModMarkers
 		marginLeftTop = hud.GetScaleformPoint( 0.01, 0.025 );
 		marginRightBottom = hud.GetScaleformPoint( 1 - 0.01, 1 - 0.01 );
 		theGame.GetGlobalEventsManager().AddListener( GetGlobalEventCategory( SEC_OnMapPinChanged ), new CModMarkersListener in this );
+		markerTexts.Resize( MARKERS_END_ID - MARKERS_START_ID + 1 );
 		//cache all markers
 		cacheQuestPins = true;
 		Cache3DMarkers();
@@ -212,98 +214,71 @@ class CModMarkers
 		module.FXRemoveOneliner( COMPASS_START_ID + 9 );
 	}
 	
+	private function UpdateMarkerVisibility( requested : bool, shown : bool, out fading : bool, out remaining : float ) : bool
+	{
+		if( requested )
+		{
+			fading = false;
+			return true;
+		}
+		if( config.markersFadeOutDelay <= 0 )
+		{
+			fading = false;
+			remaining = 0;
+			return false;
+		}
+		if( fading )
+		{
+			remaining = MaxF( 0, remaining - timeDelta );
+			if( remaining > 0 )
+				return true;
+			fading = false;
+			return false;
+		}
+		if( shown )
+		{
+			fading = true;
+			remaining = config.markersFadeOutDelay;
+			return true;
+		}
+		return false;
+	}
+
+	private function GetMarkerFadeAlpha( remaining : float ) : float
+	{
+		if( config.markersFadeOutDelay <= 0 )
+			return 0;
+		return markersAlpha * ClampF( remaining / config.markersFadeOutDelay, 0, 1 );
+	}
+
 	function ShouldShowIcon() : bool
 	{
-		if( config.forceShowMarkers || config.markerIconDisplayMode == MDM_Always ||
-			config.markerIconDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
-		{
-			isIconFadingOut = false;
-			return true;
-		}
-		if( isIconFadingOut && iconFadeOutTime > 0 )
-		{
-			iconFadeOutTime -= timeDelta;
-			return true;
-		}
-		if( bIconCurrentlyShown && !isIconFadingOut )
-		{
-			isIconFadingOut = true;
-			iconFadeOutTime = config.markersFadeOutDelay;
-			return true;
-		}
-		isIconFadingOut = false;
-		return false;
+		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerIconDisplayMode == MDM_Always ||
+			config.markerIconDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
+			bIconCurrentlyShown, isIconFadingOut, iconFadeOutTime );
 	}
-	
+
 	function ShouldShowDescription() : bool
 	{
-		if( config.forceShowMarkers || config.markerDescriptionDisplayMode == MDM_Always ||
-			config.markerDescriptionDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
-		{
-			isDescriptionFadingOut = false;
-			return true;
-		}
-		if( isDescriptionFadingOut && descriptionFadeOutTime > 0 )
-		{
-			descriptionFadeOutTime -= timeDelta;
-			return true;
-		}
-		if( bDescriptionCurrentlyShown && !isDescriptionFadingOut )
-		{
-			isDescriptionFadingOut = true;
-			descriptionFadeOutTime = config.markersFadeOutDelay;
-			return true;
-		}
-		isDescriptionFadingOut = false;
-		return false;
+		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerDescriptionDisplayMode == MDM_Always ||
+			config.markerDescriptionDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
+			bDescriptionCurrentlyShown, isDescriptionFadingOut, descriptionFadeOutTime );
 	}
-	
+
 	function ShouldShowDistance() : bool
 	{
-		if( config.forceShowMarkers || config.markerDistanceDisplayMode == MDM_Always ||
-			config.markerDistanceDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
-		{
-			isDistanceFadingOut = false;
-			return true;
-		}
-		if( isDistanceFadingOut && distanceFadeOutTime > 0 )
-		{
-			distanceFadeOutTime -= timeDelta;
-			return true;
-		}
-		if( bDistanceCurrentlyShown && !isDistanceFadingOut )
-		{
-			isDistanceFadingOut = true;
-			distanceFadeOutTime = config.markersFadeOutDelay;
-			return true;
-		}
-		isDistanceFadingOut = false;
-		return false;
+		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerDistanceDisplayMode == MDM_Always ||
+			config.markerDistanceDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
+			bDistanceCurrentlyShown, isDistanceFadingOut, distanceFadeOutTime );
 	}
-	
+
 	function ShouldShowCompass() : bool
 	{
-		if( config.forceShowMarkers || config.markerCompassDisplayMode == MDM_Always ||
-			config.markerCompassDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
-		{
-			isCompassFadingOut = false;
-			return true;
-		}
-		if( isCompassFadingOut && compassFadeOutTime > 0 )
-		{
-			compassFadeOutTime -= timeDelta;
-			return true;
-		}
-		if( bCompassCurrentlyShown && !isCompassFadingOut )
-		{
-			isCompassFadingOut = true;
-			compassFadeOutTime = config.markersFadeOutDelay;
-			return true;
-		}
-		isCompassFadingOut = false;
-		return false;
+		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerCompassDisplayMode == MDM_Always ||
+			config.markerCompassDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
+			bCompassCurrentlyShown, isCompassFadingOut, compassFadeOutTime );
 	}
-	
+
 	//======================= update compass ==========================
 	
 	function UpdateCompass()
@@ -397,7 +372,7 @@ class CModMarkers
 			mcOneliner.SetPosition( screenPos.X, screenPos.Y );
 			mcOneliner.SetVisible( true );
 			if( isCompassFadingOut )
-				mcOneliner.SetAlpha( markersAlpha * MaxF( 0, compassFadeOutTime / config.markersFadeOutDelay ) );
+				mcOneliner.SetAlpha( GetMarkerFadeAlpha( compassFadeOutTime ) );
 			else
 				mcOneliner.SetAlpha( markersAlpha );
 		}
@@ -557,13 +532,27 @@ class CModMarkers
 			bDistanceCurrentlyShown = false;
 	}
 	
+	private function UpdateMarkerText( text : string, ID : int )
+	{
+		var index : int;
+		var sprite : CScriptedFlashSprite;
+		index = ID - MARKERS_START_ID;
+		sprite = module.FXGetOneliner( ID );
+		if( !sprite || markerTexts[index] != text )
+		{
+			if( sprite )
+				module.FXRemoveOneliner( ID );
+			module.FXCreateOneliner( text, ID );
+			markerTexts[index] = text;
+		}
+	}
+
 	function UpdateMarker( out marker : SMod3DMarker )
 	{
+		var requiredIDs : int;
 		var markerText			: string = "";
 		var markerDescrText		: string = "";
 		var markerDistanceText	: string = "";
-		var onelinerTextFlash	: CScriptedFlashTextField;
-		var mcOneliner			: CScriptedFlashSprite;
 		
 		/*markerText = "id: " + pin.id
 					+ " tag: " + pin.tag
@@ -575,6 +564,14 @@ class CModMarkers
 		//theGame.witcherLog.AddMessage("size = " + GetIconSize());
 		
 		SetMarkerScreenPosition( marker );
+		if( bIconCurrentlyShown || marker.force )
+			requiredIDs += 1;
+		if( bDescriptionCurrentlyShown && marker.onScreen )
+			requiredIDs += 1;
+		if( bDistanceCurrentlyShown && marker.onScreen )
+			requiredIDs += 1;
+		if( onelinersMaxID + requiredIDs - 1 > MARKERS_END_ID )
+			return;
 		
 		if( bIconCurrentlyShown || marker.force )
 		{
@@ -584,10 +581,7 @@ class CModMarkers
 				markerText = marker.offscreenText;
 			marker.onelinerID = onelinersMaxID;
 			onelinersMaxID += 1;
-			mcOneliner = module.FXGetOneliner( marker.onelinerID );
-			if( mcOneliner )
-				module.FXRemoveOneliner( marker.onelinerID );
-			module.FXCreateOneliner( markerText, marker.onelinerID );
+			UpdateMarkerText( markerText, marker.onelinerID );
 		}
 		else
 		{
@@ -599,10 +593,7 @@ class CModMarkers
 			markerDescrText = marker.description;
 			marker.descrOnelinerID = onelinersMaxID;
 			onelinersMaxID += 1;
-			mcOneliner = module.FXGetOneliner( marker.descrOnelinerID );
-			if( mcOneliner )
-				module.FXRemoveOneliner( marker.descrOnelinerID );
-			module.FXCreateOneliner( markerDescrText, marker.descrOnelinerID );
+			UpdateMarkerText( markerDescrText, marker.descrOnelinerID );
 		}
 		else
 		{
@@ -614,10 +605,7 @@ class CModMarkers
 			markerDistanceText = GetMarkerDistanceText( marker );
 			marker.distOnelinerID = onelinersMaxID;
 			onelinersMaxID += 1;
-			mcOneliner = module.FXGetOneliner( marker.distOnelinerID );
-			if( mcOneliner )
-				module.FXRemoveOneliner( marker.distOnelinerID );
-			module.FXCreateOneliner( markerDistanceText, marker.distOnelinerID );
+			UpdateMarkerText( markerDistanceText, marker.distOnelinerID );
 		}
 		else
 		{
@@ -718,7 +706,7 @@ class CModMarkers
 				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y );
 				mcOneliner.SetVisible( true );
 				if( isIconFadingOut && !marker.force )
-					mcOneliner.SetAlpha( markersAlpha * MaxF( 0, iconFadeOutTime / config.markersFadeOutDelay ) );
+					mcOneliner.SetAlpha( GetMarkerFadeAlpha( iconFadeOutTime ) );
 				else
 					mcOneliner.SetAlpha( markersAlpha );
 			}
@@ -733,7 +721,7 @@ class CModMarkers
 				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y + descrOffset );
 				mcOneliner.SetVisible( true );
 				if( isDescriptionFadingOut )
-					mcOneliner.SetAlpha( markersAlpha * MaxF( 0, descriptionFadeOutTime / config.markersFadeOutDelay ) );
+					mcOneliner.SetAlpha( GetMarkerFadeAlpha( descriptionFadeOutTime ) );
 				else
 					mcOneliner.SetAlpha( markersAlpha );
 			}
@@ -748,7 +736,7 @@ class CModMarkers
 				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y - distOffset );
 				mcOneliner.SetVisible( true );
 				if( isDistanceFadingOut )
-					mcOneliner.SetAlpha( markersAlpha * MaxF( 0, distanceFadeOutTime / config.markersFadeOutDelay ) );
+					mcOneliner.SetAlpha( GetMarkerFadeAlpha( distanceFadeOutTime ) );
 				else
 					mcOneliner.SetAlpha( markersAlpha );
 			}
@@ -1925,6 +1913,12 @@ class CModMarkers
 	
 	//================= on/off conditions ========================
 	
+	private function ShouldSkipDisabledMarker( marker : SMod3DMarker ) : bool
+	{
+		// Disabled quest pins stay excluded; other disabled pins use the four-state setting.
+		return marker.isDisabled && ( IsQuest( marker ) || config.markersShowDisabled == MV_Hide );
+	}
+
 	function ShouldShowMarker( marker : SMod3DMarker ) : bool
 	{
 		if( marker.pin || marker.force )
@@ -2481,11 +2475,7 @@ class CModMarkers
 				if( !IsRoadSign( marker ) || !config.markerShowUndiscoveredRoadsigns )
 					continue;
 			}
-			//always skip disabled quest map pins
-			if( marker.isDisabled && IsQuest( marker ) )
-				continue;
-			//other disabled pins use menu setting
-			if( marker.isDisabled && !config.markersShowDisabled )
+			if( ShouldSkipDisabledMarker( marker ) )
 				continue;
 			if( i >= questsStartingIdx )
 				marker.lvlDiff = cachedQuestLevels[i - questsStartingIdx];
@@ -2796,6 +2786,13 @@ class CModMarkers
 function Mod3DMarkersSignalCache3DMarkers( questPins : bool )
 {
 	//theGame.witcherLog.AddMessage( "Mod3DMarkersSignalCache3DMarkers" );
-	((CR4HudModuleOneliners)((CR4ScriptedHud)theGame.GetHud()).GetHudModule( "OnelinersModule" )).SignalCache3DMarkers( questPins );
+	var hud : CR4ScriptedHud;
+	var module : CR4HudModuleOneliners;
+	hud = (CR4ScriptedHud)theGame.GetHud();
+	if( !hud )
+		return;
+	module = (CR4HudModuleOneliners)hud.GetHudModule( "OnelinersModule" );
+	if( module )
+		module.SignalCache3DMarkers( questPins );
 }
 //---=== modFriendlyHUD ===---

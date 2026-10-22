@@ -1,5 +1,1124 @@
---- original/game/gui/_old/components/guiTooltipComponent.ws
-+++ FHUD 5.01/game/gui/_old/components/guiTooltipComponent.ws
+--- original/README.txt
++++ FHUD 5.01/README.txt
+@@ -73,7 +73,6 @@
+ 
+ - An option to disable sound notification on journal update.
+ 
+-- An option to pause cat effect outside of caves and to unpause it at night.
+ 
+ Default key bindings:
+ =====================
+--- original/README_RUS.txt
++++ FHUD 5.01/README_RUS.txt
+@@ -71,7 +71,6 @@
+ 
+ - Возможность отключить звуковое оповещение при обновлении журнала.
+ 
+-- Возможность приостанавливать эффект Кошки вне пещеры и возобновлять его ночью.
+ 
+ Назначения клавиш по-умолчанию:
+ ===============================
+--- original/bin/config/r4game/user_config_matrix/pc/modFHUDConfig.xml
++++ FHUD 5.01/bin/config/r4game/user_config_matrix/pc/modFHUDConfig.xml
+@@ -731,16 +731,12 @@
+ 				<Entry varId="fhudDoNotShowLevels" value="0"/>
+ 				<Entry varId="fhudShowBossHP" value="false"/>
+ 				<Entry varId="fhudSilentJournalUpdates" value="false"/>
+-				<Entry varId="fhudDisableCatWhenNotInDarkPlace" value="false"/>
+-				<Entry varId="fhudEnableCatAtNight" value="false"/>
+ 			</Preset>
+ 			<Preset id="1" displayName="fhud_vanilla">
+ 				<Entry varId="fhudDoNotShowDamage" value="false"/>
+ 				<Entry varId="fhudDoNotShowLevels" value="0"/>
+ 				<Entry varId="fhudShowBossHP" value="false"/>
+ 				<Entry varId="fhudSilentJournalUpdates" value="false"/>
+-				<Entry varId="fhudDisableCatWhenNotInDarkPlace" value="false"/>
+-				<Entry varId="fhudEnableCatAtNight" value="false"/>
+ 			</Preset>
+ 		</PresetsArray>
+         <VisibleVars>
+@@ -760,8 +756,6 @@
+ 			</Var>
+ 			<Var id="fhudShowBossHP" displayName="fhud_showBossHP" displayType="TOGGLE"/>
+ 			<Var id="fhudSilentJournalUpdates" displayName="fhud_silentJournalUpdates" displayType="TOGGLE"/>
+-			<Var id="fhudDisableCatWhenNotInDarkPlace" displayName="fhud_disableCatWhenNotInDarkPlace" displayType="TOGGLE"/>
+-			<Var id="fhudEnableCatAtNight" displayName="fhud_enableCatAtNight" displayType="TOGGLE"/>
+         </VisibleVars>
+     </Group>
+ 	
+--- original/content/scripts/fhudconfig/modFriendlyHUDConfig.ws
++++ FHUD 5.01/content/scripts/fhudconfig/modFriendlyHUDConfig.ws
+@@ -138,8 +138,6 @@
+ 	public var minimapZoomBoat : float;
+ 	public var showItemsInSlowdownMode : bool;
+ 	public var silentJournalUpdates : bool;
+-	public var disableCatWhenNotInDarkPlace : bool;
+-	public var enableCatAtNight : bool;
+ 
+ 	//--- other vars ---
+ 	public var forceShowMarkers						: bool; default forceShowMarkers = false;
+@@ -160,8 +158,8 @@
+ 	//--- functions ---
+ 	public function Init()
+ 	{
++		InitArrays();
+ 		UpdateUserSettings();
+-		InitArrays();
+ 	}
+ 	
+ 	public function InitToggleableValues()
+@@ -311,8 +309,6 @@
+ 		doNotShowLevels = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'Virtual_fhudDoNotShowLevels'));
+ 		showBossHP = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudShowBossHP');
+ 		silentJournalUpdates = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudSilentJournalUpdates');
+-		disableCatWhenNotInDarkPlace = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudDisableCatWhenNotInDarkPlace');
+-		enableCatAtNight = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudEnableCatAtNight');
+ 		//zooms
+ 		mapUnlimitedZoom = theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapUnlimitedZoom');
+ 		mapZoomMinCoef = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapZoomMinCoef'));
+@@ -467,6 +463,8 @@
+ 
+ function GetFHUDConfig() : CModFriendlyHUDConfig
+ {
++	if( !thePlayer )
++		return NULL;
+ 	return thePlayer.fHUDConfig;
+ }
+ //---=== modFriendlyHUD ===---
+--- original/content/scripts/fhudscripts/modHUDToggles.ws
++++ FHUD 5.01/content/scripts/fhudscripts/modHUDToggles.ws
+@@ -50,100 +50,79 @@
+ 
+ function ToggleBuffsModule( toggle : bool, reason : string )
+ {
++	ToggleHUDModule( "BuffsModule", toggle, reason );
++}
++
++function ToggleFHUDGroup( modules : array< string >, toggle : bool, reason : string )
++{
+ 	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.SetEnabledTemporarily( "BuffsModule", toggle, true, reason );
+-	}
++	hud = (CR4ScriptedHud)theGame.GetHud();
++	if( hud )
++		hud.ToggleModulesTemporarily( modules, toggle, reason );
+ }
+ 
+ function ToggleEssentialModules( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().essentialModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.essentialModules, toggle, reason );
+ }
+ 
+ function ToggleMinimapModules( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().minimapModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.minimapModules, toggle, reason );
+ }
+ 
+ function ToggleQuestsModules( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().questsModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.questsModules, toggle, reason );
+ }
+ 
+ function ToggleCharacterModules( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().characterModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.characterModules, toggle, reason );
+ }
+ 
+ function ToggleCombatModules( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().combatModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.combatModules, toggle, reason );
+ }
+ 
+ function ToggleWSModules( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().witcherSensesModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.witcherSensesModules, toggle, reason );
+ }
+ 
+ function ToggleMeditModules( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().meditationModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.meditationModules, toggle, reason );
+ }
+ 
+ function ToggleModulesToShowInRadialMenu( toggle : bool, reason : string )
+ {
+-	var hud : CR4ScriptedHud;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		hud.ToggleModulesTemporarily( GetFHUDConfig().radialMenuModules, toggle, reason );
+-	}
++	var config : CModFriendlyHUDConfig;
++	config = GetFHUDConfig();
++	if( config )
++		ToggleFHUDGroup( config.radialMenuModules, toggle, reason );
+ }
++
+ //---=== modFriendlyHUD ===---
+--- original/content/scripts/fhudscripts/modMarkers.ws
++++ FHUD 5.01/content/scripts/fhudscripts/modMarkers.ws
+@@ -120,6 +120,7 @@
+ 	var cacheQuestPins						: bool; default cacheQuestPins = false;
+ 	var delayedCacheTime					: float;
+ 	var compassLocs							: array< Vector >;
++	private var markerTexts : array< string >;
+ 	
+ 	
+ 	public function Init()
+@@ -132,6 +133,7 @@
+ 		marginLeftTop = hud.GetScaleformPoint( 0.01, 0.025 );
+ 		marginRightBottom = hud.GetScaleformPoint( 1 - 0.01, 1 - 0.01 );
+ 		theGame.GetGlobalEventsManager().AddListener( GetGlobalEventCategory( SEC_OnMapPinChanged ), new CModMarkersListener in this );
++		markerTexts.Resize( MARKERS_END_ID - MARKERS_START_ID + 1 );
+ 		//cache all markers
+ 		cacheQuestPins = true;
+ 		Cache3DMarkers();
+@@ -212,98 +214,71 @@
+ 		module.FXRemoveOneliner( COMPASS_START_ID + 9 );
+ 	}
+ 	
++	private function UpdateMarkerVisibility( requested : bool, shown : bool, out fading : bool, out remaining : float ) : bool
++	{
++		if( requested )
++		{
++			fading = false;
++			return true;
++		}
++		if( config.markersFadeOutDelay <= 0 )
++		{
++			fading = false;
++			remaining = 0;
++			return false;
++		}
++		if( fading )
++		{
++			remaining = MaxF( 0, remaining - timeDelta );
++			if( remaining > 0 )
++				return true;
++			fading = false;
++			return false;
++		}
++		if( shown )
++		{
++			fading = true;
++			remaining = config.markersFadeOutDelay;
++			return true;
++		}
++		return false;
++	}
++
++	private function GetMarkerFadeAlpha( remaining : float ) : float
++	{
++		if( config.markersFadeOutDelay <= 0 )
++			return 0;
++		return markersAlpha * ClampF( remaining / config.markersFadeOutDelay, 0, 1 );
++	}
++
+ 	function ShouldShowIcon() : bool
+ 	{
+-		if( config.forceShowMarkers || config.markerIconDisplayMode == MDM_Always ||
+-			config.markerIconDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
+-		{
+-			isIconFadingOut = false;
+-			return true;
+-		}
+-		if( isIconFadingOut && iconFadeOutTime > 0 )
+-		{
+-			iconFadeOutTime -= timeDelta;
+-			return true;
+-		}
+-		if( bIconCurrentlyShown && !isIconFadingOut )
+-		{
+-			isIconFadingOut = true;
+-			iconFadeOutTime = config.markersFadeOutDelay;
+-			return true;
+-		}
+-		isIconFadingOut = false;
+-		return false;
+-	}
+-	
++		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerIconDisplayMode == MDM_Always ||
++			config.markerIconDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
++			bIconCurrentlyShown, isIconFadingOut, iconFadeOutTime );
++	}
++
+ 	function ShouldShowDescription() : bool
+ 	{
+-		if( config.forceShowMarkers || config.markerDescriptionDisplayMode == MDM_Always ||
+-			config.markerDescriptionDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
+-		{
+-			isDescriptionFadingOut = false;
+-			return true;
+-		}
+-		if( isDescriptionFadingOut && descriptionFadeOutTime > 0 )
+-		{
+-			descriptionFadeOutTime -= timeDelta;
+-			return true;
+-		}
+-		if( bDescriptionCurrentlyShown && !isDescriptionFadingOut )
+-		{
+-			isDescriptionFadingOut = true;
+-			descriptionFadeOutTime = config.markersFadeOutDelay;
+-			return true;
+-		}
+-		isDescriptionFadingOut = false;
+-		return false;
+-	}
+-	
++		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerDescriptionDisplayMode == MDM_Always ||
++			config.markerDescriptionDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
++			bDescriptionCurrentlyShown, isDescriptionFadingOut, descriptionFadeOutTime );
++	}
++
+ 	function ShouldShowDistance() : bool
+ 	{
+-		if( config.forceShowMarkers || config.markerDistanceDisplayMode == MDM_Always ||
+-			config.markerDistanceDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
+-		{
+-			isDistanceFadingOut = false;
+-			return true;
+-		}
+-		if( isDistanceFadingOut && distanceFadeOutTime > 0 )
+-		{
+-			distanceFadeOutTime -= timeDelta;
+-			return true;
+-		}
+-		if( bDistanceCurrentlyShown && !isDistanceFadingOut )
+-		{
+-			isDistanceFadingOut = true;
+-			distanceFadeOutTime = config.markersFadeOutDelay;
+-			return true;
+-		}
+-		isDistanceFadingOut = false;
+-		return false;
+-	}
+-	
++		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerDistanceDisplayMode == MDM_Always ||
++			config.markerDistanceDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
++			bDistanceCurrentlyShown, isDistanceFadingOut, distanceFadeOutTime );
++	}
++
+ 	function ShouldShowCompass() : bool
+ 	{
+-		if( config.forceShowMarkers || config.markerCompassDisplayMode == MDM_Always ||
+-			config.markerCompassDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive() )
+-		{
+-			isCompassFadingOut = false;
+-			return true;
+-		}
+-		if( isCompassFadingOut && compassFadeOutTime > 0 )
+-		{
+-			compassFadeOutTime -= timeDelta;
+-			return true;
+-		}
+-		if( bCompassCurrentlyShown && !isCompassFadingOut )
+-		{
+-			isCompassFadingOut = true;
+-			compassFadeOutTime = config.markersFadeOutDelay;
+-			return true;
+-		}
+-		isCompassFadingOut = false;
+-		return false;
+-	}
+-	
++		return UpdateMarkerVisibility( config.forceShowMarkers || config.markerCompassDisplayMode == MDM_Always ||
++			config.markerCompassDisplayMode == MDM_WS && theGame.GetFocusModeController().IsActive(),
++			bCompassCurrentlyShown, isCompassFadingOut, compassFadeOutTime );
++	}
++
+ 	//======================= update compass ==========================
+ 	
+ 	function UpdateCompass()
+@@ -397,7 +372,7 @@
+ 			mcOneliner.SetPosition( screenPos.X, screenPos.Y );
+ 			mcOneliner.SetVisible( true );
+ 			if( isCompassFadingOut )
+-				mcOneliner.SetAlpha( markersAlpha * MaxF( 0, compassFadeOutTime / config.markersFadeOutDelay ) );
++				mcOneliner.SetAlpha( GetMarkerFadeAlpha( compassFadeOutTime ) );
+ 			else
+ 				mcOneliner.SetAlpha( markersAlpha );
+ 		}
+@@ -557,13 +532,27 @@
+ 			bDistanceCurrentlyShown = false;
+ 	}
+ 	
++	private function UpdateMarkerText( text : string, ID : int )
++	{
++		var index : int;
++		var sprite : CScriptedFlashSprite;
++		index = ID - MARKERS_START_ID;
++		sprite = module.FXGetOneliner( ID );
++		if( !sprite || markerTexts[index] != text )
++		{
++			if( sprite )
++				module.FXRemoveOneliner( ID );
++			module.FXCreateOneliner( text, ID );
++			markerTexts[index] = text;
++		}
++	}
++
+ 	function UpdateMarker( out marker : SMod3DMarker )
+ 	{
++		var requiredIDs : int;
+ 		var markerText			: string = "";
+ 		var markerDescrText		: string = "";
+ 		var markerDistanceText	: string = "";
+-		var onelinerTextFlash	: CScriptedFlashTextField;
+-		var mcOneliner			: CScriptedFlashSprite;
+ 		
+ 		/*markerText = "id: " + pin.id
+ 					+ " tag: " + pin.tag
+@@ -575,6 +564,14 @@
+ 		//theGame.witcherLog.AddMessage("size = " + GetIconSize());
+ 		
+ 		SetMarkerScreenPosition( marker );
++		if( bIconCurrentlyShown || marker.force )
++			requiredIDs += 1;
++		if( bDescriptionCurrentlyShown && marker.onScreen )
++			requiredIDs += 1;
++		if( bDistanceCurrentlyShown && marker.onScreen )
++			requiredIDs += 1;
++		if( onelinersMaxID + requiredIDs - 1 > MARKERS_END_ID )
++			return;
+ 		
+ 		if( bIconCurrentlyShown || marker.force )
+ 		{
+@@ -584,10 +581,7 @@
+ 				markerText = marker.offscreenText;
+ 			marker.onelinerID = onelinersMaxID;
+ 			onelinersMaxID += 1;
+-			mcOneliner = module.FXGetOneliner( marker.onelinerID );
+-			if( mcOneliner )
+-				module.FXRemoveOneliner( marker.onelinerID );
+-			module.FXCreateOneliner( markerText, marker.onelinerID );
++			UpdateMarkerText( markerText, marker.onelinerID );
+ 		}
+ 		else
+ 		{
+@@ -599,10 +593,7 @@
+ 			markerDescrText = marker.description;
+ 			marker.descrOnelinerID = onelinersMaxID;
+ 			onelinersMaxID += 1;
+-			mcOneliner = module.FXGetOneliner( marker.descrOnelinerID );
+-			if( mcOneliner )
+-				module.FXRemoveOneliner( marker.descrOnelinerID );
+-			module.FXCreateOneliner( markerDescrText, marker.descrOnelinerID );
++			UpdateMarkerText( markerDescrText, marker.descrOnelinerID );
+ 		}
+ 		else
+ 		{
+@@ -614,10 +605,7 @@
+ 			markerDistanceText = GetMarkerDistanceText( marker );
+ 			marker.distOnelinerID = onelinersMaxID;
+ 			onelinersMaxID += 1;
+-			mcOneliner = module.FXGetOneliner( marker.distOnelinerID );
+-			if( mcOneliner )
+-				module.FXRemoveOneliner( marker.distOnelinerID );
+-			module.FXCreateOneliner( markerDistanceText, marker.distOnelinerID );
++			UpdateMarkerText( markerDistanceText, marker.distOnelinerID );
+ 		}
+ 		else
+ 		{
+@@ -718,7 +706,7 @@
+ 				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y );
+ 				mcOneliner.SetVisible( true );
+ 				if( isIconFadingOut && !marker.force )
+-					mcOneliner.SetAlpha( markersAlpha * MaxF( 0, iconFadeOutTime / config.markersFadeOutDelay ) );
++					mcOneliner.SetAlpha( GetMarkerFadeAlpha( iconFadeOutTime ) );
+ 				else
+ 					mcOneliner.SetAlpha( markersAlpha );
+ 			}
+@@ -733,7 +721,7 @@
+ 				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y + descrOffset );
+ 				mcOneliner.SetVisible( true );
+ 				if( isDescriptionFadingOut )
+-					mcOneliner.SetAlpha( markersAlpha * MaxF( 0, descriptionFadeOutTime / config.markersFadeOutDelay ) );
++					mcOneliner.SetAlpha( GetMarkerFadeAlpha( descriptionFadeOutTime ) );
+ 				else
+ 					mcOneliner.SetAlpha( markersAlpha );
+ 			}
+@@ -748,7 +736,7 @@
+ 				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y - distOffset );
+ 				mcOneliner.SetVisible( true );
+ 				if( isDistanceFadingOut )
+-					mcOneliner.SetAlpha( markersAlpha * MaxF( 0, distanceFadeOutTime / config.markersFadeOutDelay ) );
++					mcOneliner.SetAlpha( GetMarkerFadeAlpha( distanceFadeOutTime ) );
+ 				else
+ 					mcOneliner.SetAlpha( markersAlpha );
+ 			}
+@@ -1925,6 +1913,12 @@
+ 	
+ 	//================= on/off conditions ========================
+ 	
++	private function ShouldSkipDisabledMarker( marker : SMod3DMarker ) : bool
++	{
++		// Disabled quest pins stay excluded; other disabled pins use the four-state setting.
++		return marker.isDisabled && ( IsQuest( marker ) || config.markersShowDisabled == MV_Hide );
++	}
++
+ 	function ShouldShowMarker( marker : SMod3DMarker ) : bool
+ 	{
+ 		if( marker.pin || marker.force )
+@@ -2481,11 +2475,7 @@
+ 				if( !IsRoadSign( marker ) || !config.markerShowUndiscoveredRoadsigns )
+ 					continue;
+ 			}
+-			//always skip disabled quest map pins
+-			if( marker.isDisabled && IsQuest( marker ) )
+-				continue;
+-			//other disabled pins use menu setting
+-			if( marker.isDisabled && !config.markersShowDisabled )
++			if( ShouldSkipDisabledMarker( marker ) )
+ 				continue;
+ 			if( i >= questsStartingIdx )
+ 				marker.lvlDiff = cachedQuestLevels[i - questsStartingIdx];
+@@ -2796,6 +2786,13 @@
+ function Mod3DMarkersSignalCache3DMarkers( questPins : bool )
+ {
+ 	//theGame.witcherLog.AddMessage( "Mod3DMarkersSignalCache3DMarkers" );
+-	((CR4HudModuleOneliners)((CR4ScriptedHud)theGame.GetHud()).GetHudModule( "OnelinersModule" )).SignalCache3DMarkers( questPins );
++	var hud : CR4ScriptedHud;
++	var module : CR4HudModuleOneliners;
++	hud = (CR4ScriptedHud)theGame.GetHud();
++	if( !hud )
++		return;
++	module = (CR4HudModuleOneliners)hud.GetHudModule( "OnelinersModule" );
++	if( module )
++		module.SignalCache3DMarkers( questPins );
+ }
+ //---=== modFriendlyHUD ===------ original/content/scripts/fhudscripts/modRadialMenuPotions.ws
++++ FHUD 5.01/content/scripts/fhudscripts/modRadialMenuPotions.ws
+@@ -120,6 +120,7 @@
+ 	{
+ 		theInput.UnregisterListener( this, 'ShowPotionsHelper' );
+ 		theInput.UnregisterListener( this, 'ShowBombsHelper' );
++		theInput.UnregisterListener( this, 'ShowOilsHelper' );
+ 		theInput.UnregisterListener( this, 'ShowActiveBuffs' );
+ 		theInput.UnregisterListener( this, 'SwitchBuffsMode' );
+ 		theInput.UnregisterListener( this, 'UseItem1' );
+@@ -292,7 +293,7 @@
+ 	
+ 	event OnShowPotionsHelper( action : SInputAction )
+ 	{
+-		if ( IsPressed( action ) && potions.Size() > 0 )
++		if ( IsPressed( action ) && HasValidItems( potions ) )
+ 		{
+ 			SetDisplayMode( BDM_ShowPotions );
+ 		}
+@@ -300,7 +301,7 @@
+ 	
+ 	event OnShowBombsHelper( action : SInputAction )
+ 	{
+-		if ( IsPressed( action ) && bombs.Size() > 0 )
++		if ( IsPressed( action ) && HasValidItems( bombs ) )
+ 		{
+ 			SetDisplayMode( BDM_ShowBombs );
+ 		}
+@@ -308,7 +309,7 @@
+ 	
+ 	event OnShowOilsHelper( action : SInputAction )
+ 	{
+-		if ( IsPressed( action ) && oils.Size() > 0 )
++		if ( IsPressed( action ) && HasValidItems( oils ) )
+ 		{
+ 			SetDisplayMode( BDM_ShowOils );
+ 		}
+@@ -351,19 +352,19 @@
+ 			switch( cycle )
+ 			{
+ 				case BDM_ShowPotions:
+-					if( potions.Size() > 0 )
++					if( HasValidItems( potions ) )
+ 					{
+ 						return;
+ 					}
+ 					break;
+ 				case BDM_ShowBombs:
+-					if( bombs.Size() > 0 )
++					if( HasValidItems( bombs ) )
+ 					{
+ 						return;
+ 					}
+ 					break;
+ 				case BDM_ShowOils:
+-					if( oils.Size() > 0 && ( !disallowOilsInCombat || !thePlayer.IsInCombat() ) )
++					if( HasValidItems( oils ) && ( !disallowOilsInCombat || !thePlayer.IsInCombat() ) )
+ 					{
+ 						return;
+ 					}
+@@ -376,218 +377,98 @@
+ 		}
+ 	}
+ 	
++	private function HasValidItems( items : array< SItemUniqueId > ) : bool
++	{
++		var i : int;
++		for( i = 0; i < items.Size(); i += 1 )
++		{
++			if( playerInventory.IsIdValid( items[i] ) )
++				return true;
++		}
++		return false;
++	}
++
++	private function UseItemAtIndex( action : SInputAction, index : int )
++	{
++		if( !IsPressed( action ) )
++			return;
++		switch( mode )
++		{
++			case BDM_ShowPotions:
++				if( index < potions.Size() )
++					ConsumePotion( potions[index] );
++				break;
++			case BDM_ShowBombs:
++				if( index < bombs.Size() )
++					EquipBomb( bombs[index] );
++				break;
++			case BDM_ShowOils:
++				if( index < oils.Size() )
++					ApplyOil( oils[index] );
++				break;
++		}
++	}
++
+ 	event OnUseItem1( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 0 )
+-			{
+-				ConsumePotion( potions[0] );
+-			}
+-			if( mode == BDM_ShowBombs && bombs.Size() > 0 )
+-			{
+-				EquipBomb( bombs[0] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 0 )
+-			{
+-				ApplyOil( oils[0] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 0 );
++	}
++
+ 	event OnUseItem2( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 1 )
+-			{
+-				ConsumePotion( potions[1] );
+-			}
+-			if( mode == BDM_ShowBombs && bombs.Size() > 1 )
+-			{
+-				EquipBomb( bombs[1] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 1 )
+-			{
+-				ApplyOil( oils[1] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 1 );
++	}
++
+ 	event OnUseItem3( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 2 )
+-			{
+-				ConsumePotion( potions[2] );
+-			}
+-			if( mode == BDM_ShowBombs && bombs.Size() > 2 )
+-			{
+-				EquipBomb( bombs[2] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 2 )
+-			{
+-				ApplyOil( oils[2] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 2 );
++	}
++
+ 	event OnUseItem4( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 3 )
+-			{
+-				ConsumePotion( potions[3] );
+-			}
+-			if( mode == BDM_ShowBombs && bombs.Size() > 3 )
+-			{
+-				EquipBomb( bombs[3] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 3 )
+-			{
+-				ApplyOil( oils[3] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 3 );
++	}
++
+ 	event OnUseItem5( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 4 )
+-			{
+-				ConsumePotion( potions[4] );
+-			}
+-			if( mode == BDM_ShowBombs && bombs.Size() > 4 )
+-			{
+-				EquipBomb( bombs[4] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 4 )
+-			{
+-				ApplyOil( oils[4] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 4 );
++	}
++
+ 	event OnUseItem6( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 5 )
+-			{
+-				ConsumePotion( potions[5] );
+-			}
+-			if( mode == BDM_ShowBombs && bombs.Size() > 5 )
+-			{
+-				EquipBomb( bombs[5] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 5 )
+-			{
+-				ApplyOil( oils[5] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 5 );
++	}
++
+ 	event OnUseItem7( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 6 )
+-			{
+-				ConsumePotion( potions[6] );
+-			}
+-			if( mode == BDM_ShowBombs && bombs.Size() > 6 )
+-			{
+-				EquipBomb( bombs[6] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 6 )
+-			{
+-				ApplyOil( oils[6] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 6 );
++	}
++
+ 	event OnUseItem8( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 7 )
+-			{
+-				ConsumePotion( potions[7] );
+-			}
+-			if( mode == BDM_ShowBombs && IsPressed( action ) && bombs.Size() > 7 )
+-			{
+-				EquipBomb( bombs[7] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 7 )
+-			{
+-				ApplyOil( oils[7] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 7 );
++	}
++
+ 	event OnUseItem9( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 8 )
+-			{
+-				ConsumePotion( potions[8] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 8 )
+-			{
+-				ApplyOil( oils[8] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 8 );
++	}
++
+ 	event OnUseItem10( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 9 )
+-			{
+-				ConsumePotion( potions[9] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 9 )
+-			{
+-				ApplyOil( oils[9] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 9 );
++	}
++
+ 	event OnUseItem11( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 10 )
+-			{
+-				ConsumePotion( potions[10] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 10 )
+-			{
+-				ApplyOil( oils[10] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 10 );
++	}
++
+ 	event OnUseItem12( action : SInputAction )
+ 	{
+-		if( IsPressed( action ) )
+-		{
+-			if( mode == BDM_ShowPotions && potions.Size() > 11 )
+-			{
+-				ConsumePotion( potions[11] );
+-			}
+-			if( mode == BDM_ShowOils && oils.Size() > 11 )
+-			{
+-				ApplyOil( oils[11] );
+-			}
+-		}
+-	}
+-	
++		UseItemAtIndex( action, 11 );
++	}
++
+ 	private function ConsumePotion( potionID : SItemUniqueId )
+ 	{
+ 		if( thePlayer.IsCiri() || !playerInventory.IsIdValid( potionID ) )
+--- original/content/scripts/game/gameplay/effects/effects/potion/Cat.ws
++++ /dev/null
+@@ -1,208 +0,0 @@
+-/***********************************************************************/
+-/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+-/** 	THE WITCHER© is a trademark of CD PROJEKT S. A.
+-/** 	The Witcher game is based on the prose of Andrzej Sapkowski. 
+-/***********************************************************************/
+-class W3Potion_Cat extends CBaseGameplayEffect
+-{
+-	private saved var highlightObjectsRange, highlightEnemiesRange : float;
+-	private var witcher : W3PlayerWitcher;				
+-	private var timeSinceLastHighlight, timeSinceLastEnemyHighlight : float;
+-	private const var HIGHLIGHT_REFRESH_DT, ENEMY_HIGHLIGHT_DT : float;
+-	protected var isScreenFxActive : bool;
+-	
+-	protected var blendTime : float;
+-	protected var brightness : float;
+-	protected var range : float;
+-	protected var fogDensity : float;
+-
+-	protected var tintNear : Vector;
+-	protected var tintFar : Vector;
+-	protected var desaturation : float;
+-
+-	protected var highlightColor : Vector;
+-	protected var highlightInterior : float;
+-	protected var highlightBlurSize : float;
+-
+-	default blendTime = 1.f;
+-	default brightness = 350.f;
+-	default range = 200.f;
+-	default fogDensity = 0.5f;
+-
+-	default desaturation = 0.2f;
+-
+-	default highlightInterior = 0.05f;
+-	default highlightBlurSize = 1.5f;
+-	
+-	default effectType = EET_Cat;
+-	default HIGHLIGHT_REFRESH_DT = 0.5;
+-	default ENEMY_HIGHLIGHT_DT = 1.0f;
+-
+-	protected function SetDefaultVectors()
+-	{
+-		
+-		tintNear = Vector( 0.1f, 0.12f, 0.13f, 0.6f );
+-		tintFar = Vector( 0.075f, 0.1f, 0.11f, 0.6f );
+-		highlightColor = Vector( 0.5f, 0.2f, 0.2f, 1.f );
+-	}
+-
+-	public function Init( params : SEffectInitInfo )
+-	{
+-		super.Init( params );
+-
+-		SetDefaultVectors();
+-	}
+-	
+-	event OnEffectAdded(optional customParams : W3BuffCustomParams)
+-	{
+-		var min, max : SAbilityAttributeValue;
+-		
+-		super.OnEffectAdded(customParams);
+-		
+-		if(!isOnPlayer)
+-		{
+-			LogAssert(false, "W3Potion_Cat.OnEffectAdded: added not on player character!");
+-			timeLeft = 0;
+-			return true;
+-		}
+-	
+-		witcher = GetWitcherPlayer();
+-		
+-		theGame.GetDefinitionsManager().GetAbilityAttributeValue(abilityName, 'highlightObjectsRange', min, max);
+-		highlightObjectsRange = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
+-		
+-		theGame.GetDefinitionsManager().GetAbilityAttributeValue(abilityName, 'highlightEnemiesRange', min, max);
+-		highlightEnemiesRange = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
+-		
+-		timeSinceLastHighlight = 0;
+-		timeSinceLastEnemyHighlight = 0;
+-		
+-		
+-		EnableScreenFx(true);
+-	}
+-		
+-	event OnUpdate( dt : float )
+-	{
+-		super.OnUpdate(dt);
+-			
+-		//---=== modFriendlyHUD ===---
+-		if(!witcher) witcher = GetWitcherPlayer();
+-		if(GetFHUDConfig().disableCatWhenNotInDarkPlace)
+-		{
+-			if(witcher.IsInDarkPlace() || GetFHUDConfig().enableCatAtNight && GetDayPart(theGame.GetGameTime()) == EDP_Midnight)
+-			{
+-		
+-				if(!isScreenFxActive)
+-					EnableScreenFx(true);
+-			}
+-			else
+-			{
+-				if(isScreenFxActive)
+-					EnableScreenFx(false);
+-			}
+-		}
+-		else if(!isScreenFxActive)
+-		{
+-			EnableScreenFx(true);
+-		}
+-		//---=== modFriendlyHUD ===---
+-			
+-		if(highlightObjectsRange > 0)			
+-		{
+-			timeSinceLastHighlight += dt;
+-			
+-			if(timeSinceLastHighlight >= HIGHLIGHT_REFRESH_DT)
+-			{
+-				timeSinceLastHighlight = 0;
+-				witcher.HighlightObjects(highlightObjectsRange, 1);
+-			}
+-		}
+-		
+-		
+-		if(highlightEnemiesRange > 0)			
+-		{
+-			timeSinceLastEnemyHighlight += dt;
+-			
+-			if(timeSinceLastEnemyHighlight >= ENEMY_HIGHLIGHT_DT * 0.9f )
+-			{
+-				timeSinceLastEnemyHighlight = 0;
+-				witcher.HighlightEnemies( highlightEnemiesRange, ENEMY_HIGHLIGHT_DT );
+-			}
+-		}
+-	}
+-	
+-	protected function OnPaused()
+-	{
+-		super.OnPaused();
+-		EnableScreenFx(false);			
+-	}
+-	
+-	protected function OnResumed()
+-	{
+-		super.OnResumed();
+-		EnableScreenFx(true);			
+-	}
+-	
+-	public function OnLoad(t : CActor, eff : W3EffectManager)
+-	{
+-		super.OnLoad(t, eff);		
+-		witcher = GetWitcherPlayer();		
+-		timeSinceLastHighlight = 0;
+-		timeSinceLastEnemyHighlight = 0;
+-		
+-		if(!IsPaused())
+-			EnableScreenFx(true);
+-	}
+-	
+-	event OnEffectRemoved()
+-	{
+-		EnableScreenFx(false);
+-		super.OnEffectRemoved();
+-	}
+-	
+-	public function EnableScreenFx(en : bool)
+-	{
+-		var buffs : array< CBaseGameplayEffect >;
+-		var i : int;
+-		var catBuff : W3Potion_Cat;
+-		
+-		if(en)
+-		{
+-			EnableCatViewFx( blendTime );	
+-
+-			SetTintColorsCatViewFx( tintNear, tintFar, desaturation );
+-			SetBrightnessCatViewFx( brightness );
+-			SetViewRangeCatViewFx( range );
+-			SetFogDensityCatViewFx( fogDensity );
+-
+-			SetPositionCatViewFx( Vector(0,0,0,0) , true );	
+-			SetHightlightCatViewFx( highlightColor, highlightInterior, highlightBlurSize );
+-			isScreenFxActive = true;
+-		}
+-		else
+-		{
+-			isScreenFxActive = false;
+-			
+-			
+-			buffs = target.GetBuffs();
+-			for( i=0; i<buffs.Size(); i+=1 )
+-			{
+-				catBuff = (W3Potion_Cat) buffs[i];
+-				if( catBuff && catBuff != this && catBuff.isScreenFxActive )
+-				{
+-					catBuff.EnableScreenFx( true ); 
+-					return;
+-				}
+-			}			
+-			
+-			DisableCatViewFx( blendTime );
+-		}
+-	}
+-	
+-	
+-	public function GetIsScreenFxActive() : bool
+-	{
+-		return isScreenFxActive;
+-	}
+-	
+-}--- original/content/scripts/game/gui/_old/components/guiTooltipComponent.ws
++++ FHUD 5.01/content/scripts/game/gui/_old/components/guiTooltipComponent.ws
 @@ -560,8 +560,9 @@
  		AddOilInfo(item, itemInvComponent, tooltipData);
  		AddSocketsInfo(item, itemInvComponent, socketsList);
@@ -21,8 +1140,54 @@
  		
  		durMult = 1;
  		if ( isArmorOrWeapon && !itemInvComponent.IsItemBolt( item ) )
---- original/game/gui/hud/hud.ws
-+++ FHUD 5.01/game/gui/hud/hud.ws
+@@ -627,11 +628,7 @@
+ 				//---=== modFriendlyHUD ===---
+ 				if(GetFHUDConfig().showTrueItemPrice)
+ 				{
+-					weightValue = ((float)invItemPrice)*100.0f;
+-					invItemPrice = itemInvComponent.GetItemPrice(item);
+-					if( itemInvComponent.IsItemBolt( item ) ) invItemPrice /= 10;
+-					weightValue /= ((float)invItemPrice);
+-					invItemPriceString += " [" + invItemPrice + " : " + RoundMath(weightValue) + "%]";
++					invItemPriceString += GetFHUDPriceComparison( item, itemInvComponent, invItemPrice );
+ 				}
+ 				//---=== modFriendlyHUD ===---
+ 				
+@@ -658,11 +655,7 @@
+ 					//---=== modFriendlyHUD ===---
+ 					if(GetFHUDConfig().showTrueItemPrice)
+ 					{
+-						weightValue = ((float)invItemPrice)*100.0f;
+-						invItemPrice = itemInvComponent.GetItemPrice(item);
+-						if( itemInvComponent.IsItemBolt( item ) ) invItemPrice /= 10;
+-						weightValue /= ((float)invItemPrice);
+-						invItemPriceString += " [" + invItemPrice + " : " + RoundMath(weightValue) + "%]";
++						invItemPriceString += GetFHUDPriceComparison( item, itemInvComponent, invItemPrice );
+ 					}
+ 					//---=== modFriendlyHUD ===---
+ 					addGFxItemStat( propsList, "price", "<font color ='#FFFFFF'>" + invItemPriceString + "</font>", "panel_inventory_item_price" );
+@@ -730,6 +723,19 @@
+ 	}
+ 	
+ 	//modFriendlyHUD begin: show recycling parts
++	private function GetFHUDPriceComparison( item : SItemUniqueId, inventory : CInventoryComponent, shopPrice : int ) : string
++	{
++		var basePrice : float;
++		var percentage : float;
++		basePrice = (float)inventory.GetItemPrice( item );
++		if( inventory.IsItemBolt( item ) )
++			basePrice /= 10.0f;
++		if( basePrice <= 0 )
++			return "";
++		percentage = (float)shopPrice * 100.0f / basePrice;
++		return " [" + FloatToStringPrec( basePrice, 2 ) + " : " + RoundMath( percentage ) + "%]";
++	}
++
+ 	private function AddPartsList( item: SItemUniqueId, itemInvComponent : CInventoryComponent, out description : string )
+ 	{
+ 		var partList : array <SItemParts>;
+--- original/content/scripts/game/gui/hud/hud.ws
++++ FHUD 5.01/content/scripts/game/gui/hud/hud.ws
 @@ -703,7 +703,7 @@
  				module = (CR4HudModuleBase)(GetHudModule(NameToString(configName)));
  				if (module)
@@ -32,13 +1197,62 @@
  				}
  			}
  			break;
---- original/game/gui/hud/modules/hudModuleBase.ws
-+++ FHUD 5.01/game/gui/hud/modules/hudModuleBase.ws
-@@ -127,7 +127,15 @@
+--- original/content/scripts/game/gui/hud/modules/hudModuleBase.ws
++++ FHUD 5.01/content/scripts/game/gui/hud/modules/hudModuleBase.ws
+@@ -27,7 +27,6 @@
+ 	protected var isFadingOut				: bool;
+ 	protected var hide						: bool;
+ 	protected var disable					: bool;
+-	//protected var fadeOutTime				: float; //come to think of it... I don't really need this timer
+ 	protected var fadeOutCfgTime			: float;
+ 	
+ 	public function IsEnabledForReason( reason : string ) : bool
+@@ -59,7 +58,14 @@
+ 			return;
+ 		}
+ 		toggleReasons.PushBack( reason );
+-		if ( !GetEnabled() || isFadingOut )
++		if( isFadingOut )
++		{
++			// Restore only the state changes owned by the interrupted fade.
++			isShownTemporarily = hide;
++			isEnabledTemporarily = disable;
++			ResetFadeOut();
++		}
++		if ( !GetEnabled() )
+ 		{
+ 			ResetFadeOut();
+ 			SetEnabled( true );
+@@ -90,14 +96,12 @@
+ 		if ( isShownTemporarily )
+ 		{
+ 			isShownTemporarily = false;
+-			//ShowElement( false, true );
+ 			hide = true;
+ 			StartFadeOut();
+ 		}
+ 		if ( isEnabledTemporarily )
+ 		{
+ 			isEnabledTemporarily = false;
+-			//SetEnabled( false );
+ 			disable = true;
+ 			StartFadeOut();
+ 		}
+@@ -107,7 +111,6 @@
+ 	{
+ 		isFadingOut = true;
+ 		fadeOutCfgTime = GetFHUDConfig().fadeOutTimeSeconds;
+-		//fadeOutTime = fadeOutCfgTime;
+ 	}
+ 	
+ 	private function ResetFadeOut()
+@@ -127,17 +130,18 @@
  			return;
  		fModule = GetModuleFlash();
  		//a proper linear fade that doesn't fight with vanilla fade
 -		mAlpha = fModule.GetAlpha() - 100 * timeDelta / fadeOutCfgTime;
+-		//fadeOutTime -= timeDelta;
+-		//if( fadeOutTime >= 0 )
 +		// FHUD 5.01: a zero-second fade means hide immediately.
 +		if( fadeOutCfgTime <= 0 )
 +		{
@@ -48,15 +1262,35 @@
 +		{
 +			mAlpha = fModule.GetAlpha() - 100 * timeDelta / fadeOutCfgTime;
 +		}
- 		//fadeOutTime -= timeDelta;
- 		//if( fadeOutTime >= 0 )
  		if( mAlpha > 0 )
---- original/game/gui/hud/modules/hudModuleMinimap2.ws
-+++ FHUD 5.01/game/gui/hud/modules/hudModuleMinimap2.ws
-@@ -217,9 +217,11 @@
- 		//this is what happens when you copy-paste...
- 		//fadeTime -= dt;
- 		
+ 		{
+ 			fModule.SetAlpha( mAlpha );
+-			//I knew what I did when I did it...
+-			//mAlpha = fModule.GetAlpha();
+-			//fModule.SetAlpha( mAlpha * ( 1 - timeDelta / fadeOutCfgTime ) );
+-			//and that was a bad idea, because it assumes nothing else can change module alpha
+-			//fModule.SetAlpha( 100 * MaxF( 0, fadeOutTime / fadeOutCfgTime ) );
+ 		}
+ 		else
+ 		{
+--- original/content/scripts/game/gui/hud/modules/hudModuleMinimap2.ws
++++ FHUD 5.01/content/scripts/game/gui/hud/modules/hudModuleMinimap2.ws
+@@ -197,7 +197,6 @@
+ 	private var fadeInTimer : float;
+ 	private var isFading, currentlyFading : bool;
+ 	private var fadeOutTime : float;	default fadeOutTime = 0.3f;
+-	//private var fadeTime : float; //modFriendlyHUD
+ 	
+ 	private function FadeMinimapOut(dt : float)
+ 	{		
+@@ -214,18 +213,16 @@
+ 	
+ 		currentlyFading = true;
+ 		//---=== modFriendlyHUD ===---
+-		//this is what happens when you copy-paste...
+-		//fadeTime -= dt;
+-		
++		
 +		// FHUD 5.01: initialize alpha even while vanilla pauses fading.
 +		fModule = GetModuleFlash();
 +		mAlpha = fModule.GetAlpha();
@@ -65,9 +1299,25 @@
 -			fModule = GetModuleFlash();
  			mAlpha = fModule.GetAlpha() - 100 * dt / fadeOutTime;
  			fModule.SetAlpha( MaxF( 0, mAlpha ) );
- 			//GetModuleFlash().SetAlpha( 100 * MaxF( 0, fadeTime / fadeOutTime ) );
---- original/game/gui/hud/modules/hudModuleOneliners.ws
-+++ FHUD 5.01/game/gui/hud/modules/hudModuleOneliners.ws
+-			//GetModuleFlash().SetAlpha( 100 * MaxF( 0, fadeTime / fadeOutTime ) );
+-		}
+-		
+-		//if(fadeTime <= 0)
++		}
++		
+ 		if( mAlpha <= 0 )
+ 		{
+ 			SetEnabled(false);
+@@ -297,7 +294,6 @@
+ 			else if (!isFading && GetEnabled())
+ 			{
+ 				isFading = true;
+-				//fadeTime = fadeOutTime; //modFriendlyHUD
+ 				FadeMinimapOut(timeDelta);
+ 				
+ 			}
+--- original/content/scripts/game/gui/hud/modules/hudModuleOneliners.ws
++++ FHUD 5.01/content/scripts/game/gui/hud/modules/hudModuleOneliners.ws
 @@ -102,7 +102,6 @@
  			return true;
  		//modFriendlyHUD end
@@ -76,9 +1326,89 @@
  		
  		
  		value = "<font size = '"+ IntToString( 25 + onelinerScale ) + "' >" + value + "</font>";
---- original/game/gui/main_menu/ingameMenu.ws
-+++ FHUD 5.01/game/gui/main_menu/ingameMenu.ws
-@@ -4794,7 +4794,7 @@
+@@ -171,7 +170,8 @@
+ 
+ 	public function SignalCache3DMarkers( questPins : bool )
+ 	{
+-		return modMarkers.SignalCache3DMarkers( questPins );
++		if( modMarkers )
++			modMarkers.SignalCache3DMarkers( questPins );
+ 	}
+ 	//modFriendlyHUD end
+ 	
+--- original/content/scripts/game/gui/hud/modules/hudModuleQuests.ws
++++ FHUD 5.01/content/scripts/game/gui/hud/modules/hudModuleQuests.ws
+@@ -159,7 +159,6 @@
+ 	private var fadeInTimer : float;
+ 	private var isFading, currentlyFading : bool;
+ 	private var fadeOutTime : float;	default fadeOutTime = 0.3f;
+-	//private var fadeTime : float; //modFriendlyHUD
+ 	
+ 	private function FadeObjectiveOut(dt : float)
+ 	{		
+@@ -176,14 +175,10 @@
+ 	
+ 		currentlyFading = true;
+ 		//---=== modFriendlyHUD ===---
+-		//this is what happens when you copy-paste...
+-		//fadeTime -= dt;
+-		//GetModuleFlash().SetAlpha( 100 * MaxF( 0, fadeTime / fadeOutTime ) );
+ 		fModule = GetModuleFlash();
+ 		mAlpha = fModule.GetAlpha() - 100 * dt / fadeOutTime;
+ 		fModule.SetAlpha( MaxF( 0, mAlpha ) );
+ 		
+-		//if(fadeTime <= 0)
+ 		if( mAlpha <= 0 )
+ 		{
+ 			SetEnabled(false);
+@@ -242,7 +237,6 @@
+ 			else if (!isFading && GetEnabled())
+ 			{
+ 				isFading = true;
+-				//fadeTime = fadeOutTime; //modFriendlyHUD
+ 				FadeObjectiveOut(timeDelta);
+ 				
+ 			}
+@@ -671,16 +665,7 @@
+ 	}
+ 	
+ 	//---=== modFriendlyHUD ===---
+-	/*function ShowElement( show : bool, optional bImmediately : bool )
+-	{
+-		m_fxShowElementSFF.InvokeSelfTwoArgs( FlashArgBool( show ), FlashArgBool( bImmediately ) );
+-	}	
+-
+-	function SetEnabled( value : bool )
+-	{
+-		m_bEnabled = value;
+-		m_fxSetEnabledSFF.InvokeSelfOneArg( FlashArgBool( m_bEnabled ) );
+-	}*/
++
+ 	//---=== modFriendlyHUD ===---
+ }
+ 
+--- original/content/scripts/game/gui/main_menu/ingameMenu.ws
++++ FHUD 5.01/content/scripts/game/gui/main_menu/ingameMenu.ws
+@@ -3492,12 +3492,17 @@
+ 	
+ 	protected function SaveChangedSettings()
+ 	{
++		var config : CModFriendlyHUDConfig;
+ 		if (hasChangedOption)
+ 		{
+ 			hasChangedOption = false;
+ 			theGame.SaveUserSettings();
+ 			//---=== modFriendlyHUD ===---
+-			GetFHUDConfig().UpdateUserSettings();
++			config = GetFHUDConfig();
++			if( config )
++			{
++				config.UpdateUserSettings();
++			}
+ 			//---=== modFriendlyHUD ===---
+ 		}
+ 	}
+@@ -4794,7 +4799,7 @@
  	//---=== modFriendlyHUD ===---
  	function ShouldHideDLCIcons() : bool
  	{
@@ -87,8 +1417,8 @@
  	}
  	//---=== modFriendlyHUD ===---
  
---- original/game/gui/menus/alchemyMenu.ws
-+++ FHUD 5.01/game/gui/menus/alchemyMenu.ws
+--- original/content/scripts/game/gui/menus/alchemyMenu.ws
++++ FHUD 5.01/content/scripts/game/gui/menus/alchemyMenu.ws
 @@ -84,7 +84,11 @@
  		{
  			//---=== modFriendlyHUD ===---
@@ -102,3 +1432,131 @@
  			if( bHerbalist )
  			{
  				m_npcInventory = m_npc.GetInventory();
+--- original/content/scripts/game/player/playerInput.ws
++++ FHUD 5.01/content/scripts/game/player/playerInput.ws
+@@ -63,7 +63,6 @@
+ 		
+ 		//---=== modFriendlyHUD ===---
+ 		theInput.RegisterListener( this, 'On3DMarkersToggle', 'Toggle3DMarkers' );
+-		theInput.RegisterListener( this, 'OnHUDToggle', 'HUDToggle' );
+ 		theInput.RegisterListener( this, 'OnPauseGameToggle', 'PauseGameToggle' );
+ 		theInput.RegisterListener( this, 'OnSwitchCrossbow', 'SwitchCrossbow' );
+ 		theInput.RegisterListener( this, 'OnPinModuleModfier', 'PinModuleModfier' );
+--- original/dx12user.settings.part.txt
++++ FHUD 5.01/dx12user.settings.part.txt
+@@ -94,5 +94,3 @@
+ fhudDoNotShowDamage=false
+ fhudDoNotShowLevels=0
+ fhudSilentJournalUpdates=false
+-fhudDisableCatWhenNotInDarkPlace=false
+-fhudEnableCatAtNight=false
+--- original/localization/br.csv
++++ FHUD 5.01/localization/br.csv
+@@ -75,8 +75,6 @@
+ 2110365099|ea1fcf12||Bússola
+ 2110365101|11764dd9||Esconder atualizações do diário
+ 2110365102|d5dd9eac||Sem som nas atualizações do diário
+-2110365103|40fbcea5||Pausar efeito da poção gato fora das cavernas
+-2110365104|7e92a056||Despausar efeito da poção Gato a noite
+ 2110365105|50d2be3f||Modo de exibição das conversas de NPC
+ 2110365106|344e8717||Tudo
+ 2110365107|5585ddc3||Ícones
+--- original/localization/cn.csv
++++ FHUD 5.01/localization/cn.csv
+@@ -79,8 +79,6 @@
+ 2110365099|        |preset_value_fhud_compass|罗盘模式
+ 2110365101|        |option_fhud_hideJournalUpdates|隐藏日志更新信息
+ 2110365102|        |option_fhud_silentJournalUpdates|关闭日志更新音效
+-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|离开洞穴时暂停“猫”药水效果
+-2110365104|        |option_fhud_enableCatAtNight|夜晚时继续“猫”药水效果
+ 2110365105|        |option_fhud_talkBubbleMode|NPC对话气泡显示模式
+ 2110365106|        |preset_value_fhud_interactionMode_All|全部显示
+ 2110365107|        |preset_value_fhud_interactionMode_Icon|只显示图标
+--- original/localization/de.csv
++++ FHUD 5.01/localization/de.csv
+@@ -79,8 +79,6 @@
+ 2110365099|        |preset_value_fhud_compass|Kompass
+ 2110365101|        |option_fhud_hideJournalUpdates|Verstecke Journal Updates
+ 2110365102|        |option_fhud_silentJournalUpdates|Kein Sound bei Journal Updates
+-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Pausiere Katzeneffekt wenn nicht in Höhle
+-2110365104|        |option_fhud_enableCatAtNight|Stoppe Pausierung des Katzeneffekts bei Nacht
+ 2110365105|        |option_fhud_talkBubbleMode|NPC-Sprechblase Anzeigemodus
+ 2110365106|        |preset_value_fhud_interactionMode_All|Alle
+ 2110365107|        |preset_value_fhud_interactionMode_Icon|Symbol
+--- original/localization/en.csv
++++ FHUD 5.01/localization/en.csv
+@@ -79,8 +79,6 @@
+ 2110365099|        |preset_value_fhud_compass|Compass
+ 2110365101|        |option_fhud_hideJournalUpdates|Hide journal updates
+ 2110365102|        |option_fhud_silentJournalUpdates|No sound on journal updates
+-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Pause Cat effect when not in cave
+-2110365104|        |option_fhud_enableCatAtNight|Unpause Cat effect at night
+ 2110365105|        |option_fhud_talkBubbleMode|NPC talk bubble display mode
+ 2110365106|        |preset_value_fhud_interactionMode_All|All
+ 2110365107|        |preset_value_fhud_interactionMode_Icon|Icon
+--- original/localization/es.csv
++++ FHUD 5.01/localization/es.csv
+@@ -79,8 +79,6 @@
+ 2110365099|        |preset_value_fhud_compass|Brújula
+ 2110365101|        |option_fhud_hideJournalUpdates|Ocultar actualizaciones de misión
+ 2110365102|        |option_fhud_silentJournalUpdates|Sin sonido en actualizaciones de misión
+-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Pausar el efecto de "Gato" fuera de cuevas
+-2110365104|        |option_fhud_enableCatAtNight|Reanudar el efecto de "Gato" en la noche
+ 2110365105|        |option_fhud_talkBubbleMode|Forma de mostrar burbuja de conversación de PNJs
+ 2110365106|        |preset_value_fhud_interactionMode_All|Todo
+ 2110365107|        |preset_value_fhud_interactionMode_Icon|Icono
+--- original/localization/it.csv
++++ FHUD 5.01/localization/it.csv
+@@ -75,8 +75,6 @@
+ 2110365099|ea1fcf12||Compasso
+ 2110365101|11764dd9||Nascondi gli aggiornamenti del diario
+ 2110365102|d5dd9eac||Nessun suono all'aggiornamento del diario
+-2110365103|40fbcea5||Pausa la vista da gatto all'uscita dalle caverne
+-2110365104|7e92a056||Riprendi la vista da gatto al tramonto
+ 2110365105|50d2be3f||Modalità di visualizzazione della bolla interattiva NPC
+ 2110365106|344e8717||Tutto
+ 2110365107|5585ddc3||Icona
+--- original/localization/jp.csv
++++ FHUD 5.01/localization/jp.csv
+@@ -79,8 +79,6 @@
+ 2110365099|        |preset_value_fhud_compass|コンパス
+ 2110365101|        |option_fhud_hideJournalUpdates|ジャーナル更新の非表示
+ 2110365102|        |option_fhud_silentJournalUpdates|ジャーナル更新音なし
+-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|洞窟の外では猫の目エフェクトを一時停止
+-2110365104|        |option_fhud_enableCatAtNight|夜は猫の目エフェクトの一時停止を解除
+ 2110365105|        |option_fhud_talkBubbleMode|NPCの吹き出しの表示モード
+ 2110365106|        |preset_value_fhud_interactionMode_All|全て
+ 2110365107|        |preset_value_fhud_interactionMode_Icon|アイコン
+--- original/localization/ru.csv
++++ FHUD 5.01/localization/ru.csv
+@@ -79,8 +79,6 @@
+ 2110365099|        |preset_value_fhud_compass|Компас
+ 2110365101|        |option_fhud_hideJournalUpdates|Не показывать обновления журнала
+ 2110365102|        |option_fhud_silentJournalUpdates|Не проигрывать звук во время обновления журнала
+-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Приостанавливать эффект Кошки вне пещер
+-2110365104|        |option_fhud_enableCatAtNight|Возобновлять эффект Кошки ночью
+ 2110365105|        |option_fhud_talkBubbleMode|Режим показа подсказки "поговорить" издалека
+ 2110365106|        |preset_value_fhud_interactionMode_All|Всё
+ 2110365107|        |preset_value_fhud_interactionMode_Icon|Иконка
+--- original/localization/tr.csv
++++ FHUD 5.01/localization/tr.csv
+@@ -83,8 +83,6 @@
+ 2110365100|796abcbb||Yıldız
+ 2110365101|11764dd9||Günce güncellemelerini gizle
+ 2110365102|d5dd9eac||Günce güncellemelerinde ses çalma
+-2110365103|40fbcea5||Kedi efektini mağara dışında kapat
+-2110365104|7e92a056||Kedi efektini gece sürdür
+ 2110365105|50d2be3f||NPC konuşma balonu gösterme modu
+ 2110365106|344e8717||Hepsi
+ 2110365107|5585ddc3||Simge
+--- original/localization/zh.csv
++++ FHUD 5.01/localization/zh.csv
+@@ -79,8 +79,6 @@
+ 2110365099|        |preset_value_fhud_compass|羅盤模式
+ 2110365101|        |option_fhud_hideJournalUpdates|隱藏日志更新信息
+ 2110365102|        |option_fhud_silentJournalUpdates|關閉日志更新音效
+-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|離開洞穴時暫停“貓”藥水效果
+-2110365104|        |option_fhud_enableCatAtNight|夜晚時繼續“貓”藥水效果
+ 2110365105|        |option_fhud_talkBubbleMode|NPC對話氣泡顯示模式
+ 2110365106|        |preset_value_fhud_interactionMode_All|全部顯示
+ 2110365107|        |preset_value_fhud_interactionMode_Icon|只顯示圖標

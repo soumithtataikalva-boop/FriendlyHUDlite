@@ -79,8 +79,6 @@
 2110365099|        |preset_value_fhud_compass|羅盤模式
 2110365101|        |option_fhud_hideJournalUpdates|隱藏日志更新信息
 2110365102|        |option_fhud_silentJournalUpdates|關閉日志更新音效
-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|離開洞穴時暫停“貓”藥水效果
-2110365104|        |option_fhud_enableCatAtNight|夜晚時繼續“貓”藥水效果
 2110365105|        |option_fhud_talkBubbleMode|NPC對話氣泡顯示模式
 2110365106|        |preset_value_fhud_interactionMode_All|全部顯示
 2110365107|        |preset_value_fhud_interactionMode_Icon|只顯示圖標

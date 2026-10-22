@@ -79,8 +79,6 @@
 2110365099|        |preset_value_fhud_compass|Компас
 2110365101|        |option_fhud_hideJournalUpdates|Не показывать обновления журнала
 2110365102|        |option_fhud_silentJournalUpdates|Не проигрывать звук во время обновления журнала
-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Приостанавливать эффект Кошки вне пещер
-2110365104|        |option_fhud_enableCatAtNight|Возобновлять эффект Кошки ночью
 2110365105|        |option_fhud_talkBubbleMode|Режим показа подсказки "поговорить" издалека
 2110365106|        |preset_value_fhud_interactionMode_All|Всё
 2110365107|        |preset_value_fhud_interactionMode_Icon|Иконка

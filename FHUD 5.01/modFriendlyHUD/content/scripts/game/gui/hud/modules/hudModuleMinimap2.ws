@@ -197,7 +197,6 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 	private var fadeInTimer : float;
 	private var isFading, currentlyFading : bool;
 	private var fadeOutTime : float;	default fadeOutTime = 0.3f;
-	//private var fadeTime : float; //modFriendlyHUD
 	
 	private function FadeMinimapOut(dt : float)
 	{		
@@ -214,8 +213,6 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 	
 		currentlyFading = true;
 		//---=== modFriendlyHUD ===---
-		//this is what happens when you copy-paste...
-		//fadeTime -= dt;
 		
 		// FHUD 5.01: initialize alpha even while vanilla pauses fading.
 		fModule = GetModuleFlash();
@@ -224,10 +221,8 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 		{
 			mAlpha = fModule.GetAlpha() - 100 * dt / fadeOutTime;
 			fModule.SetAlpha( MaxF( 0, mAlpha ) );
-			//GetModuleFlash().SetAlpha( 100 * MaxF( 0, fadeTime / fadeOutTime ) );
 		}
 		
-		//if(fadeTime <= 0)
 		if( mAlpha <= 0 )
 		{
 			SetEnabled(false);
@@ -299,7 +294,6 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 			else if (!isFading && GetEnabled())
 			{
 				isFading = true;
-				//fadeTime = fadeOutTime; //modFriendlyHUD
 				FadeMinimapOut(timeDelta);
 				
 			}

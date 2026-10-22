@@ -50,100 +50,79 @@ function ToggleHUDModule( modName : string, toggle : bool, reason : string )
 
 function ToggleBuffsModule( toggle : bool, reason : string )
 {
+	ToggleHUDModule( "BuffsModule", toggle, reason );
+}
+
+function ToggleFHUDGroup( modules : array< string >, toggle : bool, reason : string )
+{
 	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.SetEnabledTemporarily( "BuffsModule", toggle, true, reason );
-	}
+	hud = (CR4ScriptedHud)theGame.GetHud();
+	if( hud )
+		hud.ToggleModulesTemporarily( modules, toggle, reason );
 }
 
 function ToggleEssentialModules( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().essentialModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.essentialModules, toggle, reason );
 }
 
 function ToggleMinimapModules( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().minimapModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.minimapModules, toggle, reason );
 }
 
 function ToggleQuestsModules( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().questsModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.questsModules, toggle, reason );
 }
 
 function ToggleCharacterModules( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().characterModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.characterModules, toggle, reason );
 }
 
 function ToggleCombatModules( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().combatModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.combatModules, toggle, reason );
 }
 
 function ToggleWSModules( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().witcherSensesModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.witcherSensesModules, toggle, reason );
 }
 
 function ToggleMeditModules( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().meditationModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.meditationModules, toggle, reason );
 }
 
 function ToggleModulesToShowInRadialMenu( toggle : bool, reason : string )
 {
-	var hud : CR4ScriptedHud;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		hud.ToggleModulesTemporarily( GetFHUDConfig().radialMenuModules, toggle, reason );
-	}
+	var config : CModFriendlyHUDConfig;
+	config = GetFHUDConfig();
+	if( config )
+		ToggleFHUDGroup( config.radialMenuModules, toggle, reason );
 }
+
 //---=== modFriendlyHUD ===---

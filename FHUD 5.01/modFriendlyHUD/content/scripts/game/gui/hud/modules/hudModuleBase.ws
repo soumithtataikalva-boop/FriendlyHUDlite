@@ -27,7 +27,6 @@ class CR4HudModuleBase extends CR4HudModule
 	protected var isFadingOut				: bool;
 	protected var hide						: bool;
 	protected var disable					: bool;
-	//protected var fadeOutTime				: float; //come to think of it... I don't really need this timer
 	protected var fadeOutCfgTime			: float;
 	
 	public function IsEnabledForReason( reason : string ) : bool
@@ -59,7 +58,14 @@ class CR4HudModuleBase extends CR4HudModule
 			return;
 		}
 		toggleReasons.PushBack( reason );
-		if ( !GetEnabled() || isFadingOut )
+		if( isFadingOut )
+		{
+			// Restore only the state changes owned by the interrupted fade.
+			isShownTemporarily = hide;
+			isEnabledTemporarily = disable;
+			ResetFadeOut();
+		}
+		if ( !GetEnabled() )
 		{
 			ResetFadeOut();
 			SetEnabled( true );
@@ -90,14 +96,12 @@ class CR4HudModuleBase extends CR4HudModule
 		if ( isShownTemporarily )
 		{
 			isShownTemporarily = false;
-			//ShowElement( false, true );
 			hide = true;
 			StartFadeOut();
 		}
 		if ( isEnabledTemporarily )
 		{
 			isEnabledTemporarily = false;
-			//SetEnabled( false );
 			disable = true;
 			StartFadeOut();
 		}
@@ -107,7 +111,6 @@ class CR4HudModuleBase extends CR4HudModule
 	{
 		isFadingOut = true;
 		fadeOutCfgTime = GetFHUDConfig().fadeOutTimeSeconds;
-		//fadeOutTime = fadeOutCfgTime;
 	}
 	
 	private function ResetFadeOut()
@@ -136,16 +139,9 @@ class CR4HudModuleBase extends CR4HudModule
 		{
 			mAlpha = fModule.GetAlpha() - 100 * timeDelta / fadeOutCfgTime;
 		}
-		//fadeOutTime -= timeDelta;
-		//if( fadeOutTime >= 0 )
 		if( mAlpha > 0 )
 		{
 			fModule.SetAlpha( mAlpha );
-			//I knew what I did when I did it...
-			//mAlpha = fModule.GetAlpha();
-			//fModule.SetAlpha( mAlpha * ( 1 - timeDelta / fadeOutCfgTime ) );
-			//and that was a bad idea, because it assumes nothing else can change module alpha
-			//fModule.SetAlpha( 100 * MaxF( 0, fadeOutTime / fadeOutCfgTime ) );
 		}
 		else
 		{

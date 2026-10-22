@@ -120,6 +120,7 @@ class CModRadialMenuPotions
 	{
 		theInput.UnregisterListener( this, 'ShowPotionsHelper' );
 		theInput.UnregisterListener( this, 'ShowBombsHelper' );
+		theInput.UnregisterListener( this, 'ShowOilsHelper' );
 		theInput.UnregisterListener( this, 'ShowActiveBuffs' );
 		theInput.UnregisterListener( this, 'SwitchBuffsMode' );
 		theInput.UnregisterListener( this, 'UseItem1' );
@@ -292,7 +293,7 @@ class CModRadialMenuPotions
 	
 	event OnShowPotionsHelper( action : SInputAction )
 	{
-		if ( IsPressed( action ) && potions.Size() > 0 )
+		if ( IsPressed( action ) && HasValidItems( potions ) )
 		{
 			SetDisplayMode( BDM_ShowPotions );
 		}
@@ -300,7 +301,7 @@ class CModRadialMenuPotions
 	
 	event OnShowBombsHelper( action : SInputAction )
 	{
-		if ( IsPressed( action ) && bombs.Size() > 0 )
+		if ( IsPressed( action ) && HasValidItems( bombs ) )
 		{
 			SetDisplayMode( BDM_ShowBombs );
 		}
@@ -308,7 +309,7 @@ class CModRadialMenuPotions
 	
 	event OnShowOilsHelper( action : SInputAction )
 	{
-		if ( IsPressed( action ) && oils.Size() > 0 )
+		if ( IsPressed( action ) && HasValidItems( oils ) )
 		{
 			SetDisplayMode( BDM_ShowOils );
 		}
@@ -351,19 +352,19 @@ class CModRadialMenuPotions
 			switch( cycle )
 			{
 				case BDM_ShowPotions:
-					if( potions.Size() > 0 )
+					if( HasValidItems( potions ) )
 					{
 						return;
 					}
 					break;
 				case BDM_ShowBombs:
-					if( bombs.Size() > 0 )
+					if( HasValidItems( bombs ) )
 					{
 						return;
 					}
 					break;
 				case BDM_ShowOils:
-					if( oils.Size() > 0 && ( !disallowOilsInCombat || !thePlayer.IsInCombat() ) )
+					if( HasValidItems( oils ) && ( !disallowOilsInCombat || !thePlayer.IsInCombat() ) )
 					{
 						return;
 					}
@@ -376,218 +377,98 @@ class CModRadialMenuPotions
 		}
 	}
 	
+	private function HasValidItems( items : array< SItemUniqueId > ) : bool
+	{
+		var i : int;
+		for( i = 0; i < items.Size(); i += 1 )
+		{
+			if( playerInventory.IsIdValid( items[i] ) )
+				return true;
+		}
+		return false;
+	}
+
+	private function UseItemAtIndex( action : SInputAction, index : int )
+	{
+		if( !IsPressed( action ) )
+			return;
+		switch( mode )
+		{
+			case BDM_ShowPotions:
+				if( index < potions.Size() )
+					ConsumePotion( potions[index] );
+				break;
+			case BDM_ShowBombs:
+				if( index < bombs.Size() )
+					EquipBomb( bombs[index] );
+				break;
+			case BDM_ShowOils:
+				if( index < oils.Size() )
+					ApplyOil( oils[index] );
+				break;
+		}
+	}
+
 	event OnUseItem1( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 0 )
-			{
-				ConsumePotion( potions[0] );
-			}
-			if( mode == BDM_ShowBombs && bombs.Size() > 0 )
-			{
-				EquipBomb( bombs[0] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 0 )
-			{
-				ApplyOil( oils[0] );
-			}
-		}
+		UseItemAtIndex( action, 0 );
 	}
-	
+
 	event OnUseItem2( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 1 )
-			{
-				ConsumePotion( potions[1] );
-			}
-			if( mode == BDM_ShowBombs && bombs.Size() > 1 )
-			{
-				EquipBomb( bombs[1] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 1 )
-			{
-				ApplyOil( oils[1] );
-			}
-		}
+		UseItemAtIndex( action, 1 );
 	}
-	
+
 	event OnUseItem3( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 2 )
-			{
-				ConsumePotion( potions[2] );
-			}
-			if( mode == BDM_ShowBombs && bombs.Size() > 2 )
-			{
-				EquipBomb( bombs[2] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 2 )
-			{
-				ApplyOil( oils[2] );
-			}
-		}
+		UseItemAtIndex( action, 2 );
 	}
-	
+
 	event OnUseItem4( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 3 )
-			{
-				ConsumePotion( potions[3] );
-			}
-			if( mode == BDM_ShowBombs && bombs.Size() > 3 )
-			{
-				EquipBomb( bombs[3] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 3 )
-			{
-				ApplyOil( oils[3] );
-			}
-		}
+		UseItemAtIndex( action, 3 );
 	}
-	
+
 	event OnUseItem5( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 4 )
-			{
-				ConsumePotion( potions[4] );
-			}
-			if( mode == BDM_ShowBombs && bombs.Size() > 4 )
-			{
-				EquipBomb( bombs[4] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 4 )
-			{
-				ApplyOil( oils[4] );
-			}
-		}
+		UseItemAtIndex( action, 4 );
 	}
-	
+
 	event OnUseItem6( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 5 )
-			{
-				ConsumePotion( potions[5] );
-			}
-			if( mode == BDM_ShowBombs && bombs.Size() > 5 )
-			{
-				EquipBomb( bombs[5] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 5 )
-			{
-				ApplyOil( oils[5] );
-			}
-		}
+		UseItemAtIndex( action, 5 );
 	}
-	
+
 	event OnUseItem7( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 6 )
-			{
-				ConsumePotion( potions[6] );
-			}
-			if( mode == BDM_ShowBombs && bombs.Size() > 6 )
-			{
-				EquipBomb( bombs[6] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 6 )
-			{
-				ApplyOil( oils[6] );
-			}
-		}
+		UseItemAtIndex( action, 6 );
 	}
-	
+
 	event OnUseItem8( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 7 )
-			{
-				ConsumePotion( potions[7] );
-			}
-			if( mode == BDM_ShowBombs && IsPressed( action ) && bombs.Size() > 7 )
-			{
-				EquipBomb( bombs[7] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 7 )
-			{
-				ApplyOil( oils[7] );
-			}
-		}
+		UseItemAtIndex( action, 7 );
 	}
-	
+
 	event OnUseItem9( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 8 )
-			{
-				ConsumePotion( potions[8] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 8 )
-			{
-				ApplyOil( oils[8] );
-			}
-		}
+		UseItemAtIndex( action, 8 );
 	}
-	
+
 	event OnUseItem10( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 9 )
-			{
-				ConsumePotion( potions[9] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 9 )
-			{
-				ApplyOil( oils[9] );
-			}
-		}
+		UseItemAtIndex( action, 9 );
 	}
-	
+
 	event OnUseItem11( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 10 )
-			{
-				ConsumePotion( potions[10] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 10 )
-			{
-				ApplyOil( oils[10] );
-			}
-		}
+		UseItemAtIndex( action, 10 );
 	}
-	
+
 	event OnUseItem12( action : SInputAction )
 	{
-		if( IsPressed( action ) )
-		{
-			if( mode == BDM_ShowPotions && potions.Size() > 11 )
-			{
-				ConsumePotion( potions[11] );
-			}
-			if( mode == BDM_ShowOils && oils.Size() > 11 )
-			{
-				ApplyOil( oils[11] );
-			}
-		}
+		UseItemAtIndex( action, 11 );
 	}
-	
+
 	private function ConsumePotion( potionID : SItemUniqueId )
 	{
 		if( thePlayer.IsCiri() || !playerInventory.IsIdValid( potionID ) )

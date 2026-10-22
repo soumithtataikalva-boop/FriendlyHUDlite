@@ -8,11 +8,6 @@
       "original_mod_sha256": "bf168994b1c45fc980d73f7a470c0732b13e6baa01982d00ea11d92c8b1d3ba6"
     },
     {
-      "path": "game/gameplay/effects/effects/potion/Cat.ws",
-      "vanilla_sha256": "5ba029323f4543751151264d092e7cdc7ec7483cbe9ae84764e70939a34962f1",
-      "original_mod_sha256": "17a134b02424ce433ebd95feb08104cfd051d8f8a2294b1ba80eb2fe184c9509"
-    },
-    {
       "path": "game/gameplay/focus/focus.ws",
       "vanilla_sha256": "8034f3728bd3d614298495b268506f9e16fadff4c468044011b474cb5977574c",
       "original_mod_sha256": "10f4491b999c5a7efbb1c2c0fc1727ce4a2767585229f23f74781ac5bfd5e7c5"
@@ -180,6 +175,125 @@
     {
       "path": "game/gui/hud/modules/hudModuleMinimap2.ws",
       "reason": "Avoid testing an unassigned local alpha while minimap fading is paused."
+    },
+    {
+      "path": "game/gui/main_menu/ingameMenu.ws",
+      "reason": "Guard settings refresh before a player exists."
+    },
+    {
+      "path": "fhudconfig/modFriendlyHUDConfig.ws",
+      "reason": "Initialize module groups before settings checks; allow absent player config."
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleOneliners.ws",
+      "reason": "Ignore cache requests until marker helper initialization."
+    },
+    {
+      "path": "fhudscripts/modMarkers.ws",
+      "reason": "Guard marker refresh, handle zero fade durations, respect completed-POI enum, cap IDs and retain unchanged marker sprites."
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleBase.ws",
+      "reason": "Preserve hide-only versus disable ownership when reactivating a fading module; remove obsolete fade code."
+    },
+    {
+      "path": "fhudscripts/modRadialMenuPotions.ws",
+      "reason": "Unregister oils listener, skip invalid-item categories and share item-hotkey dispatch."
+    },
+    {
+      "path": "game/player/playerInput.ws",
+      "reason": "Remove unused HUDToggle registration with no supplied callback/action."
+    },
+    {
+      "path": "game/gui/_old/components/guiTooltipComponent.ws",
+      "reason": "Share buy/sell comparison formatting, skip nonpositive denominators and preserve fractional bolt prices."
+    },
+    {
+      "path": "fhudscripts/modHUDToggles.ws",
+      "reason": "Share guarded group dispatch and reuse the single-module wrapper for buffs."
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleMinimap2.ws",
+      "reason": "Remove superseded commented-out fade implementations."
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleQuests.ws",
+      "reason": "Remove superseded commented-out fade implementations."
     }
+  ],
+  "removed_game_files": [
+    {
+      "path": "game/gameplay/effects/effects/potion/Cat.ws",
+      "vanilla_sha256": "5ba029323f4543751151264d092e7cdc7ec7483cbe9ae84764e70939a34962f1",
+      "original_mod_sha256": "17a134b02424ce433ebd95feb08104cfd051d8f8a2294b1ba80eb2fe184c9509"
+    }
+  ],
+  "removed_package_files": [
+    "content/scripts/game/gameplay/effects/effects/potion/Cat.ws"
+  ],
+  "package_changes": [
+    {
+      "path": "content/scripts/fhudconfig/modFriendlyHUDConfig.ws",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "bin/config/r4game/user_config_matrix/pc/modFHUDConfig.xml",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "dx12user.settings.part.txt",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/de.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/es.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/tr.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/en.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/zh.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/ru.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/cn.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/br.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/it.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "localization/jp.csv",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "README.txt",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    },
+    {
+      "path": "README_RUS.txt",
+      "reason": "Remove FriendlyHUD Cat vision options, defaults, source translations and documentation."
+    }
+  ],
+  "removed_features": [
+    "Automatic Cat vision suppression outside dark places and automatic restoration at night."
   ]
 }

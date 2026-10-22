@@ -138,8 +138,6 @@ class CModFriendlyHUDConfig
 	public var minimapZoomBoat : float;
 	public var showItemsInSlowdownMode : bool;
 	public var silentJournalUpdates : bool;
-	public var disableCatWhenNotInDarkPlace : bool;
-	public var enableCatAtNight : bool;
 
 	//--- other vars ---
 	public var forceShowMarkers						: bool; default forceShowMarkers = false;
@@ -160,8 +158,8 @@ class CModFriendlyHUDConfig
 	//--- functions ---
 	public function Init()
 	{
-		UpdateUserSettings();
 		InitArrays();
+		UpdateUserSettings();
 	}
 	
 	public function InitToggleableValues()
@@ -311,8 +309,6 @@ class CModFriendlyHUDConfig
 		doNotShowLevels = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'Virtual_fhudDoNotShowLevels'));
 		showBossHP = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudShowBossHP');
 		silentJournalUpdates = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudSilentJournalUpdates');
-		disableCatWhenNotInDarkPlace = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudDisableCatWhenNotInDarkPlace');
-		enableCatAtNight = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudEnableCatAtNight');
 		//zooms
 		mapUnlimitedZoom = theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapUnlimitedZoom');
 		mapZoomMinCoef = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapZoomMinCoef'));
@@ -467,6 +463,8 @@ class CModFriendlyHUDConfig
 
 function GetFHUDConfig() : CModFriendlyHUDConfig
 {
+	if( !thePlayer )
+		return NULL;
 	return thePlayer.fHUDConfig;
 }
 //---=== modFriendlyHUD ===---

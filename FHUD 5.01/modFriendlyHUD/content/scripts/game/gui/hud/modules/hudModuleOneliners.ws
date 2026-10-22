@@ -170,7 +170,8 @@ class CR4HudModuleOneliners extends CR4HudModuleBase
 
 	public function SignalCache3DMarkers( questPins : bool )
 	{
-		return modMarkers.SignalCache3DMarkers( questPins );
+		if( modMarkers )
+			modMarkers.SignalCache3DMarkers( questPins );
 	}
 	//modFriendlyHUD end
 	

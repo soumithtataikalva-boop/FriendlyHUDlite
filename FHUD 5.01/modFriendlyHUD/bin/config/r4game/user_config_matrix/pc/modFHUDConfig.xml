@@ -731,16 +731,12 @@
 				<Entry varId="fhudDoNotShowLevels" value="0"/>
 				<Entry varId="fhudShowBossHP" value="false"/>
 				<Entry varId="fhudSilentJournalUpdates" value="false"/>
-				<Entry varId="fhudDisableCatWhenNotInDarkPlace" value="false"/>
-				<Entry varId="fhudEnableCatAtNight" value="false"/>
 			</Preset>
 			<Preset id="1" displayName="fhud_vanilla">
 				<Entry varId="fhudDoNotShowDamage" value="false"/>
 				<Entry varId="fhudDoNotShowLevels" value="0"/>
 				<Entry varId="fhudShowBossHP" value="false"/>
 				<Entry varId="fhudSilentJournalUpdates" value="false"/>
-				<Entry varId="fhudDisableCatWhenNotInDarkPlace" value="false"/>
-				<Entry varId="fhudEnableCatAtNight" value="false"/>
 			</Preset>
 		</PresetsArray>
         <VisibleVars>
@@ -760,8 +756,6 @@
 			</Var>
 			<Var id="fhudShowBossHP" displayName="fhud_showBossHP" displayType="TOGGLE"/>
 			<Var id="fhudSilentJournalUpdates" displayName="fhud_silentJournalUpdates" displayType="TOGGLE"/>
-			<Var id="fhudDisableCatWhenNotInDarkPlace" displayName="fhud_disableCatWhenNotInDarkPlace" displayType="TOGGLE"/>
-			<Var id="fhudEnableCatAtNight" displayName="fhud_enableCatAtNight" displayType="TOGGLE"/>
         </VisibleVars>
     </Group>
 	

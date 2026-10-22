@@ -628,11 +628,7 @@ class W3TooltipComponent
 				//---=== modFriendlyHUD ===---
 				if(GetFHUDConfig().showTrueItemPrice)
 				{
-					weightValue = ((float)invItemPrice)*100.0f;
-					invItemPrice = itemInvComponent.GetItemPrice(item);
-					if( itemInvComponent.IsItemBolt( item ) ) invItemPrice /= 10;
-					weightValue /= ((float)invItemPrice);
-					invItemPriceString += " [" + invItemPrice + " : " + RoundMath(weightValue) + "%]";
+					invItemPriceString += GetFHUDPriceComparison( item, itemInvComponent, invItemPrice );
 				}
 				//---=== modFriendlyHUD ===---
 				
@@ -659,11 +655,7 @@ class W3TooltipComponent
 					//---=== modFriendlyHUD ===---
 					if(GetFHUDConfig().showTrueItemPrice)
 					{
-						weightValue = ((float)invItemPrice)*100.0f;
-						invItemPrice = itemInvComponent.GetItemPrice(item);
-						if( itemInvComponent.IsItemBolt( item ) ) invItemPrice /= 10;
-						weightValue /= ((float)invItemPrice);
-						invItemPriceString += " [" + invItemPrice + " : " + RoundMath(weightValue) + "%]";
+						invItemPriceString += GetFHUDPriceComparison( item, itemInvComponent, invItemPrice );
 					}
 					//---=== modFriendlyHUD ===---
 					addGFxItemStat( propsList, "price", "<font color ='#FFFFFF'>" + invItemPriceString + "</font>", "panel_inventory_item_price" );
@@ -731,6 +723,19 @@ class W3TooltipComponent
 	}
 	
 	//modFriendlyHUD begin: show recycling parts
+	private function GetFHUDPriceComparison( item : SItemUniqueId, inventory : CInventoryComponent, shopPrice : int ) : string
+	{
+		var basePrice : float;
+		var percentage : float;
+		basePrice = (float)inventory.GetItemPrice( item );
+		if( inventory.IsItemBolt( item ) )
+			basePrice /= 10.0f;
+		if( basePrice <= 0 )
+			return "";
+		percentage = (float)shopPrice * 100.0f / basePrice;
+		return " [" + FloatToStringPrec( basePrice, 2 ) + " : " + RoundMath( percentage ) + "%]";
+	}
+
 	private function AddPartsList( item: SItemUniqueId, itemInvComponent : CInventoryComponent, out description : string )
 	{
 		var partList : array <SItemParts>;

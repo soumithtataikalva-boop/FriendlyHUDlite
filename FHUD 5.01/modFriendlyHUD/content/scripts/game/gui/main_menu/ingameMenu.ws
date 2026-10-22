@@ -3492,12 +3492,17 @@ class CR4IngameMenu extends CR4MenuBase
 	
 	protected function SaveChangedSettings()
 	{
+		var config : CModFriendlyHUDConfig;
 		if (hasChangedOption)
 		{
 			hasChangedOption = false;
 			theGame.SaveUserSettings();
 			//---=== modFriendlyHUD ===---
-			GetFHUDConfig().UpdateUserSettings();
+			config = GetFHUDConfig();
+			if( config )
+			{
+				config.UpdateUserSettings();
+			}
 			//---=== modFriendlyHUD ===---
 		}
 	}

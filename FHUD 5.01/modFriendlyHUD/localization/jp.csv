@@ -79,8 +79,6 @@
 2110365099|        |preset_value_fhud_compass|コンパス
 2110365101|        |option_fhud_hideJournalUpdates|ジャーナル更新の非表示
 2110365102|        |option_fhud_silentJournalUpdates|ジャーナル更新音なし
-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|洞窟の外では猫の目エフェクトを一時停止
-2110365104|        |option_fhud_enableCatAtNight|夜は猫の目エフェクトの一時停止を解除
 2110365105|        |option_fhud_talkBubbleMode|NPCの吹き出しの表示モード
 2110365106|        |preset_value_fhud_interactionMode_All|全て
 2110365107|        |preset_value_fhud_interactionMode_Icon|アイコン

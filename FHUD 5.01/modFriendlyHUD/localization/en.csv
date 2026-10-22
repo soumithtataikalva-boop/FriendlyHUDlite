@@ -79,8 +79,6 @@
 2110365099|        |preset_value_fhud_compass|Compass
 2110365101|        |option_fhud_hideJournalUpdates|Hide journal updates
 2110365102|        |option_fhud_silentJournalUpdates|No sound on journal updates
-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Pause Cat effect when not in cave
-2110365104|        |option_fhud_enableCatAtNight|Unpause Cat effect at night
 2110365105|        |option_fhud_talkBubbleMode|NPC talk bubble display mode
 2110365106|        |preset_value_fhud_interactionMode_All|All
 2110365107|        |preset_value_fhud_interactionMode_Icon|Icon

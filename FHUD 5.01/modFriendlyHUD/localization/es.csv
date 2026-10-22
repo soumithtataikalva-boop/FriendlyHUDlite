@@ -79,8 +79,6 @@
 2110365099|        |preset_value_fhud_compass|Brújula
 2110365101|        |option_fhud_hideJournalUpdates|Ocultar actualizaciones de misión
 2110365102|        |option_fhud_silentJournalUpdates|Sin sonido en actualizaciones de misión
-2110365103|        |option_fhud_disableCatWhenNotInDarkPlace|Pausar el efecto de "Gato" fuera de cuevas
-2110365104|        |option_fhud_enableCatAtNight|Reanudar el efecto de "Gato" en la noche
 2110365105|        |option_fhud_talkBubbleMode|Forma de mostrar burbuja de conversación de PNJs
 2110365106|        |preset_value_fhud_interactionMode_All|Todo
 2110365107|        |preset_value_fhud_interactionMode_Icon|Icono

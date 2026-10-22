@@ -73,7 +73,6 @@ List of changes:
 
 - An option to disable sound notification on journal update.
 
-- An option to pause cat effect outside of caves and to unpause it at night.
 
 Default key bindings:
 =====================

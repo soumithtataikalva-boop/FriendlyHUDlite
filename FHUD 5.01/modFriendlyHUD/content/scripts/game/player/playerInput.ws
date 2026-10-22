@@ -63,7 +63,6 @@ class CPlayerInput
 		
 		//---=== modFriendlyHUD ===---
 		theInput.RegisterListener( this, 'On3DMarkersToggle', 'Toggle3DMarkers' );
-		theInput.RegisterListener( this, 'OnHUDToggle', 'HUDToggle' );
 		theInput.RegisterListener( this, 'OnPauseGameToggle', 'PauseGameToggle' );
 		theInput.RegisterListener( this, 'OnSwitchCrossbow', 'SwitchCrossbow' );
 		theInput.RegisterListener( this, 'OnPinModuleModfier', 'PinModuleModfier' );
