@@ -2078,11 +2078,8 @@ class CR4MapMenu extends CR4MenuBase
 		sminY		= theGame.GetMiniMapSminY( m_shownArea );
 		smaxY		= theGame.GetMiniMapSmaxY( m_shownArea );
 
-		//---=== modFriendlyHUD ===---
-		minZoom		= theGame.GetMiniMapMinZoom( m_shownArea ) / GetFHUDConfig().mapZoomMinCoef;
-		maxZoom		= theGame.GetMiniMapMaxZoom( m_shownArea ) * GetFHUDConfig().mapZoomMaxCoef;
-		EnableUnlimitedZoom( GetFHUDConfig().mapUnlimitedZoom );
-		//---=== modFriendlyHUD ===---
+		minZoom		= theGame.GetMiniMapMinZoom( m_shownArea );
+		maxZoom		= theGame.GetMiniMapMaxZoom( m_shownArea );
 
 		zoom12		= theGame.GetMiniMapZoom12( m_shownArea );
 		zoom23		= theGame.GetMiniMapZoom23( m_shownArea );

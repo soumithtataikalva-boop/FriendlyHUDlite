@@ -30,13 +30,6 @@
 2110365041|        |option_fhud_doNotShowLevels|隐藏敌人等级
 2110365042|        |option_fhud_dontTouchMySwords|禁用双剑切换和自动收剑
 2110365046|        |option_fhud_fadeOutTimeSeconds|隐藏模块延迟 (秒)
-2110365049|        |panel_fhud_map|区域地图和小地图
-2110365050|        |option_fhud_mapUnlimitedZoom|区域地图无限缩放
-2110365051|        |option_fhud_mapZoomMinCoef|区域地图最小缩放
-2110365052|        |option_fhud_mapZoomMaxCoef|区域地图最大缩放
-2110365053|        |option_fhud_minimapZoomExterior|室外小地图缩放
-2110365054|        |option_fhud_minimapZoomInterior|室内小地图缩放
-2110365055|        |option_fhud_minimapZoomBoat|船上小地图缩放
 2110365056|        |option_fhud_defaultDisplayMode|快捷物品栏默认显示
 2110365057|        |preset_value_fhud_displayMode_potions|药水
 2110365058|        |preset_value_fhud_displayMode_bombs|炸弹
@@ -70,7 +63,6 @@
 2110365090|        |preset_value_fhud_vanilla|游戏默认设定
 2110365091|        |preset_Mods_friendly_hud_fhud_markers|3D标记预设方案
 2110365092|        |preset_Mods_friendly_hud_fhud_quick_items|快捷物品栏预设方案
-2110365093|        |preset_Mods_friendly_hud_fhud_map|地图预设方案
 2110365094|        |preset_Mods_friendly_hud_fhud_inventory|物品栏预设方案
 2110365095|        |option_fhud_showTrueItemPrice|显示物品价格比较
 2110365096|        |option_fhud_stashItemQuantity|显示已有的物品数量

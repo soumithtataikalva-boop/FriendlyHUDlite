@@ -37,7 +37,6 @@ List of changes:
 
 - Quest markers for quest NPCs: fixes vanilla bug (or weird feature) with not displaying quest markers for NPCs if you're not tracking their specific quest. Can be switched off.
 
-- Configurable zoom levels for minimap. By default minimap is zoomed out twice compared to vanilla.
 
 2. Quality of Life features
 
@@ -49,7 +48,6 @@ List of changes:
 
 3. Menu enhancements
 
-- Configurable zoom values for map menu with an ability to switch unlimited zoom on (already enabled by default).
 
 - Configurable default inventory tab - choose which tab will be selected when opening inventory menu.
 

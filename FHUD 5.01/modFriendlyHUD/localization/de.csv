@@ -30,13 +30,6 @@
 2110365041|        |option_fhud_doNotShowLevels|Verberge Gegner-Stufe
 2110365042|        |option_fhud_dontTouchMySwords|Verweigere autom. Wechseln/Wegstecken der Schwerter
 2110365046|        |option_fhud_fadeOutTimeSeconds|Anzeigedauer des Moduls
-2110365049|        |panel_fhud_map|Weltkarte und Minimap
-2110365050|        |option_fhud_mapUnlimitedZoom|Weltkarte – unbegrenzter Zoom
-2110365051|        |option_fhud_mapZoomMinCoef|Weltkarte – Min. Zoom
-2110365052|        |option_fhud_mapZoomMaxCoef|Weltkarte – Max. Zoom
-2110365053|        |option_fhud_minimapZoomExterior|Minimap – Außen-Zoom
-2110365054|        |option_fhud_minimapZoomInterior|Minimap – Innen-Zoom
-2110365055|        |option_fhud_minimapZoomBoat|Minimap – Boot-Zoom
 2110365056|        |option_fhud_defaultDisplayMode|Standard Anzeigemodus
 2110365057|        |preset_value_fhud_displayMode_potions|Tränke
 2110365058|        |preset_value_fhud_displayMode_bombs|Bomben
@@ -70,7 +63,6 @@
 2110365090|        |preset_value_fhud_vanilla|Vanilla
 2110365091|        |preset_Mods_friendly_hud_fhud_markers|3D-Markierungen Presets
 2110365092|        |preset_Mods_friendly_hud_fhud_quick_items|Schnell-Gegenstände Presets
-2110365093|        |preset_Mods_friendly_hud_fhud_map|Karten Presets
 2110365094|        |preset_Mods_friendly_hud_fhud_inventory|Inventar Presets
 2110365095|        |option_fhud_showTrueItemPrice|Gegenstandsvergleich anzeigen
 2110365096|        |option_fhud_stashItemQuantity|Zeige, wie viele Gegenstände du im Lager hast

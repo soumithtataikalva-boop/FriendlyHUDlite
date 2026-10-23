@@ -30,13 +30,6 @@
 2110365041|        |option_fhud_doNotShowLevels|Скрыть уровни противников
 2110365042|        |option_fhud_dontTouchMySwords|Запретить авто-переключение и авто-убирание мечей
 2110365046|        |option_fhud_fadeOutTimeSeconds|Время исчезания модулей (секунды)
-2110365049|        |panel_fhud_map|Карта
-2110365050|        |option_fhud_mapUnlimitedZoom|Включить свободное масштабирование карты
-2110365051|        |option_fhud_mapZoomMinCoef|Минимальное увеличение для карты региона
-2110365052|        |option_fhud_mapZoomMaxCoef|Максимальное увеличение для карты региона
-2110365053|        |option_fhud_minimapZoomExterior|Масштаб мини-карты
-2110365054|        |option_fhud_minimapZoomInterior|Масштаб мини-карты в помещениях
-2110365055|        |option_fhud_minimapZoomBoat|Масштаб мини-карты в лодке
 2110365056|        |option_fhud_defaultDisplayMode|Режим отображения по умолчанию
 2110365057|        |preset_value_fhud_displayMode_potions|Зелья
 2110365058|        |preset_value_fhud_displayMode_bombs|Бомбы
@@ -70,7 +63,6 @@
 2110365090|        |preset_value_fhud_vanilla|Оригинал
 2110365091|        |preset_Mods_friendly_hud_fhud_markers|Предустановки 3D маркеров
 2110365092|        |preset_Mods_friendly_hud_fhud_quick_items|Предустановки быстрого доступа
-2110365093|        |preset_Mods_friendly_hud_fhud_map|Предустановки  карты
 2110365094|        |preset_Mods_friendly_hud_fhud_inventory|Предустановки инвентаря
 2110365095|        |option_fhud_showTrueItemPrice|Показывать сравнительную цену предмета
 2110365096|        |option_fhud_stashItemQuantity|Показывать количество предметов в тайнике

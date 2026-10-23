@@ -30,13 +30,6 @@
 2110365041|        |option_fhud_doNotShowLevels|Ocultar nivel del enemigo
 2110365042|        |option_fhud_dontTouchMySwords|No permitir cambiar/envainar espadas automáticamente
 2110365046|        |option_fhud_fadeOutTimeSeconds|Demora al ocultar módulos
-2110365049|        |panel_fhud_map|Mapa y minimapa
-2110365050|        |option_fhud_mapUnlimitedZoom|Zoom ilimitado en el mapa
-2110365051|        |option_fhud_mapZoomMinCoef|Zoom mínimo en el mapa
-2110365052|        |option_fhud_mapZoomMaxCoef|Zoom máximo en el mapa
-2110365053|        |option_fhud_minimapZoomExterior|Zoom exterior del minimapa
-2110365054|        |option_fhud_minimapZoomInterior|Zoom interior del minimapa
-2110365055|        |option_fhud_minimapZoomBoat|Zoom del minimapa en barco
 2110365056|        |option_fhud_defaultDisplayMode|Modo de visualización por defecto
 2110365057|        |preset_value_fhud_displayMode_potions|Pociones
 2110365058|        |preset_value_fhud_displayMode_bombs|Bombas
@@ -70,7 +63,6 @@
 2110365090|        |preset_value_fhud_vanilla|Vanilla
 2110365091|        |preset_Mods_friendly_hud_fhud_markers|Preajustes de Marcadores 3D
 2110365092|        |preset_Mods_friendly_hud_fhud_quick_items|Preajustes de Objetos Rápidos
-2110365093|        |preset_Mods_friendly_hud_fhud_map|Preajustes de Mapa
 2110365094|        |preset_Mods_friendly_hud_fhud_inventory|Preajustes de Inventario
 2110365095|        |option_fhud_showTrueItemPrice|Mostrar comparación de precio entre objetos
 2110365096|        |option_fhud_stashItemQuantity|Mostrar la cantidad de objetos en alijo

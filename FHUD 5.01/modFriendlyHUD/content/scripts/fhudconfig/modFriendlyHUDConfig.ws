@@ -134,12 +134,6 @@ class CModFriendlyHUDConfig
 	public var doNotShowDamage : bool;
 	public var doNotShowLevels : int;
 	public var showBossHP : bool;
-	public var mapUnlimitedZoom : bool;
-	public var mapZoomMinCoef : float;
-	public var mapZoomMaxCoef : float;
-	public var minimapZoomExterior : float;
-	public var minimapZoomInterior : float;
-	public var minimapZoomBoat : float;
 	public var showItemsInSlowdownMode : bool;
 	public var silentJournalUpdates : bool;
 
@@ -226,7 +220,6 @@ class CModFriendlyHUDConfig
 		ReadInventorySettings();
 		ReadInteractionSettings();
 		ReadMiscSettings();
-		ReadMapSettings();
 		ResetForcedMarkerVisibility();
 		Mod3DMarkersSignalCache3DMarkers( true );
 	}
@@ -342,17 +335,7 @@ class CModFriendlyHUDConfig
 		silentJournalUpdates = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudSilentJournalUpdates');
 	}
 
-	private function ReadMapSettings()
-	{
-		mapUnlimitedZoom = theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapUnlimitedZoom');
-		mapZoomMinCoef = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapZoomMinCoef'));
-		mapZoomMaxCoef = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapZoomMaxCoef'));
-		minimapZoomExterior = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMinimapZoomExterior'));
-		minimapZoomInterior = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMinimapZoomInterior'));
-		minimapZoomBoat = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMinimapZoomBoat'));
-		VerifyZoomCoefs();
-		UpdateMinimapZoom();
-	}
+
 	private function CheckModules()
 	{
 		if ( !enableCombatModules && IsHUDGroupEnabledForReason( combatModules, "InCombat" ) )
@@ -376,28 +359,8 @@ class CModFriendlyHUDConfig
 			ToggleModulesToShowInRadialMenu( false, "InRadialMenu" );
 		}
 	}
-	private function VerifyZoomCoefs()
-	{
-		if( mapZoomMinCoef <= 0 ) mapZoomMinCoef = 1;
-		if( mapZoomMaxCoef <= 0 ) mapZoomMaxCoef = 1;
-		if( minimapZoomExterior <= 0 ) minimapZoomExterior = 1;
-		if( minimapZoomInterior <= 0 ) minimapZoomInterior = 2;
-		if( minimapZoomBoat <= 0 ) minimapZoomBoat = 0.5;
-	}
-	private function UpdateMinimapZoom()
-	{
-		var hud : CR4ScriptedHud;
-		var minimapModule : CR4HudModuleMinimap2;
-		hud = (CR4ScriptedHud)theGame.GetHud();
-		if( hud )
-		{
-			minimapModule = (CR4HudModuleMinimap2)hud.GetHudModule( "Minimap2Module" );
-			if( minimapModule )
-			{
-				minimapModule.UpdateZoomForced();
-			}
-		}
-	}
+
+
 	public function ShowNPCName(target : CNewNPC) : bool
 	{
 		if( GetFHUDConfig().hideAnimalNames && target.IsAnimal() && !target.HasTag( 'playerHorse' ) )

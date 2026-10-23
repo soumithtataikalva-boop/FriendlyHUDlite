@@ -510,34 +510,6 @@
         </VisibleVars>
     </Group>
 	
-    <Group id="fhudMap" displayName="Mods.friendly_hud.fhud_map">
-		<PresetsArray>
-			<Preset id="0" displayName="fhud_defaults">
-				<Entry varId="fhudMapUnlimitedZoom" value="true"/>
-				<Entry varId="fhudMapZoomMinCoef" value="2.5"/>
-				<Entry varId="fhudMapZoomMaxCoef" value="0.5"/>
-				<Entry varId="fhudMinimapZoomExterior" value="0.5"/>
-				<Entry varId="fhudMinimapZoomInterior" value="1"/>
-				<Entry varId="fhudMinimapZoomBoat" value="0.5"/>
-			</Preset>
-			<Preset id="1" displayName="fhud_vanilla">
-				<Entry varId="fhudMapUnlimitedZoom" value="false"/>
-				<Entry varId="fhudMapZoomMinCoef" value="1"/>
-				<Entry varId="fhudMapZoomMaxCoef" value="1"/>
-				<Entry varId="fhudMinimapZoomExterior" value="1"/>
-				<Entry varId="fhudMinimapZoomInterior" value="2"/>
-				<Entry varId="fhudMinimapZoomBoat" value="0.5"/>
-			</Preset>
-		</PresetsArray>
-        <VisibleVars>
-			<Var id="fhudMapUnlimitedZoom" displayName="fhud_mapUnlimitedZoom" displayType="TOGGLE"/>
-            <Var id="fhudMapZoomMinCoef" displayName="fhud_mapZoomMinCoef" displayType="SLIDER;0;5;500"/>
-            <Var id="fhudMapZoomMaxCoef" displayName="fhud_mapZoomMaxCoef" displayType="SLIDER;0;5;500"/>
-            <Var id="fhudMinimapZoomExterior" displayName="fhud_minimapZoomExterior" displayType="SLIDER;0;5;500"/>
-            <Var id="fhudMinimapZoomInterior" displayName="fhud_minimapZoomInterior" displayType="SLIDER;0;5;500"/>
-            <Var id="fhudMinimapZoomBoat" displayName="fhud_minimapZoomBoat" displayType="SLIDER;0;5;500"/>
-        </VisibleVars>
-    </Group>
 	
     <Group id="fhudInventory" displayName="Mods.friendly_hud.fhud_inventory">
 		<PresetsArray>

@@ -53,14 +53,6 @@ fhudEnableWASD=false
 fhudApplyOilToDrawnSword=false
 fhudRadialMenuTimescale=0.05
 
-[fhudMap]
-fhudMapUnlimitedZoom=true
-fhudMapZoomMinCoef=2.5
-fhudMapZoomMaxCoef=0.5
-fhudMinimapZoomExterior=0.5
-fhudMinimapZoomInterior=1
-fhudMinimapZoomBoat=0.5
-
 [fhudInventory]
 fhudDefaultInventoryTab=1
 fhudResetNewItemsIngredients=true

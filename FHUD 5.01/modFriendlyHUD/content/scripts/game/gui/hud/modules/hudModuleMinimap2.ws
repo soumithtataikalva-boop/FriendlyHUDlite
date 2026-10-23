@@ -93,9 +93,8 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 
 		LoadMinimapSettings();
 		
-		//---=== modFriendlyHUD ===---
-		UpdateZoomForced();
-		//---=== modFriendlyHUD ===---
+		m_zoomValue = MINIMAP_EXTERIOR_ZOOM;
+		SetZoom( m_zoomValue, true );
 
 		hud = (CR4ScriptedHud)theGame.GetHud();
 		if ( hud )
@@ -230,34 +229,7 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 		//---=== modFriendlyHUD ===---
 	}
 	
-	//---=== modFriendlyHUD ===---
-	public function UpdateZoomForced()
-	{
-		var hud : CR4ScriptedHud;
-		if ( thePlayer.IsOnBoat() )
-		{
-			m_zoomValue = GetFHUDConfig().minimapZoomBoat;
-		}
-		else if ( thePlayer.IsInInterior() )
-		{
-			m_zoomValue = GetFHUDConfig().minimapZoomInterior;
-		}
-		else
-		{
-			m_zoomValue = GetFHUDConfig().minimapZoomExterior;
-		}
-		if ( m_zoomValue <= 0 )
-		{
-			m_zoomValue = MINIMAP_EXTERIOR_ZOOM;
-		}
-		hud = (CR4ScriptedHud)theGame.GetHud();
-		if ( hud )
-		{
-			hud.SetMinimapZoom( m_zoomValue );
-		}
-		SetZoom( m_zoomValue, true );
-	}
-	//---=== modFriendlyHUD ===---
+
 	
 	event  OnTick( timeDelta : float )
 	{
@@ -374,9 +346,7 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 		hud = (CR4ScriptedHud)theGame.GetHud();
 		if ( hud )
 		{
-			//---=== modFriendlyHUD ===---
-			hud.SetMinimapZoom( GetFHUDConfig().minimapZoomInterior );
-			//---=== modFriendlyHUD ===---
+			hud.SetMinimapZoom( MINIMAP_INTERIOR_ZOOM );
 		}
 	}
 
@@ -390,9 +360,7 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 		hud = (CR4ScriptedHud)theGame.GetHud();
 		if ( hud )
 		{
-			//---=== modFriendlyHUD ===---
-			hud.SetMinimapZoom( GetFHUDConfig().minimapZoomExterior );
-			//---=== modFriendlyHUD ===---
+			hud.SetMinimapZoom( MINIMAP_EXTERIOR_ZOOM );
 		}
 	}
 	
@@ -403,9 +371,7 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 		hud = (CR4ScriptedHud)theGame.GetHud();
 		if( hud )
 		{
-			//---=== modFriendlyHUD ===---
-			hud.SetMinimapZoom( GetFHUDConfig().minimapZoomBoat );
-			//---=== modFriendlyHUD ===---
+			hud.SetMinimapZoom( MINIMAP_BOAT_ZOOM );
 		}
 	}
 
@@ -416,9 +382,7 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 		hud = (CR4ScriptedHud)theGame.GetHud();
 		if( hud )
 		{
-			//---=== modFriendlyHUD ===---
-			hud.SetMinimapZoom( GetFHUDConfig().minimapZoomExterior );
-			//---=== modFriendlyHUD ===---
+			hud.SetMinimapZoom( MINIMAP_EXTERIOR_ZOOM );
 		}
 	}
 	

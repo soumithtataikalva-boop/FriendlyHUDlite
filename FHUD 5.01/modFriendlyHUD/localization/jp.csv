@@ -30,13 +30,6 @@
 2110365041|        |option_fhud_doNotShowLevels|敵のレベルを表示しない
 2110365042|        |option_fhud_dontTouchMySwords|剣の持ち替えと自動納刀を許可しない
 2110365046|        |option_fhud_fadeOutTimeSeconds|モジュール非表示までの遅延時間(秒)
-2110365049|        |panel_fhud_map|地図とミニマップ
-2110365050|        |option_fhud_mapUnlimitedZoom|エリア地図のズームを無制限にする
-2110365051|        |option_fhud_mapZoomMinCoef|エリア地図の最小ズーム
-2110365052|        |option_fhud_mapZoomMaxCoef|エリア地図の最大ズーム
-2110365053|        |option_fhud_minimapZoomExterior|屋外ミニマップのズーム
-2110365054|        |option_fhud_minimapZoomInterior|屋内ミニマップのズーム
-2110365055|        |option_fhud_minimapZoomBoat|船のミニマップのズーム
 2110365056|        |option_fhud_defaultDisplayMode|デフォルトの表示モード
 2110365057|        |preset_value_fhud_displayMode_potions|霊薬
 2110365058|        |preset_value_fhud_displayMode_bombs|爆薬
@@ -70,7 +63,6 @@
 2110365090|        |preset_value_fhud_vanilla|バニラ
 2110365091|        |preset_Mods_friendly_hud_fhud_markers|3Dマーカーのプリセット
 2110365092|        |preset_Mods_friendly_hud_fhud_quick_items|クイックアイテムのプリセット
-2110365093|        |preset_Mods_friendly_hud_fhud_map|地図のプリセット
 2110365094|        |preset_Mods_friendly_hud_fhud_inventory|所持品のプリセット
 2110365095|        |option_fhud_showTrueItemPrice|アイテムの価格比較の表示
 2110365096|        |option_fhud_stashItemQuantity|倉庫のアイテム数の表示

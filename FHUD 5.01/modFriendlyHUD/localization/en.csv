@@ -30,13 +30,6 @@
 2110365041|        |option_fhud_doNotShowLevels|Hide enemy levels
 2110365042|        |option_fhud_dontTouchMySwords|Disallow switching and auto-sheathing of swords
 2110365046|        |option_fhud_fadeOutTimeSeconds|Modules fade out time (seconds)
-2110365049|        |panel_fhud_map|Map and minimap
-2110365050|        |option_fhud_mapUnlimitedZoom|Area map unlimited zoom
-2110365051|        |option_fhud_mapZoomMinCoef|Area map min zoom
-2110365052|        |option_fhud_mapZoomMaxCoef|Area map max zoom
-2110365053|        |option_fhud_minimapZoomExterior|Minimap exterior zoom
-2110365054|        |option_fhud_minimapZoomInterior|Minimap interior zoom
-2110365055|        |option_fhud_minimapZoomBoat|Minimap boat zoom
 2110365056|        |option_fhud_defaultDisplayMode|Default display mode
 2110365057|        |preset_value_fhud_displayMode_potions|Potions
 2110365058|        |preset_value_fhud_displayMode_bombs|Bombs
@@ -70,7 +63,6 @@
 2110365090|        |preset_value_fhud_vanilla|Vanilla
 2110365091|        |preset_Mods_friendly_hud_fhud_markers|3D markers presets
 2110365092|        |preset_Mods_friendly_hud_fhud_quick_items|Quick items presets
-2110365093|        |preset_Mods_friendly_hud_fhud_map|Map presets
 2110365094|        |preset_Mods_friendly_hud_fhud_inventory|Inventory presets
 2110365095|        |option_fhud_showTrueItemPrice|Show item price comparison
 2110365096|        |option_fhud_stashItemQuantity|Show how many items you have in stash
