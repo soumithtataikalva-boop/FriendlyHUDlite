@@ -4,10 +4,10 @@
     <Group id="fhudHUD" displayName="Mods.friendly_hud.fhud_hud">
 		<PresetsArray>
 			<Preset id="0" displayName="fhud_defaults">
-				<Entry varId="fhudEnableCombatModules" value="true"/>
-				<Entry varId="fhudEnableCombatModulesOnUnsheathe" value="false"/>
+				<Entry varId="fhudEnableCombatModules" value="false"/>
+				<Entry varId="fhudEnableCombatModulesOnUnsheathe" value="true"/>
 				<Entry varId="fhudEnableWolfModuleOnVitalityChanged" value="true"/>
-				<Entry varId="fhudEnableWitcherSensesModules" value="false"/>
+				<Entry varId="fhudEnableWitcherSensesModules" value="true"/>
 				<Entry varId="fhudEnableMeditationModules" value="true"/>
 				<Entry varId="fhudEnableRadialMenuModules" value="true"/>
 				<Entry varId="fhudHideJournalUpdates" value="false"/>
@@ -50,7 +50,8 @@
 				<Entry varId="fhudMarkersAltTextSize" value="15"/>
 				<Entry varId="fhudMarkerMinDistance" value="4"/>
 				<Entry varId="fhudMarkerMaxDistance" value="100"/>
-				<Entry varId="fhudCompassMarkersEnabled" value="false"/>
+				<Entry varId="fhudCompassMarkersEnabled" value="true"/>
+				<Entry varId="fhudMarkerCompassDisplayMode" value="0"/>
 				<Entry varId="fhudProject3DMarkersOnCompass" value="true"/>
 				<Entry varId="fhudCompassScreenPosY" value="1.0"/>
 				<Entry varId="fhudMarkersFadeOutDelay" value="3"/>

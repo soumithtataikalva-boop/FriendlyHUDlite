@@ -1,8 +1,8 @@
 [fhudHUD]
-fhudEnableCombatModules=true
-fhudEnableCombatModulesOnUnsheathe=false
+fhudEnableCombatModules=false
+fhudEnableCombatModulesOnUnsheathe=true
 fhudEnableWolfModuleOnVitalityChanged=true
-fhudEnableWitcherSensesModules=false
+fhudEnableWitcherSensesModules=true
 fhudEnableMeditationModules=true
 fhudEnableRadialMenuModules=true
 fhudHideJournalUpdates=false
@@ -21,7 +21,8 @@ fhudMarkersDistanceTextSize=15
 fhudMarkersAltTextSize=15
 fhudMarkerMinDistance=4
 fhudMarkerMaxDistance=100
-fhudCompassMarkersEnabled=false
+fhudCompassMarkersEnabled=true
+fhudMarkerCompassDisplayMode=0
 fhudProject3DMarkersOnCompass=true
 fhudCompassScreenPosY=1.0
 fhudMarkersFadeOutDelay=3
