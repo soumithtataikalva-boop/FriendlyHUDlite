@@ -3,7 +3,7 @@
 Command: `python3 "FHUD 5.01/tests/validate_package.py"` from the repository root.
 
 - 69 package files retained; the Cat vision override and standalone debug command were intentionally removed.
-- 41 untouched package files remain byte-identical to the supplied mod.
+- 40 untouched package files remain byte-identical to the supplied mod.
 - All 29 original vanilla/mod script hash pairs verified, including the removed override's provenance.
 - Both XML files parse; 8 menu sections and 85 settings remain, with unique setting IDs per section.
 - Delimiters balance in all 35 remaining scripts.
@@ -35,3 +35,11 @@ Removed package helpers were checked for active callers in the supplied runtime 
 - Engine compilation/runtime testing remains outstanding.
 
 Radial category cycling now retains its original view when all alternatives are empty or disallowed in combat. The regression test covers both Buffs-cycling preferences and unavailable oils. This change only adds logic to the FriendlyHUD helper; vanilla files and restored vanilla code are unchanged.
+
+## Behavior-preserving refactor checks
+
+The current hosted suite has 23 passing tests. Shared marker styling matches pre-refactor outputs for every original case, quest difficulty, active-quest highlight state and compass direction, including unknown/default cases. The saved fixture contains 111 marker states and 10 compass IDs. Projection checks preserve both public boolean contracts. Marker visibility retains category priority and pin/force overrides. Item lists retain substring-first matching, missing slots, silver-before-steel oil priority and compact controller selection; each tag is fetched once per list initialization.
+
+Settings stages expand to the identical original statement sequence, including the positions of module refresh, zoom validation/update, forced-marker reset and cache notification. Interaction values retain their persisted numeric meanings. New-item classification passes all 32,768 combinations of its predicates across all categories; classification is deferred until needed, and category checks stop after clearing the flag.
+
+The custom default-tab and forced-marker reset helpers were renamed with their internal callers. No vanilla code was removed. The 93 vanilla diagnostic definitions still match the supplied baseline. Review diff regenerated; whitespace checks pass. These checks do not replace game compilation or runtime testing.

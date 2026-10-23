@@ -1,6 +1,10 @@
 ﻿//---=== modFriendlyHUD ===---
 class CModFriendlyHUDConfig
 {
+	const var interactionShowAll : int; default interactionShowAll = 0;
+	const var interactionShowIcon : int; default interactionShowIcon = 1;
+	const var interactionShowText : int; default interactionShowText = 2;
+
 	//--- Configurable section begin ---
 	
 	//---=== HUD Modules ===---
@@ -162,7 +166,7 @@ class CModFriendlyHUDConfig
 		UpdateUserSettings();
 	}
 	
-	public function InitToggleableValues()
+	public function ResetForcedMarkerVisibility()
 	{
 		forceShowMarkers = false;
 	}
@@ -216,7 +220,19 @@ class CModFriendlyHUDConfig
 	//Update user settings
 	public function UpdateUserSettings()
 	{
-		//modules
+		ReadHUDSettings();
+		ReadMarkerSettings();
+		ReadQuickItemSettings();
+		ReadInventorySettings();
+		ReadInteractionSettings();
+		ReadMiscSettings();
+		ReadMapSettings();
+		ResetForcedMarkerVisibility();
+		Mod3DMarkersSignalCache3DMarkers( true );
+	}
+
+	private function ReadHUDSettings()
+	{
 		enableCombatModules = theGame.GetInGameConfigWrapper().GetVarValue('fhudHUD', 'fhudEnableCombatModules');
 		enableCombatModulesOnUnsheathe = theGame.GetInGameConfigWrapper().GetVarValue('fhudHUD', 'fhudEnableCombatModulesOnUnsheathe');
 		enableWolfModuleOnVitalityChanged = theGame.GetInGameConfigWrapper().GetVarValue('fhudHUD', 'fhudEnableWolfModuleOnVitalityChanged');
@@ -226,7 +242,10 @@ class CModFriendlyHUDConfig
 		hideJournalUpdates = theGame.GetInGameConfigWrapper().GetVarValue('fhudHUD', 'fhudHideJournalUpdates');
 		fadeOutTimeSeconds = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudHUD', 'fhudFadeOutTimeSeconds'));
 		CheckModules();
-		//3D markers
+	}
+
+	private function ReadMarkerSettings()
+	{
 		markersDistanceTextSize = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudMarkers', 'fhudMarkersDistanceTextSize'));
 		markersDescriptionTextSize = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudMarkers', 'fhudMarkersDescriptionTextSize'));
 		markersAltTextSize = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudMarkers', 'fhudMarkersAltTextSize'));
@@ -265,7 +284,10 @@ class CModFriendlyHUDConfig
 		markerPinWithUserMarker = theGame.GetInGameConfigWrapper().GetVarValue('fhudMarkers', 'fhudMarkerPinWithUserMarker');
 		markersSyncWithMap = theGame.GetInGameConfigWrapper().GetVarValue('fhudMarkers', 'fhudMarkersSyncWithMap');
 		markersTransparency = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMarkers', 'fhudMarkersTransparency'));
-		//quick items
+	}
+
+	private function ReadQuickItemSettings()
+	{
 		showItemsInSlowdownMode = theGame.GetInGameConfigWrapper().GetVarValue('fhudQuickItems', 'fhudShowItemsInSlowdownMode');
 		enableItemsInRadialMenu = theGame.GetInGameConfigWrapper().GetVarValue('fhudQuickItems', 'fhudEnableItemsInRadialMenu');
 		defaultDisplayMode = GetBuffsDisplayMode();
@@ -273,7 +295,10 @@ class CModFriendlyHUDConfig
 		enableWASD = theGame.GetInGameConfigWrapper().GetVarValue('fhudQuickItems', 'fhudEnableWASD');
 		applyOilToDrawnSword = theGame.GetInGameConfigWrapper().GetVarValue('fhudQuickItems', 'fhudApplyOilToDrawnSword');
 		radialMenuTimescale = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudQuickItems', 'fhudRadialMenuTimescale'));
-		//inventory
+	}
+
+	private function ReadInventorySettings()
+	{
 		resetNewItemsInCategories.Clear();
 		if(theGame.GetInGameConfigWrapper().GetVarValue('fhudInventory', 'fhudResetNewItemsIngredients'))
 			resetNewItemsInCategories.PushBack("Ingredients");
@@ -293,7 +318,10 @@ class CModFriendlyHUDConfig
 		showStashItemQuantity = theGame.GetInGameConfigWrapper().GetVarValue('fhudInventory', 'fhudShowStashItemQuantity');
 		showRecyclingParts = theGame.GetInGameConfigWrapper().GetVarValue('fhudInventory', 'fhudShowRecyclingParts');
 		showItemCountWhenCrafting = theGame.GetInGameConfigWrapper().GetVarValue('fhudInventory', 'fhudShowItemCountWhenCrafting');
-		//interactions
+	}
+
+	private function ReadInteractionSettings()
+	{
 		disableAllInteractionPrompts = theGame.GetInGameConfigWrapper().GetVarValue('fhudInteractions', 'fhudDisableAllInteractionPrompts');
 		talkBubbleMode = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudInteractions', 'Virtual_fhudTalkBubbleMode'));
 		talkButtonMode = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudInteractions', 'Virtual_fhudTalkButtonMode'));
@@ -304,12 +332,18 @@ class CModFriendlyHUDConfig
 		hideAnimalNames = theGame.GetInGameConfigWrapper().GetVarValue('fhudInteractions', 'fhudHideAnimalNames');
 		hideHerbNames = theGame.GetInGameConfigWrapper().GetVarValue('fhudInteractions', 'fhudHideHerbNames');
 		hideNPCQuestMarkers = theGame.GetInGameConfigWrapper().GetVarValue('fhudInteractions', 'fhudHideNPCQuestMarkers');
-		//misc
+	}
+
+	private function ReadMiscSettings()
+	{
 		doNotShowDamage = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudDoNotShowDamage');
 		doNotShowLevels = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'Virtual_fhudDoNotShowLevels'));
 		showBossHP = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudShowBossHP');
 		silentJournalUpdates = theGame.GetInGameConfigWrapper().GetVarValue('fhudMisc', 'fhudSilentJournalUpdates');
-		//zooms
+	}
+
+	private function ReadMapSettings()
+	{
 		mapUnlimitedZoom = theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapUnlimitedZoom');
 		mapZoomMinCoef = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapZoomMinCoef'));
 		mapZoomMaxCoef = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMapZoomMaxCoef'));
@@ -318,9 +352,6 @@ class CModFriendlyHUDConfig
 		minimapZoomBoat = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('fhudMap', 'fhudMinimapZoomBoat'));
 		VerifyZoomCoefs();
 		UpdateMinimapZoom();
-		//update toggleable values
-		InitToggleableValues();
-		Mod3DMarkersSignalCache3DMarkers( true );
 	}
 	private function CheckModules()
 	{
@@ -389,9 +420,9 @@ class CModFriendlyHUDConfig
 			return false;
 		if(actionName == "Talk")
 		{
-			return (talkButtonMode == 0 || talkButtonMode == 1);
+			return (talkButtonMode == interactionShowAll || talkButtonMode == interactionShowIcon);
 		}
-		return (interactionButtonMode == 0 || interactionButtonMode == 1);
+		return (interactionButtonMode == interactionShowAll || interactionButtonMode == interactionShowIcon);
 	}
 	public function ShowInteractionText(actionName : string) : bool
 	{
@@ -399,9 +430,9 @@ class CModFriendlyHUDConfig
 			return false;
 		if(actionName == "Talk")
 		{
-			return (talkButtonMode == 0 || talkButtonMode == 2);
+			return (talkButtonMode == interactionShowAll || talkButtonMode == interactionShowText);
 		}
-		return (interactionButtonMode == 0 || interactionButtonMode == 2);
+		return (interactionButtonMode == interactionShowAll || interactionButtonMode == interactionShowText);
 	}
 	public function ShowEntityIcon(actionName : name) : bool
 	{
@@ -409,9 +440,9 @@ class CModFriendlyHUDConfig
 			return false;
 		if(actionName == 'Talk')
 		{
-			return (talkBubbleMode == 0 || talkBubbleMode == 1);
+			return (talkBubbleMode == interactionShowAll || talkBubbleMode == interactionShowIcon);
 		}
-		return (interactionButtonMode == 0 || interactionButtonMode == 1);
+		return (interactionButtonMode == interactionShowAll || interactionButtonMode == interactionShowIcon);
 	}
 	public function ShowEntityText(actionName : name) : bool
 	{
@@ -419,9 +450,9 @@ class CModFriendlyHUDConfig
 			return false;
 		if(actionName == 'Talk')
 		{
-			return (talkBubbleMode == 0 || talkBubbleMode == 2);
+			return (talkBubbleMode == interactionShowAll || talkBubbleMode == interactionShowText);
 		}
-		return (interactionButtonMode == 0 || interactionButtonMode == 2);
+		return (interactionButtonMode == interactionShowAll || interactionButtonMode == interactionShowText);
 	}
 	public function GetBuffsDisplayMode() : EBuffsDisplayMode
 	{
@@ -440,7 +471,7 @@ class CModFriendlyHUDConfig
 		}
 		return BDM_ShowBuffs;
 	}
-	public function GetDefautltInventoryTab() : EInventoryFilterType
+	public function GetDefaultInventoryTab() : EInventoryFilterType
 	{
 		var cfgVal : int;
 		cfgVal = StringToInt(theGame.GetInGameConfigWrapper().GetVarValue('fhudInventory', 'Virtual_fhudDefaultInventoryTab'));

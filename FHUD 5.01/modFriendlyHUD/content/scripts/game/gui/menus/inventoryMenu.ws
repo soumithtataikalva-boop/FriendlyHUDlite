@@ -365,7 +365,7 @@ class CR4InventoryMenu extends CR4MenuBase
 		//---=== modFriendlyHUD ===---
 		if( _currentState == IMS_Player )
 		{
-			defaultTab = GetFHUDConfig().GetDefautltInventoryTab();
+			defaultTab = GetFHUDConfig().GetDefaultInventoryTab();
 			_playerInv.SetFilterType( defaultTab );
 			UpdateInventoryFilter( defaultTab );
 		}
@@ -839,6 +839,7 @@ class CR4InventoryMenu extends CR4MenuBase
 						{
 							uiData.isNew = false;
 							curInventory.SetInventoryItemUIData( item, uiData );
+							break;
 						}
 					}
 				}
@@ -851,9 +852,7 @@ class CR4InventoryMenu extends CR4MenuBase
 		var isJunk     		: bool;
 		var isTrophy   		: bool;
 		
-		isTrophy = thePlayer.inv.IsItemTrophy( item );
-		isJunk = ( !_playerInv.isItemReadable(item) && !_playerInv.isFoodItem(item) && ! _playerInv.isIngredientItem( item ) && !_playerInv.isWeaponItem( item ) && !_playerInv.isArmorItem( item ) && !_playerInv.isAlchemyItem( item ) && !_playerInv.isUpgradeItem( item ) && !_playerInv.isItemSchematic( item ) && !_playerInv.isToolItem(item) && !_playerInv.isHorseItem( item ) && !isTrophy );
-		
+
 		if ( categoryName == "Ingredients" )
 		{
 			return _playerInv.isIngredientItem( item ) && !_playerInv.IsItemDye( item );
@@ -864,6 +863,8 @@ class CR4InventoryMenu extends CR4MenuBase
 		}
 		else if ( categoryName == "Others" )
 		{
+			isTrophy = thePlayer.inv.IsItemTrophy( item );
+			isJunk = ( !_playerInv.isItemReadable(item) && !_playerInv.isFoodItem(item) && ! _playerInv.isIngredientItem( item ) && !_playerInv.isWeaponItem( item ) && !_playerInv.isArmorItem( item ) && !_playerInv.isAlchemyItem( item ) && !_playerInv.isUpgradeItem( item ) && !_playerInv.isItemSchematic( item ) && !_playerInv.isToolItem(item) && !_playerInv.isHorseItem( item ) && !isTrophy );
 			return ( isJunk || _playerInv.isItemReadable( item ) ) && !_playerInv.isQuickslotItem( item ) && !isTrophy;
 		}
 		else if ( categoryName == "Edibles" )

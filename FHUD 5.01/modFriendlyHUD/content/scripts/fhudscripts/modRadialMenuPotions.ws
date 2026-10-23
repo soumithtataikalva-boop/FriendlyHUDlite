@@ -142,58 +142,43 @@ class CModRadialMenuPotions
 		theInput.UnregisterListener( this, 'ItemsPadUse' );
 	}
 
-	private function PadUseCurrentPotion()
+	private function GetValidItemAtIndex( items : array< SItemUniqueId >, index : int ) : SItemUniqueId
 	{
-		var i, j : int;
-		
-		for( i = 0; i < potions.Size(); i +=1 )
+		var i, validIndex : int;
+		for( i = 0; i < items.Size(); i += 1 )
 		{
-			if ( playerInventory.IsIdValid( potions[i] )  )
+			if( playerInventory.IsIdValid( items[i] ) )
 			{
-				if ( padCurrent == j )
-				{
-					ConsumePotion( potions[i] );
-					return;
-				}
-				j += 1;
+				if( validIndex == index )
+					return items[i];
+				validIndex += 1;
 			}
 		}
+		return GetInvalidUniqueId();
+	}
+
+	private function PadUseCurrentPotion()
+	{
+		var item : SItemUniqueId;
+		item = GetValidItemAtIndex( potions, padCurrent );
+		if( playerInventory.IsIdValid( item ) )
+			ConsumePotion( item );
 	}
 	
 	private function PadUseCurrentBomb()
 	{
-		var i, j : int;
-		
-		for( i = 0; i < bombs.Size(); i +=1 )
-		{
-			if ( playerInventory.IsIdValid( bombs[i] )  )
-			{
-				if ( padCurrent == j )
-				{
-					EquipBomb( bombs[i] );
-					return;
-				}
-				j += 1;
-			}
-		}
+		var item : SItemUniqueId;
+		item = GetValidItemAtIndex( bombs, padCurrent );
+		if( playerInventory.IsIdValid( item ) )
+			EquipBomb( item );
 	}
 	
 	private function PadUseCurrentOil()
 	{
-		var i, j : int;
-		
-		for( i = 0; i < oils.Size(); i +=1 )
-		{
-			if ( playerInventory.IsIdValid( oils[i] )  )
-			{
-				if ( padCurrent == j )
-				{
-					ApplyOil( oils[i] );
-					return;
-				}
-				j += 1;
-			}
-		}
+		var item : SItemUniqueId;
+		item = GetValidItemAtIndex( oils, padCurrent );
+		if( playerInventory.IsIdValid( item ) )
+			ApplyOil( item );
 	}
 	
 	event OnItemsPadUse( action : SInputAction )
@@ -547,97 +532,65 @@ class CModRadialMenuPotions
 		}
 	}
 	
+	private function FindItemByName( items : array< SItemUniqueId >, itemName : string ) : SItemUniqueId
+	{
+		var i : int;
+		for( i = 0; i < items.Size(); i += 1 )
+		{
+			if( StrContains( NameToString( playerInventory.GetItemName( items[i] ) ), itemName ) )
+				return items[i];
+		}
+		return GetInvalidUniqueId();
+	}
+
 	private function GetInventoryPotions()
 	{
-		var i		: int;
-		var invItem	: SItemUniqueId;
-		
+		var i : int;
+		var invItem : SItemUniqueId;
+		var items : array< SItemUniqueId >;
+		items = playerInventory.GetItemsByTag( 'Potion' );
 		for( i = 0; i < potionNames.Size(); i += 1 )
 		{
-			invItem = GetPotionByName( potionNames[i] );
+			invItem = FindItemByName( items, potionNames[i] );
 			potions.PushBack( invItem );
 		}
 	}
 
-	private function GetPotionByName( potionName : string ) : SItemUniqueId
-	{
-		var playerPotions	: array< SItemUniqueId >;
-		var i				: int;
-		
-		playerPotions = playerInventory.GetItemsByTag( 'Potion' );
-		for( i = 0; i < playerPotions.Size(); i += 1 )
-		{
-			if( StrContains( NameToString( playerInventory.GetItemName( playerPotions[i] ) ), potionName ) )
-			{
-				return playerPotions[i];
-			}
-		}
-		return GetInvalidUniqueId();
-	}
+
 	
 	private function GetInventoryBombs()
 	{
-		var i		: int;
-		var invItem	: SItemUniqueId;
-		
+		var i : int;
+		var invItem : SItemUniqueId;
+		var items : array< SItemUniqueId >;
+		items = playerInventory.GetItemsByTag( 'Petard' );
 		for( i = 0; i < bombNames.Size(); i += 1 )
 		{
-			invItem = GetBombByName( bombNames[i] );
+			invItem = FindItemByName( items, bombNames[i] );
 			bombs.PushBack( invItem );
 		}
 	}
 
-	private function GetBombByName( bombName : string ) : SItemUniqueId
-	{
-		var playerBombs	: array< SItemUniqueId >;
-		var i			: int;
-		
-		playerBombs = playerInventory.GetItemsByTag( 'Petard' );
-		for( i = 0; i < playerBombs.Size(); i += 1 )
-		{
-			if( StrContains( NameToString( playerInventory.GetItemName( playerBombs[i] ) ), bombName ) )
-			{
-				return playerBombs[i];
-			}
-		}
-		return GetInvalidUniqueId();
-	}
+
 	
 	private function GetInventoryOils()
 	{
-		var i		: int;
-		var invItem	: SItemUniqueId;
-		
+		var i : int;
+		var invItem : SItemUniqueId;
+		var items : array< SItemUniqueId >;
+		var steelItems : array< SItemUniqueId >;
+		items = playerInventory.GetItemsByTag( 'SilverOil' );
+		steelItems = playerInventory.GetItemsByTag( 'SteelOil' );
 		for( i = 0; i < oilNames.Size(); i += 1 )
 		{
-			invItem = GetOilByName( oilNames[i] );
+			invItem = FindItemByName( items, oilNames[i] );
+			if( !playerInventory.IsIdValid( invItem ) )
+				invItem = FindItemByName( steelItems, oilNames[i] );
 			oils.PushBack( invItem );
 		}
 	}
 
-	private function GetOilByName( oilName : string ) : SItemUniqueId
-	{
-		var playerOils	: array< SItemUniqueId >;
-		var i			: int;
-		
-		playerOils = playerInventory.GetItemsByTag( 'SilverOil' );
-		for( i = 0; i < playerOils.Size(); i += 1 )
-		{
-			if( StrContains( NameToString( playerInventory.GetItemName( playerOils[i] ) ), oilName ) )
-			{
-				return playerOils[i];
-			}
-		}
-		playerOils = playerInventory.GetItemsByTag( 'SteelOil' );
-		for( i = 0; i < playerOils.Size(); i += 1 )
-		{
-			if( StrContains( NameToString( playerInventory.GetItemName( playerOils[i] ) ), oilName ) )
-			{
-				return playerOils[i];
-			}
-		}
-		return GetInvalidUniqueId();
-	}
+
 	
 	private function GetKeyStr( i : int ) : string
 	{

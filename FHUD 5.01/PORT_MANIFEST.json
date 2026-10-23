@@ -227,6 +227,10 @@
     {
       "path": "fhudscripts/modRadialMenuPotions.ws",
       "reason": "Retain the current radial view when no alternative item category is valid or permitted in combat."
+    },
+    {
+      "path": "game/gui/menus/inventoryMenu.ws",
+      "reason": "Rename the FriendlyHUD default-tab getter, defer junk classification until needed and stop checking reset categories once its new-item flag is cleared; vanilla code preserved."
     }
   ],
   "removed_game_files": [

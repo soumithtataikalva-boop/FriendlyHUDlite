@@ -728,6 +728,13 @@ class CModMarkers
 			return true;
 	}
 
+	private function ConvertViewRatioToScaleform( out screenPos : Vector )
+	{
+		screenPos.X = (screenPos.X + 1) / 2;
+		screenPos.Y = (screenPos.Y + 1) / 2;
+		screenPos = hud.GetScaleformPoint( screenPos.X, screenPos.Y );
+	}
+
 	function GetScreenPos( out screenPos : Vector, worldPos : Vector, optional noOppositeCamera : bool ) : bool
 	{
 		if( !theCamera.WorldVectorToViewRatio( worldPos, screenPos.X, screenPos.Y ) )
@@ -736,9 +743,7 @@ class CModMarkers
 				return false;
 			GetOppositeCameraScreenPos( worldPos, screenPos.X, screenPos.Y );
 		}
-		screenPos.X = ( screenPos.X + 1 ) / 2;
-		screenPos.Y = ( screenPos.Y + 1 ) / 2;
-		screenPos = hud.GetScaleformPoint( screenPos.X, screenPos.Y );
+		ConvertViewRatioToScaleform( screenPos );
 		return true;
 	}
 	
@@ -751,9 +756,7 @@ class CModMarkers
 			oppositeCamera = true;
 			GetOppositeCameraScreenPos( worldPos, screenPos.X, screenPos.Y );
 		}
-		screenPos.X = ( screenPos.X + 1 ) / 2;
-		screenPos.Y = ( screenPos.Y + 1 ) / 2;
-		screenPos = hud.GetScaleformPoint( screenPos.X, screenPos.Y );
+		ConvertViewRatioToScaleform( screenPos );
 		return oppositeCamera;
 	}
 	
@@ -862,7 +865,7 @@ class CModMarkers
 		return "";
 	}
 
-	function GetCompassIcon( ID : int ) : string
+	function BuildCompassIcon( ID : int, suffix : string, size : int ) : string
 	{
 		ID -= COMPASS_START_ID;
 		
@@ -871,47 +874,31 @@ class CModMarkers
 			case 0:
 				return "";
 			case 1:
-				return "<img src=\"img://icons/quests/compass_N.png\" width=\"" + GetCompassIconSize() + "\" height=\"" + GetCompassIconSize() + "\">";
+				return "<img src=\"img://icons/quests/compass_N" + suffix + ".png\" width=\"" + size + "\" height=\"" + size + "\">";
 			case 2:
 				return "";
 			case 3:
-				return "<img src=\"img://icons/quests/compass_W.png\" width=\"" + GetCompassIconSize() + "\" height=\"" + GetCompassIconSize() + "\">";
+				return "<img src=\"img://icons/quests/compass_W" + suffix + ".png\" width=\"" + size + "\" height=\"" + size + "\">";
 			case 4:
-				return "<img src=\"img://icons/quests/compass_E.png\" width=\"" + GetCompassIconSize() + "\" height=\"" + GetCompassIconSize() + "\">";
+				return "<img src=\"img://icons/quests/compass_E" + suffix + ".png\" width=\"" + size + "\" height=\"" + size + "\">";
 			case 5:
 				return "";
 			case 6:
-				return "<img src=\"img://icons/quests/compass_S.png\" width=\"" + GetCompassIconSize() + "\" height=\"" + GetCompassIconSize() + "\">";
+				return "<img src=\"img://icons/quests/compass_S" + suffix + ".png\" width=\"" + size + "\" height=\"" + size + "\">";
 			case 7:
 				return "";
 		}
 		return "";
 	}
+
+	function GetCompassIcon( ID : int ) : string
+	{
+		return BuildCompassIcon( ID, "", GetCompassIconSize() );
+	}
 	
 	function GetCompassIcon60( ID : int ) : string
 	{
-		ID -= COMPASS_START_ID;
-		
-		switch( ID )
-		{
-			case 0:
-				return "";
-			case 1:
-				return "<img src=\"img://icons/quests/compass_N_60.png\" width=\"" + GetIconSize() + "\" height=\"" + GetIconSize() + "\">";
-			case 2:
-				return "";
-			case 3:
-				return "<img src=\"img://icons/quests/compass_W_60.png\" width=\"" + GetIconSize() + "\" height=\"" + GetIconSize() + "\">";
-			case 4:
-				return "<img src=\"img://icons/quests/compass_E_60.png\" width=\"" + GetIconSize() + "\" height=\"" + GetIconSize() + "\">";
-			case 5:
-				return "";
-			case 6:
-				return "<img src=\"img://icons/quests/compass_S_60.png\" width=\"" + GetIconSize() + "\" height=\"" + GetIconSize() + "\">";
-			case 7:
-				return "";
-		}
-		return "";
+		return BuildCompassIcon( ID, "_60", GetIconSize() );
 	}
 	
 	function GetCompassAltText( ID : int ) : string
@@ -971,280 +958,471 @@ class CModMarkers
 		return "\"img://icons/quests/quest_tracked_white.png\"";
 	}
 	
-	function GetMarkerIcon( marker : SMod3DMarker ) : string
+	function GetMarkerIconStyled( marker : SMod3DMarker, monochrome : bool ) : string
 	{
 		var iconPath : string;
 	
 		if( marker.isActiveQuest )
 		{
-			if( marker.isHighlighted )
-				iconPath = "<img src=\"img://icons/quests/quest_tracked_orange.png\"";
+			if( monochrome )
+			{
+				iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
+			}
 			else
-				iconPath = "<img src=\"img://icons/quests/quest_tracked_orange_sub.png\"";
+			{
+				if( marker.isHighlighted )
+					iconPath = "<img src=\"img://icons/quests/quest_tracked_orange.png\"";
+				else
+					iconPath = "<img src=\"img://icons/quests/quest_tracked_orange_sub.png\"";
+			}
 		}
 		else
 		{
 			switch( marker.visibleType )
 			{
-				//quests
 				case 'QuestReturn':
-					iconPath = "<img src=\"img://icons/quests/quest_question_yellow.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/quest_question_yellow.png\"";
 					break;
 				case 'MonsterQuest':
 				case 'TreasureQuest':
 				case 'StoryQuest':
 				case 'ChapterQuest':
 				case 'SideQuest':
-					iconPath = "<img src=" + GetQuestIconByLevel( marker );
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/quest_tracked_gray.png\"";
+					else
+						iconPath = "<img src=" + GetQuestIconByLevel( marker );
 					break;
 				case 'QuestAvailable':
-					iconPath = "<img src=\"img://icons/quests/quest_exclamation_yellow.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/quest_exclamation_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/quest_exclamation_yellow.png\"";
 					break;
 				case 'QuestAvailableHoS':
-					iconPath = "<img src=\"img://icons/quests/quest_exclamation_blue.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/quest_exclamation_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/quest_exclamation_blue.png\"";
 					break;
 				case 'QuestAvailableBaW':
 				case 'QuestBelgard':
 				case 'QuestCoronata':
 				case 'QuestVermentino':
-					iconPath = "<img src=\"img://icons/quests/quest_exclamation_orange.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/quest_exclamation_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/quest_exclamation_orange.png\"";
 					break;
 				case 'HorseRace':
 				case 'BoatRace':
-					iconPath = "<img src=\"img://icons/quests/quest_horse_race.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/quest_horse_race_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/quest_horse_race.png\"";
 					break;
-				//utility signs
 				case 'User1':
-					iconPath = "<img src=\"img://icons/quests/user1.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/user1_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/user1.png\"";
 					break;
 				case 'User2':
-					iconPath = "<img src=\"img://icons/quests/user2.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/user2_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/user2.png\"";
 					break;
 				case 'User3':
-					iconPath = "<img src=\"img://icons/quests/user3.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/user3_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/user3.png\"";
 					break;
 				case 'User4':
-					iconPath = "<img src=\"img://icons/quests/user4.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/user4_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/user4.png\"";
 					break;
 				case 'Horse':
-					iconPath = "<img src=\"img://icons/quests/roach.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/roach_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/roach.png\"";
 					break;
 				case 'Boat':
-					iconPath = "<img src=\"img://icons/quests/boat.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/boat_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/boat.png\"";
 					break;
 				case 'RoadSign':
-					iconPath = "<img src=\"img://icons/quests/road_sign.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/road_sign_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/road_sign.png\"";
 					break;
 				case 'Harbor':
-					iconPath = "<img src=\"img://icons/quests/harbor.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/harbor_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/harbor.png\"";
 					break;
 				case 'Entrance':
-					iconPath = "<img src=\"img://icons/quests/cave_entrance.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/cave_entrance_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/cave_entrance.png\"";
 					break;
 				case 'NoticeBoard':
 					iconPath = "<img src=\"img://icons/quests/noticeboard_white.png\"";
 					break;
 				case 'NoticeBoardFull':
-					iconPath = "<img src=\"img://icons/quests/noticeboard_quest.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/noticeboard_quest_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/noticeboard_quest.png\"";
 					break;
 				case 'Whetstone':
-					iconPath = "<img src=\"img://icons/quests/whetstone.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/whetstone_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/whetstone.png\"";
 					break;
 				case 'ArmorRepairTable':
-					iconPath = "<img src=\"img://icons/quests/armor_repair_table.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/armor_repair_table_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/armor_repair_table.png\"";
 					break;
 				case 'WitcherHouse':
-					iconPath = "<img src=\"img://icons/quests/witcher_house.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/witcher_house_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/witcher_house.png\"";
 					break;
 				case 'AlchemyTable':
-					iconPath = "<img src=\"img://icons/quests/alchemy_table.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/alchemy_table_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/alchemy_table.png\"";
 					break;
 				case 'MutagenDismantle':
-					iconPath = "<img src=\"img://icons/quests/mutagen_dismantle.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/mutagen_dismantle_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/mutagen_dismantle.png\"";
 					break;
 				case 'Stables':
-					iconPath = "<img src=\"img://icons/quests/stables.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/stables_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/stables.png\"";
 					break;
 				case 'Bookshelf':
-					iconPath = "<img src=\"img://icons/quests/bookshelf.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/bookshelf_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/bookshelf.png\"";
 					break;
 				case 'Bed':
-					iconPath = "<img src=\"img://icons/quests/bed.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/bed_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/bed.png\"";
 					break;
 				case 'PlayerStash':
 				case 'PlayerStashDiscoverable':
-					iconPath = "<img src=\"img://icons/quests/player_stash.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/player_stash_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/player_stash.png\"";
 					break;
-				//NPCs
 				case 'Cammerlengo':
-					iconPath = "<img src=\"img://icons/quests/cammerlengo.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/cammerlengo_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/cammerlengo.png\"";
 					break;
 				case 'DyeMerchant':
-					iconPath = "<img src=\"img://icons/quests/dye_merchant.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/dye_merchant_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/dye_merchant.png\"";
 					break;
 				case 'WineMerchant':
-					iconPath = "<img src=\"img://icons/quests/wine_merchant.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/wine_merchant_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/wine_merchant.png\"";
 					break;
 				case 'Shopkeeper':
-					iconPath = "<img src=\"img://icons/quests/shopkeeper.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/shopkeeper_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/shopkeeper.png\"";
 					break;
 				case 'Blacksmith':
-					iconPath = "<img src=\"img://icons/quests/blacksmith.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/blacksmith_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/blacksmith.png\"";
 					break;
 				case 'Armorer':
-					iconPath = "<img src=\"img://icons/quests/armorer.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/armorer_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/armorer.png\"";
 					break;
 				case 'Archmaster':
-					iconPath = "<img src=\"img://icons/quests/archmaster.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/archmaster_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/archmaster.png\"";
 					break;
 				case 'Hairdresser':
-					iconPath = "<img src=\"img://icons/quests/hairdresser.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/hairdresser_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/hairdresser.png\"";
 					break;
 				case 'Alchemic':
-					iconPath = "<img src=\"img://icons/quests/alchemist.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/alchemist_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/alchemist.png\"";
 					break;
 				case 'Herbalist':
-					iconPath = "<img src=\"img://icons/quests/herbalist.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/herbalist_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/herbalist.png\"";
 					break;
 				case 'Innkeeper':
-					iconPath = "<img src=\"img://icons/quests/innkeeper.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/innkeeper_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/innkeeper.png\"";
 					break;
 				case 'Enchanter':
-					iconPath = "<img src=\"img://icons/quests/enchanter.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/enchanter_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/enchanter.png\"";
 					break;
 				case 'Torch':
-					iconPath = "<img src=\"img://icons/quests/torch.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/torch_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/torch.png\"";
 					break;
 				case 'Prostitute':
-					iconPath = "<img src=\"img://icons/quests/prostitute.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/prostitute_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/prostitute.png\"";
 					break;
-				//POIs
 				case 'NotDiscoveredPOI':
 					iconPath = "<img src=\"img://icons/quests/quest_question_white.png\"";
 					break;
 				case 'MonsterNest':
-					iconPath = "<img src=\"img://icons/quests/monster_nest.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/monster_nest_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/monster_nest.png\"";
 					break;
 				case 'MonsterNestDisabled':
 					iconPath = "<img src=\"img://icons/quests/monster_nest_disabled.png\"";
 					break;
 				case 'InfestedVineyard':
-					iconPath = "<img src=\"img://icons/quests/infested_vineyard.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/infested_vineyard_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/infested_vineyard.png\"";
 					break;
 				case 'InfestedVineyardDisabled':
 					iconPath = "<img src=\"img://icons/quests/infested_vineyard_disabled.png\"";
 					break;
 				case 'PlaceOfPower':
-					iconPath = "<img src=\"img://icons/quests/place_of_power.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/place_of_power_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/place_of_power.png\"";
 					break;
 				case 'PlaceOfPowerDisabled':
 					iconPath = "<img src=\"img://icons/quests/place_of_power_disabled.png\"";
 					break;
 				case 'TreasureHuntMappin':
-					iconPath = "<img src=\"img://icons/quests/quest_treasure.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/quest_treasure_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/quest_treasure.png\"";
 					break;
 				case 'TreasureHuntMappinDisabled':
 					iconPath = "<img src=\"img://icons/quests/quest_treasure_disabled.png\"";
 					break;
 				case 'SpoilsOfWar':
-					iconPath = "<img src=\"img://icons/quests/spoils_of_war.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/spoils_of_war_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/spoils_of_war.png\"";
 					break;
 				case 'SpoilsOfWarDisabled':
 					iconPath = "<img src=\"img://icons/quests/spoils_of_war_disabled.png\"";
 					break;
 				case 'BanditCamp':
-					iconPath = "<img src=\"img://icons/quests/person_in_distress.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/person_in_distress_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/person_in_distress.png\"";
 					break;
 				case 'BanditCampDisabled':
 					iconPath = "<img src=\"img://icons/quests/person_in_distress_disabled.png\"";
 					break;
 				case 'BanditCampfire':
-					iconPath = "<img src=\"img://icons/quests/bandit_camp.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/bandit_camp_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/bandit_camp.png\"";
 					break;
 				case 'BanditCampfireDisabled':
 					iconPath = "<img src=\"img://icons/quests/bandit_camp_disabled.png\"";
 					break;
 				case 'BossAndTreasure':
-					iconPath = "<img src=\"img://icons/quests/guarded_treasure.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/guarded_treasure_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/guarded_treasure.png\"";
 					break;
 				case 'BossAndTreasureDisabled':
 					iconPath = "<img src=\"img://icons/quests/guarded_treasure_disabled.png\"";
 					break;
 				case 'Contraband':
 				case 'ContrabandShip':
-					iconPath = "<img src=\"img://icons/quests/contraband.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/contraband_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/contraband.png\"";
 					break;
 				case 'ContrabandDisabled':
 				case 'ContrabandShipDisabled':
 					iconPath = "<img src=\"img://icons/quests/contraband_disabled.png\"";
 					break;
 				case 'RescuingTown':
-					iconPath = "<img src=\"img://icons/quests/rescuing_town.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/rescuing_town_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/rescuing_town.png\"";
 					break;
 				case 'RescuingTownDisabled':
 					iconPath = "<img src=\"img://icons/quests/rescuing_town_disabled.png\"";
 					break;
 				case 'DungeonCrawl':
-					iconPath = "<img src=\"img://icons/quests/dungeon_crawl.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/dungeon_crawl_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/dungeon_crawl.png\"";
 					break;
 				case 'DungeonCrawlDisabled':
 					iconPath = "<img src=\"img://icons/quests/dungeon_crawl_disabled.png\"";
 					break;
 				case 'Hideout':
-					iconPath = "<img src=\"img://icons/quests/hansa_hideout.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/hansa_hideout_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/hansa_hideout.png\"";
 					break;
 				case 'HideoutDisabled':
 					iconPath = "<img src=\"img://icons/quests/hansa_hideout_disabled.png\"";
 					break;
 				case 'Plegmund':
-					iconPath = "<img src=\"img://icons/quests/lebjoda_statue.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/lebjoda_statue_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/lebjoda_statue.png\"";
 					break;
 				case 'PlegmundDisabled':
 					iconPath = "<img src=\"img://icons/quests/lebjoda_statue_disabled.png\"";
 					break;
 				case 'KnightErrant':
-					iconPath = "<img src=\"img://icons/quests/knight_errand.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/knight_errand_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/knight_errand.png\"";
 					break;
 				case 'KnightErrantDisabled':
 					iconPath = "<img src=\"img://icons/quests/knight_errand_disabled.png\"";
 					break;
 				case 'WineContract':
-					iconPath = "<img src=\"img://icons/quests/wine_contract.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/wine_contract_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/wine_contract.png\"";
 					break;
 				case 'WineContractDisabled':
 					iconPath = "<img src=\"img://icons/quests/wine_contract_disabled.png\"";
 					break;
 				case 'SignalingStake':
-					iconPath = "<img src=\"img://icons/quests/bandit_campfire.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/bandit_campfire_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/bandit_campfire.png\"";
 					break;
 				case 'SignalingStakeDisabled':
 					iconPath = "<img src=\"img://icons/quests/bandit_campfire_disabled.png\"";
 					break;
-				//misc
 				case 'Rift':
 				case 'Teleport':
-					iconPath = "<img src=\"img://icons/quests/teleport.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/teleport_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/teleport.png\"";
 					break;
 				case 'MagicLamp':
-					iconPath = "<img src=\"img://icons/quests/magic_lamp.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/magic_lamp_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/magic_lamp.png\"";
 					break;
 				case 'HorseRaceTarget':
-					iconPath = "<img src=\"img://icons/quests/horse_race_target.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/horse_race_target_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/horse_race_target.png\"";
 					break;
 				case 'HorseRaceDummy':
-					iconPath = "<img src=\"img://icons/quests/horse_race_dummy.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/horse_race_dummy_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/horse_race_dummy.png\"";
 					break;
 				case 'Herb':
-					iconPath = "<img src=\"img://icons/quests/herb.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/herb_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/herb.png\"";
 					break;
 				case 'Enemy':
-					iconPath = "<img src=\"img://icons/quests/enemy.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/enemy_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/enemy.png\"";
 					break;
 				case 'EnemyDead':
-					iconPath = "<img src=\"img://icons/quests/dead_body.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/dead_body_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/dead_body.png\"";
 					break;
 				case 'GenericFocus':
-					iconPath = "<img src=\"img://icons/quests/ws_clue.png\"";
+					if( monochrome )
+						iconPath = "<img src=\"img://icons/quests/ws_clue_white.png\"";
+					else
+						iconPath = "<img src=\"img://icons/quests/ws_clue.png\"";
 					break;
 				default:
 					iconPath = "<img src=\"img://icons/quests/quest_question_white.png\"";
@@ -1255,281 +1433,14 @@ class CModMarkers
 		return iconPath;
 	}
 
+	function GetMarkerIcon( marker : SMod3DMarker ) : string
+	{
+		return GetMarkerIconStyled( marker, false );
+	}
+
 	function GetMarkerIconBW( marker : SMod3DMarker ) : string
 	{
-		var iconPath : string;
-	
-		if( marker.isActiveQuest )
-		{
-				iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
-		}
-		else
-		{
-			switch( marker.visibleType )
-			{
-				//quests
-				case 'QuestReturn':
-					iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
-					break;
-				case 'MonsterQuest':
-				case 'TreasureQuest':
-				case 'StoryQuest':
-				case 'ChapterQuest':
-				case 'SideQuest':
-					iconPath = "<img src=\"img://icons/quests/quest_tracked_gray.png\"";
-					break;
-				case 'QuestAvailable':
-				case 'QuestAvailableHoS':
-				case 'QuestAvailableBaW':
-				case 'QuestBelgard':
-				case 'QuestCoronata':
-				case 'QuestVermentino':
-					iconPath = "<img src=\"img://icons/quests/quest_exclamation_white.png\"";
-					break;
-				case 'HorseRace':
-				case 'BoatRace':
-					iconPath = "<img src=\"img://icons/quests/quest_horse_race_white.png\"";
-					break;
-				//utility signs
-				case 'User1':
-					iconPath = "<img src=\"img://icons/quests/user1_white.png\"";
-					break;
-				case 'User2':
-					iconPath = "<img src=\"img://icons/quests/user2_white.png\"";
-					break;
-				case 'User3':
-					iconPath = "<img src=\"img://icons/quests/user3_white.png\"";
-					break;
-				case 'User4':
-					iconPath = "<img src=\"img://icons/quests/user4_white.png\"";
-					break;
-				case 'Horse':
-					iconPath = "<img src=\"img://icons/quests/roach_white.png\"";
-					break;
-				case 'Boat':
-					iconPath = "<img src=\"img://icons/quests/boat_white.png\"";
-					break;
-				case 'RoadSign':
-					iconPath = "<img src=\"img://icons/quests/road_sign_white.png\"";
-					break;
-				case 'Harbor':
-					iconPath = "<img src=\"img://icons/quests/harbor_white.png\"";
-					break;
-				case 'Entrance':
-					iconPath = "<img src=\"img://icons/quests/cave_entrance_white.png\"";
-					break;
-				case 'NoticeBoard':
-					iconPath = "<img src=\"img://icons/quests/noticeboard_white.png\"";
-					break;
-				case 'NoticeBoardFull':
-					iconPath = "<img src=\"img://icons/quests/noticeboard_quest_white.png\"";
-					break;
-				case 'Whetstone':
-					iconPath = "<img src=\"img://icons/quests/whetstone_white.png\"";
-					break;
-				case 'ArmorRepairTable':
-					iconPath = "<img src=\"img://icons/quests/armor_repair_table_white.png\"";
-					break;
-				case 'WitcherHouse':
-					iconPath = "<img src=\"img://icons/quests/witcher_house_white.png\"";
-					break;
-				case 'AlchemyTable':
-					iconPath = "<img src=\"img://icons/quests/alchemy_table_white.png\"";
-					break;
-				case 'MutagenDismantle':
-					iconPath = "<img src=\"img://icons/quests/mutagen_dismantle_white.png\"";
-					break;
-				case 'Stables':
-					iconPath = "<img src=\"img://icons/quests/stables_white.png\"";
-					break;
-				case 'Bookshelf':
-					iconPath = "<img src=\"img://icons/quests/bookshelf_white.png\"";
-					break;
-				case 'Bed':
-					iconPath = "<img src=\"img://icons/quests/bed_white.png\"";
-					break;
-				case 'PlayerStash':
-				case 'PlayerStashDiscoverable':
-					iconPath = "<img src=\"img://icons/quests/player_stash_white.png\"";
-					break;
-				//NPCs
-				case 'Cammerlengo':
-					iconPath = "<img src=\"img://icons/quests/cammerlengo_white.png\"";
-					break;
-				case 'DyeMerchant':
-					iconPath = "<img src=\"img://icons/quests/dye_merchant_white.png\"";
-					break;
-				case 'WineMerchant':
-					iconPath = "<img src=\"img://icons/quests/wine_merchant_white.png\"";
-					break;
-				case 'Shopkeeper':
-					iconPath = "<img src=\"img://icons/quests/shopkeeper_white.png\"";
-					break;
-				case 'Blacksmith':
-					iconPath = "<img src=\"img://icons/quests/blacksmith_white.png\"";
-					break;
-				case 'Armorer':
-					iconPath = "<img src=\"img://icons/quests/armorer_white.png\"";
-					break;
-				case 'Archmaster':
-					iconPath = "<img src=\"img://icons/quests/archmaster_white.png\"";
-					break;
-				case 'Hairdresser':
-					iconPath = "<img src=\"img://icons/quests/hairdresser_white.png\"";
-					break;
-				case 'Alchemic':
-					iconPath = "<img src=\"img://icons/quests/alchemist_white.png\"";
-					break;
-				case 'Herbalist':
-					iconPath = "<img src=\"img://icons/quests/herbalist_white.png\"";
-					break;
-				case 'Innkeeper':
-					iconPath = "<img src=\"img://icons/quests/innkeeper_white.png\"";
-					break;
-				case 'Enchanter':
-					iconPath = "<img src=\"img://icons/quests/enchanter_white.png\"";
-					break;
-				case 'Torch':
-					iconPath = "<img src=\"img://icons/quests/torch_white.png\"";
-					break;
-				case 'Prostitute':
-					iconPath = "<img src=\"img://icons/quests/prostitute_white.png\"";
-					break;
-				//POIs
-				case 'NotDiscoveredPOI':
-					iconPath = "<img src=\"img://icons/quests/quest_question_white.png\"";
-					break;
-				case 'MonsterNest':
-					iconPath = "<img src=\"img://icons/quests/monster_nest_white.png\"";
-					break;
-				case 'MonsterNestDisabled':
-					iconPath = "<img src=\"img://icons/quests/monster_nest_disabled.png\"";
-					break;
-				case 'InfestedVineyard':
-					iconPath = "<img src=\"img://icons/quests/infested_vineyard_white.png\"";
-					break;
-				case 'InfestedVineyardDisabled':
-					iconPath = "<img src=\"img://icons/quests/infested_vineyard_disabled.png\"";
-					break;
-				case 'PlaceOfPower':
-					iconPath = "<img src=\"img://icons/quests/place_of_power_white.png\"";
-					break;
-				case 'PlaceOfPowerDisabled':
-					iconPath = "<img src=\"img://icons/quests/place_of_power_disabled.png\"";
-					break;
-				case 'TreasureHuntMappin':
-					iconPath = "<img src=\"img://icons/quests/quest_treasure_white.png\"";
-					break;
-				case 'TreasureHuntMappinDisabled':
-					iconPath = "<img src=\"img://icons/quests/quest_treasure_disabled.png\"";
-					break;
-				case 'SpoilsOfWar':
-					iconPath = "<img src=\"img://icons/quests/spoils_of_war_white.png\"";
-					break;
-				case 'SpoilsOfWarDisabled':
-					iconPath = "<img src=\"img://icons/quests/spoils_of_war_disabled.png\"";
-					break;
-				case 'BanditCamp':
-					iconPath = "<img src=\"img://icons/quests/person_in_distress_white.png\"";
-					break;
-				case 'BanditCampDisabled':
-					iconPath = "<img src=\"img://icons/quests/person_in_distress_disabled.png\"";
-					break;
-				case 'BanditCampfire':
-					iconPath = "<img src=\"img://icons/quests/bandit_camp_white.png\"";
-					break;
-				case 'BanditCampfireDisabled':
-					iconPath = "<img src=\"img://icons/quests/bandit_camp_disabled.png\"";
-					break;
-				case 'BossAndTreasure':
-					iconPath = "<img src=\"img://icons/quests/guarded_treasure_white.png\"";
-					break;
-				case 'BossAndTreasureDisabled':
-					iconPath = "<img src=\"img://icons/quests/guarded_treasure_disabled.png\"";
-					break;
-				case 'Contraband':
-				case 'ContrabandShip':
-					iconPath = "<img src=\"img://icons/quests/contraband_white.png\"";
-					break;
-				case 'ContrabandDisabled':
-				case 'ContrabandShipDisabled':
-					iconPath = "<img src=\"img://icons/quests/contraband_disabled.png\"";
-					break;
-				case 'RescuingTown':
-					iconPath = "<img src=\"img://icons/quests/rescuing_town_white.png\"";
-					break;
-				case 'RescuingTownDisabled':
-					iconPath = "<img src=\"img://icons/quests/rescuing_town_disabled.png\"";
-					break;
-				case 'DungeonCrawl':
-					iconPath = "<img src=\"img://icons/quests/dungeon_crawl_white.png\"";
-					break;
-				case 'DungeonCrawlDisabled':
-					iconPath = "<img src=\"img://icons/quests/dungeon_crawl_disabled.png\"";
-					break;
-				case 'Hideout':
-					iconPath = "<img src=\"img://icons/quests/hansa_hideout_white.png\"";
-					break;
-				case 'HideoutDisabled':
-					iconPath = "<img src=\"img://icons/quests/hansa_hideout_disabled.png\"";
-					break;
-				case 'Plegmund':
-					iconPath = "<img src=\"img://icons/quests/lebjoda_statue_white.png\"";
-					break;
-				case 'PlegmundDisabled':
-					iconPath = "<img src=\"img://icons/quests/lebjoda_statue_disabled.png\"";
-					break;
-				case 'KnightErrant':
-					iconPath = "<img src=\"img://icons/quests/knight_errand_white.png\"";
-					break;
-				case 'KnightErrantDisabled':
-					iconPath = "<img src=\"img://icons/quests/knight_errand_disabled.png\"";
-					break;
-				case 'WineContract':
-					iconPath = "<img src=\"img://icons/quests/wine_contract_white.png\"";
-					break;
-				case 'WineContractDisabled':
-					iconPath = "<img src=\"img://icons/quests/wine_contract_disabled.png\"";
-					break;
-				case 'SignalingStake':
-					iconPath = "<img src=\"img://icons/quests/bandit_campfire_white.png\"";
-					break;
-				case 'SignalingStakeDisabled':
-					iconPath = "<img src=\"img://icons/quests/bandit_campfire_disabled.png\"";
-					break;
-				//misc
-				case 'Rift':
-				case 'Teleport':
-					iconPath = "<img src=\"img://icons/quests/teleport_white.png\"";
-					break;
-				case 'MagicLamp':
-					iconPath = "<img src=\"img://icons/quests/magic_lamp_white.png\"";
-					break;
-				case 'HorseRaceTarget':
-					iconPath = "<img src=\"img://icons/quests/horse_race_target_white.png\"";
-					break;
-				case 'HorseRaceDummy':
-					iconPath = "<img src=\"img://icons/quests/horse_race_dummy_white.png\"";
-					break;
-				case 'Herb':
-					iconPath = "<img src=\"img://icons/quests/herb_white.png\"";
-					break;
-				case 'Enemy':
-					iconPath = "<img src=\"img://icons/quests/enemy_white.png\"";
-					break;
-				case 'EnemyDead':
-					iconPath = "<img src=\"img://icons/quests/dead_body_white.png\"";
-					break;
-				case 'GenericFocus':
-					iconPath = "<img src=\"img://icons/quests/ws_clue_white.png\"";
-					break;
-				default:
-					iconPath = "<img src=\"img://icons/quests/quest_question_white.png\"";
-					break;
-			}
-		}
-		iconPath += " width=\"" + GetIconSize() + "\" height=\"" + GetIconSize() + "\">";
-		return iconPath;
+		return GetMarkerIconStyled( marker, true );
 	}
 	
 	function GetQuestAltTextByLevel( marker : SMod3DMarker ) : string
@@ -1546,60 +1457,100 @@ class CModMarkers
 		return " >*";
 	}
 	
-	function GetMarkerAltText( marker : SMod3DMarker ) : string
+	function GetMarkerAltTextStyled( marker : SMod3DMarker, monochrome : bool ) : string
 	{
 		var altText : string;
 	
 		if( marker.isActiveQuest )
 		{
-			if( marker.isHighlighted )
+			if( monochrome )
+			{
+				if( marker.isHighlighted )
+					altText = " face=\"$BoldFont\">*";
+				else
+					altText = " >*";
+			}
+			else
+			{
+if( marker.isHighlighted )
 				altText = " face=\"$BoldFont\" color=\"#ff9900\">*";
 			else
 				altText = " color=\"#ff9900\">*";
+			}
 		}
 		else
 		{
 			switch( marker.visibleType )
 			{
-				//quests
 				case 'QuestReturn':
-					altText = " face=\"$BoldFont\" color=\"#ff9900\">?";
+					if( monochrome )
+						altText = " face=\"$BoldFont\">?";
+					else
+						altText = " face=\"$BoldFont\" color=\"#ff9900\">?";
 					break;
 				case 'MonsterQuest':
 				case 'TreasureQuest':
 				case 'StoryQuest':
 				case 'ChapterQuest':
 				case 'SideQuest':
-					altText = GetQuestAltTextByLevel( marker );
+					if( monochrome )
+						altText = " >*";
+					else
+						altText = GetQuestAltTextByLevel( marker );
 					break;
 				case 'QuestAvailable':
-					altText = " color=\"#ffcc00\">!";
+				case 'NoticeBoardFull':
+					if( monochrome )
+						altText = " >!";
+					else
+						altText = " color=\"#ffcc00\">!";
 					break;
 				case 'QuestAvailableHoS':
-					altText = " color=\"#55aae3\">!";
+					if( monochrome )
+						altText = " >!";
+					else
+						altText = " color=\"#55aae3\">!";
 					break;
 				case 'QuestAvailableBaW':
 				case 'QuestBelgard':
 				case 'QuestCoronata':
 				case 'QuestVermentino':
-					altText = " color=\"#fb712f\">!";
+					if( monochrome )
+						altText = " >!";
+					else
+						altText = " color=\"#fb712f\">!";
 					break;
 				case 'HorseRace':
 				case 'BoatRace':
-					altText = " color=\"#cd853f\">!";
+					if( monochrome )
+						altText = " >!";
+					else
+						altText = " color=\"#cd853f\">!";
 					break;
-				//utility signs
 				case 'User1':
-					altText = " color=\"#06b952\">x";
+					if( monochrome )
+						altText = " >x";
+					else
+						altText = " color=\"#06b952\">x";
 					break;
 				case 'User2':
-					altText = " color=\"#ff6655\">x";
+				case 'EnemyDead':
+					if( monochrome )
+						altText = " >x";
+					else
+						altText = " color=\"#ff6655\">x";
 					break;
 				case 'User3':
-					altText = " color=\"#67a9f8\">x";
+					if( monochrome )
+						altText = " >x";
+					else
+						altText = " color=\"#67a9f8\">x";
 					break;
 				case 'User4':
-					altText = " color=\"#fb712f\">x";
+					if( monochrome )
+						altText = " >x";
+					else
+						altText = " color=\"#fb712f\">x";
 					break;
 				case 'Horse':
 				case 'Boat':
@@ -1616,15 +1567,14 @@ class CModMarkers
 				case 'Stables':
 				case 'Bookshelf':
 				case 'Bed':
-					altText = " color=\"#89d889\">@";
+					if( monochrome )
+						altText = " >@";
+					else
+						altText = " color=\"#89d889\">@";
 					break;
 				case 'NoticeBoard':
 					altText = " >!";
 					break;
-				case 'NoticeBoardFull':
-					altText = " color=\"#ffcc00\">!";
-					break;
-				//NPCs
 				case 'Cammerlengo':
 				case 'DyeMerchant':
 				case 'WineMerchant':
@@ -1634,22 +1584,37 @@ class CModMarkers
 				case 'Archmaster':
 				case 'Innkeeper':
 				case 'Enchanter':
-					altText = " color=\"#fff68f\">$";
+					if( monochrome )
+						altText = " >$";
+					else
+						altText = " color=\"#fff68f\">$";
 					break;
 				case 'Hairdresser':
-					altText = " color=\"#67a9f8\">$";
+					if( monochrome )
+						altText = " >$";
+					else
+						altText = " color=\"#67a9f8\">$";
 					break;
 				case 'Alchemic':
 				case 'Herbalist':
-					altText = " color=\"#8ebd2f\">$";
+					if( monochrome )
+						altText = " >$";
+					else
+						altText = " color=\"#8ebd2f\">$";
 					break;
 				case 'Prostitute':
-					altText = " color=\"#991a1a\">$";
+					if( monochrome )
+						altText = " >$";
+					else
+						altText = " color=\"#991a1a\">$";
 					break;
 				case 'Torch':
-					altText = " color=\"#ff6655\">+";
+				case 'Enemy':
+					if( monochrome )
+						altText = " >+";
+					else
+						altText = " color=\"#ff6655\">+";
 					break;
-				//POIs
 				case 'NotDiscoveredPOI':
 					altText = " >?";
 					break;
@@ -1689,33 +1654,42 @@ class CModMarkers
 				case 'KnightErrantDisabled':
 				case 'WineContractDisabled':
 				case 'SignalingStakeDisabled':
-					altText = " color=\"#999999\">o";
+					if( monochrome )
+						altText = " >o";
+					else
+						altText = " color=\"#999999\">o";
 					break;
-				//misc
 				case 'Rift':
 				case 'Teleport':
-					altText = " color=\"#cc66ff\">#";
+					if( monochrome )
+						altText = " >#";
+					else
+						altText = " color=\"#cc66ff\">#";
 					break;
 				case 'MagicLamp':
-					altText = " color=\"#00ee33\">#";
+					if( monochrome )
+						altText = " >#";
+					else
+						altText = " color=\"#00ee33\">#";
 					break;
 				case 'HorseRaceTarget':
-					altText = " color=\"#cc66ff\">x";
-					break;
 				case 'HorseRaceDummy':
-					altText = " color=\"#cc66ff\">x";
+					if( monochrome )
+						altText = " >x";
+					else
+						altText = " color=\"#cc66ff\">x";
 					break;
 				case 'Herb':
-					altText = " color=\"#8ebd2f\">#";
-					break;
-				case 'Enemy':
-					altText = " color=\"#ff6655\">+";
-					break;
-				case 'EnemyDead':
-					altText = " color=\"#ff6655\">x";
+					if( monochrome )
+						altText = " >#";
+					else
+						altText = " color=\"#8ebd2f\">#";
 					break;
 				case 'GenericFocus':
-					altText = " color=\"#ff6655\">#";
+					if( monochrome )
+						altText = " >#";
+					else
+						altText = " color=\"#ff6655\">#";
 					break;
 				default:
 					altText = " >?";
@@ -1726,152 +1700,14 @@ class CModMarkers
 		return altText;
 	}
 
+	function GetMarkerAltText( marker : SMod3DMarker ) : string
+	{
+		return GetMarkerAltTextStyled( marker, false );
+	}
+
 	function GetMarkerAltTextBW( marker : SMod3DMarker ) : string
 	{
-		var altText : string;
-	
-		if( marker.isActiveQuest )
-		{
-			if( marker.isHighlighted )
-				altText = " face=\"$BoldFont\">*";
-			else
-				altText = " >*";
-		}
-		else
-		{
-			switch( marker.visibleType )
-			{
-				//quests
-				case 'QuestReturn':
-					altText = " face=\"$BoldFont\">?";
-					break;
-				case 'MonsterQuest':
-				case 'TreasureQuest':
-				case 'StoryQuest':
-				case 'ChapterQuest':
-				case 'SideQuest':
-					altText = " >*";
-					break;
-				case 'QuestAvailable':
-				case 'QuestAvailableHoS':
-				case 'QuestAvailableBaW':
-				case 'QuestBelgard':
-				case 'QuestCoronata':
-				case 'QuestVermentino':
-				case 'HorseRace':
-				case 'BoatRace':
-					altText = " >!";
-					break;
-				//utility signs
-				case 'User1':
-				case 'User2':
-				case 'User3':
-				case 'User4':
-					altText = " >x";
-					break;
-				case 'Horse':
-				case 'Boat':
-				case 'RoadSign':
-				case 'Harbor':
-				case 'Entrance':
-				case 'Whetstone':
-				case 'ArmorRepairTable':
-				case 'WitcherHouse':
-				case 'PlayerStash':
-				case 'PlayerStashDiscoverable':
-				case 'AlchemyTable':
-				case 'MutagenDismantle':
-				case 'Stables':
-				case 'Bookshelf':
-				case 'Bed':
-					altText = " >@";
-					break;
-				case 'NoticeBoard':
-				case 'NoticeBoardFull':
-					altText = " >!";
-					break;
-				//NPCs
-				case 'Cammerlengo':
-				case 'DyeMerchant':
-				case 'WineMerchant':
-				case 'Shopkeeper':
-				case 'Blacksmith':
-				case 'Armorer':
-				case 'Archmaster':
-				case 'Innkeeper':
-				case 'Enchanter':
-				case 'Hairdresser':
-				case 'Alchemic':
-				case 'Herbalist':
-				case 'Prostitute':
-					altText = " >$";
-					break;
-				case 'Torch':
-					altText = " >+";
-					break;
-				//POIs
-				case 'NotDiscoveredPOI':
-					altText = " >?";
-					break;
-				case 'MonsterNest':
-				case 'InfestedVineyard':
-				case 'PlaceOfPower':
-				case 'TreasureHuntMappin':
-				case 'SpoilsOfWar':
-				case 'BanditCamp':
-				case 'BanditCampfire':
-				case 'BossAndTreasure':
-				case 'Contraband':
-				case 'ContrabandShip':
-				case 'RescuingTown':
-				case 'DungeonCrawl':
-				case 'Hideout':
-				case 'Plegmund':
-				case 'KnightErrant':
-				case 'WineContract':
-				case 'SignalingStake':
-				case 'MonsterNestDisabled':
-				case 'InfestedVineyardDisabled':
-				case 'PlaceOfPowerDisabled':
-				case 'TreasureHuntMappinDisabled':
-				case 'SpoilsOfWarDisabled':
-				case 'BanditCampDisabled':
-				case 'BanditCampfireDisabled':
-				case 'BossAndTreasureDisabled':
-				case 'ContrabandDisabled':
-				case 'ContrabandShipDisabled':
-				case 'RescuingTownDisabled':
-				case 'DungeonCrawlDisabled':
-				case 'HideoutDisabled':
-				case 'PlegmundDisabled':
-				case 'KnightErrantDisabled':
-				case 'WineContractDisabled':
-				case 'SignalingStakeDisabled':
-					altText = " >o";
-					break;
-				//misc
-				case 'Rift':
-				case 'Teleport':
-				case 'MagicLamp':
-				case 'Herb':
-				case 'GenericFocus':
-					altText = " >#";
-					break;
-				case 'HorseRaceTarget':
-				case 'HorseRaceDummy':
-				case 'EnemyDead':
-					altText = " >x";
-					break;
-				case 'Enemy':
-					altText = " >+";
-					break;
-				default:
-					altText = " >?";
-					break;
-			}
-		}
-		altText = "<font size=\"" + config.markersAltTextSize + "\" " + altText + "</font>";
-		return altText;
+		return GetMarkerAltTextStyled( marker, true );
 	}
 	
 	//================= on/off conditions ========================
@@ -1882,106 +1718,54 @@ class CModMarkers
 		return marker.isDisabled && ( IsQuest( marker ) || config.markersShowDisabled == MV_Hide );
 	}
 
+	function GetMarkerVisibilitySetting( marker : SMod3DMarker ) : int
+	{
+		if( IsActiveQuest( marker ) )
+			return config.markersShowQuests;
+		if( IsQuest( marker ) )
+			return config.markersShowQuestsAll;
+		if( IsUserMain( marker ) )
+			return config.markersShowUser;
+		if( IsUserAdditional( marker ) )
+			return config.markersShowUserAll;
+		if( IsMapLocation( marker ) )
+			return config.markersShowMapLoc;
+		if( IsNPC( marker ) )
+			return config.markersShowNPCs;
+		if( IsPOIUndiscovered( marker ) )
+			return config.markersShowUndiscovered;
+		if( IsPOI( marker ) )
+			return config.markersShowPOIs;
+		if( IsPOIDisabled( marker ) )
+			return config.markersShowDisabled;
+		if( IsMisc( marker ) )
+			return config.markersShowMisc;
+		if( IsHerb( marker ) )
+			return config.markersShowHerbs;
+		if( IsEnemy( marker ) )
+			return config.markersShowEnemies;
+		if( IsEnemyDead( marker ) )
+			return config.markersShowDeadEnemies;
+		if( IsWSClue( marker ) )
+			return config.markersShowWSClues;
+		return -1;
+	}
+
 	function ShouldShowMarker( marker : SMod3DMarker ) : bool
 	{
 		if( marker.pin || marker.force )
 			return true;
-		if( IsActiveQuest( marker ) )
-			return config.markersShowQuests == MV_Show;
-		if( IsQuest( marker ) )
-			return config.markersShowQuestsAll == MV_Show;
-		if( IsUserMain( marker ) )
-			return config.markersShowUser == MV_Show;
-		if( IsUserAdditional( marker ) )
-			return config.markersShowUserAll == MV_Show;
-		if( IsMapLocation( marker ) )
-			return config.markersShowMapLoc == MV_Show;
-		if( IsNPC( marker ) )
-			return config.markersShowNPCs == MV_Show;
-		if( IsPOIUndiscovered( marker ) )
-			return config.markersShowUndiscovered == MV_Show;
-		if( IsPOI( marker ) )
-			return config.markersShowPOIs == MV_Show;
-		if( IsPOIDisabled( marker ) )
-			return config.markersShowDisabled == MV_Show;
-		if( IsMisc( marker ) )
-			return config.markersShowMisc == MV_Show;
-		if( IsHerb( marker ) )
-			return config.markersShowHerbs == MV_Show;
-		if( IsEnemy( marker ) )
-			return config.markersShowEnemies == MV_Show;
-		if( IsEnemyDead( marker ) )
-			return config.markersShowDeadEnemies == MV_Show;
-		if( IsWSClue( marker ) )
-			return config.markersShowWSClues == MV_Show;
-
-		return false;
+		return GetMarkerVisibilitySetting( marker ) == MV_Show;
 	}
 	
 	function ShouldPinMarker( marker : SMod3DMarker ) : bool
 	{
-		if( IsActiveQuest( marker ) )
-			return config.markersShowQuests == MV_Pin;
-		if( IsQuest( marker ) )
-			return config.markersShowQuestsAll == MV_Pin;
-		if( IsUserMain( marker ) )
-			return config.markersShowUser == MV_Pin;
-		if( IsUserAdditional( marker ) )
-			return config.markersShowUserAll == MV_Pin;
-		if( IsMapLocation( marker ) )
-			return config.markersShowMapLoc == MV_Pin;
-		if( IsNPC( marker ) )
-			return config.markersShowNPCs == MV_Pin;
-		if( IsPOIUndiscovered( marker ) )
-			return config.markersShowUndiscovered == MV_Pin;
-		if( IsPOI( marker ) )
-			return config.markersShowPOIs == MV_Pin;
-		if( IsPOIDisabled( marker ) )
-			return config.markersShowDisabled == MV_Pin;
-		if( IsMisc( marker ) )
-			return config.markersShowMisc == MV_Pin;
-		if( IsHerb( marker ) )
-			return config.markersShowHerbs == MV_Pin;
-		if( IsEnemy( marker ) )
-			return config.markersShowEnemies == MV_Pin;
-		if( IsEnemyDead( marker ) )
-			return config.markersShowDeadEnemies == MV_Pin;
-		if( IsWSClue( marker ) )
-			return config.markersShowWSClues == MV_Pin;
-		return false;
+		return GetMarkerVisibilitySetting( marker ) == MV_Pin;
 	}
 	
 	function ShouldForceMarker( marker : SMod3DMarker ) : bool
 	{
-		if( IsActiveQuest( marker ) )
-			return config.markersShowQuests == MV_Force;
-		if( IsQuest( marker ) )
-			return config.markersShowQuestsAll == MV_Force;
-		if( IsUserMain( marker ) )
-			return config.markersShowUser == MV_Force;
-		if( IsUserAdditional( marker ) )
-			return config.markersShowUserAll == MV_Force;
-		if( IsMapLocation( marker ) )
-			return config.markersShowMapLoc == MV_Force;
-		if( IsNPC( marker ) )
-			return config.markersShowNPCs == MV_Force;
-		if( IsPOIUndiscovered( marker ) )
-			return config.markersShowUndiscovered == MV_Force;
-		if( IsPOI( marker ) )
-			return config.markersShowPOIs == MV_Force;
-		if( IsPOIDisabled( marker ) )
-			return config.markersShowDisabled == MV_Force;
-		if( IsMisc( marker ) )
-			return config.markersShowMisc == MV_Force;
-		if( IsHerb( marker ) )
-			return config.markersShowHerbs == MV_Force;
-		if( IsEnemy( marker ) )
-			return config.markersShowEnemies == MV_Force;
-		if( IsEnemyDead( marker ) )
-			return config.markersShowDeadEnemies == MV_Force;
-		if( IsWSClue( marker ) )
-			return config.markersShowWSClues == MV_Force;
-		return false;
+		return GetMarkerVisibilitySetting( marker ) == MV_Force;
 	}
 	
 	function IsActiveQuest( marker : SMod3DMarker ) : bool

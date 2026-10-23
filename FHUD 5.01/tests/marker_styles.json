@@ -1,0 +1,1630 @@
+{
+  "rows": [
+    {
+      "marker": {
+        "visibleType": "User1",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/user1.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/user1_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#06b952\">x</font>",
+        "<font size=\"18\"  >x</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "User2",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/user2.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/user2_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">x</font>",
+        "<font size=\"18\"  >x</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "User3",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/user3.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/user3_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#67a9f8\">x</font>",
+        "<font size=\"18\"  >x</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "User4",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/user4.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/user4_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fb712f\">x</font>",
+        "<font size=\"18\"  >x</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MagicLamp",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/magic_lamp.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/magic_lamp_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#00ee33\">#</font>",
+        "<font size=\"18\"  >#</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "HorseRaceTarget",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/horse_race_target.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/horse_race_target_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cc66ff\">x</font>",
+        "<font size=\"18\"  >x</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "EnemyDead",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/dead_body.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/dead_body_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">x</font>",
+        "<font size=\"18\"  >x</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "GenericFocus",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/ws_clue.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/ws_clue_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">#</font>",
+        "<font size=\"18\"  >#</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "QuestReturn",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_question_yellow.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  face=\"$BoldFont\" color=\"#ff9900\">?</font>",
+        "<font size=\"18\"  face=\"$BoldFont\">?</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MonsterQuest",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_green.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MonsterQuest",
+        "lvlDiff": 1,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_red.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MonsterQuest",
+        "lvlDiff": 2,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cccccc\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MonsterQuest",
+        "lvlDiff": 3,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "TreasureQuest",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_green.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "TreasureQuest",
+        "lvlDiff": 1,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_red.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "TreasureQuest",
+        "lvlDiff": 2,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cccccc\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "TreasureQuest",
+        "lvlDiff": 3,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "StoryQuest",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_green.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "StoryQuest",
+        "lvlDiff": 1,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_red.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "StoryQuest",
+        "lvlDiff": 2,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cccccc\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "StoryQuest",
+        "lvlDiff": 3,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ChapterQuest",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_green.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ChapterQuest",
+        "lvlDiff": 1,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_red.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ChapterQuest",
+        "lvlDiff": 2,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cccccc\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ChapterQuest",
+        "lvlDiff": 3,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SideQuest",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_green.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SideQuest",
+        "lvlDiff": 1,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_red.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SideQuest",
+        "lvlDiff": 2,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cccccc\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SideQuest",
+        "lvlDiff": 3,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_gray.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "QuestAvailable",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_exclamation_yellow.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_exclamation_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ffcc00\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "QuestAvailableHoS",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_exclamation_blue.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_exclamation_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#55aae3\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "QuestAvailableBaW",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_exclamation_orange.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_exclamation_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fb712f\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "QuestBelgard",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_exclamation_orange.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_exclamation_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fb712f\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "QuestCoronata",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_exclamation_orange.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_exclamation_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fb712f\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "QuestVermentino",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_exclamation_orange.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_exclamation_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fb712f\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "HorseRace",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_horse_race.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_horse_race_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cd853f\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "BoatRace",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_horse_race.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_horse_race_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cd853f\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Horse",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/roach.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/roach_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Boat",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/boat.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/boat_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "RoadSign",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/road_sign.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/road_sign_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Harbor",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/harbor.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/harbor_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Entrance",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/cave_entrance.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/cave_entrance_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "NoticeBoard",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/noticeboard_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/noticeboard_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "NoticeBoardFull",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/noticeboard_quest.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/noticeboard_quest_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ffcc00\">!</font>",
+        "<font size=\"18\"  >!</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Whetstone",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/whetstone.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/whetstone_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ArmorRepairTable",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/armor_repair_table.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/armor_repair_table_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "WitcherHouse",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/witcher_house.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/witcher_house_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "AlchemyTable",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/alchemy_table.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/alchemy_table_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MutagenDismantle",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/mutagen_dismantle.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/mutagen_dismantle_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Stables",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/stables.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/stables_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Bookshelf",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/bookshelf.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/bookshelf_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Bed",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/bed.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/bed_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "PlayerStash",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/player_stash.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/player_stash_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "PlayerStashDiscoverable",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/player_stash.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/player_stash_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#89d889\">@</font>",
+        "<font size=\"18\"  >@</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Cammerlengo",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/cammerlengo.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/cammerlengo_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "DyeMerchant",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/dye_merchant.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/dye_merchant_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "WineMerchant",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/wine_merchant.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/wine_merchant_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Shopkeeper",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/shopkeeper.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/shopkeeper_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Blacksmith",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/blacksmith.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/blacksmith_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Armorer",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/armorer.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/armorer_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Archmaster",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/archmaster.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/archmaster_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Hairdresser",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/hairdresser.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/hairdresser_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#67a9f8\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Alchemic",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/alchemist.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/alchemist_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#8ebd2f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Herbalist",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/herbalist.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/herbalist_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#8ebd2f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Innkeeper",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/innkeeper.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/innkeeper_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Enchanter",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/enchanter.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/enchanter_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#fff68f\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Torch",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/torch.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/torch_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">+</font>",
+        "<font size=\"18\"  >+</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Prostitute",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/prostitute.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/prostitute_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#991a1a\">$</font>",
+        "<font size=\"18\"  >$</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "NotDiscoveredPOI",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_question_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_question_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >?</font>",
+        "<font size=\"18\"  >?</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MonsterNest",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/monster_nest.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/monster_nest_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "MonsterNestDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/monster_nest_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/monster_nest_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "InfestedVineyard",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/infested_vineyard.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/infested_vineyard_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "InfestedVineyardDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/infested_vineyard_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/infested_vineyard_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "PlaceOfPower",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/place_of_power.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/place_of_power_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "PlaceOfPowerDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/place_of_power_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/place_of_power_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "TreasureHuntMappin",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_treasure.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_treasure_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "TreasureHuntMappinDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_treasure_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_treasure_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SpoilsOfWar",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/spoils_of_war.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/spoils_of_war_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SpoilsOfWarDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/spoils_of_war_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/spoils_of_war_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "BanditCamp",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/person_in_distress.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/person_in_distress_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "BanditCampDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/person_in_distress_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/person_in_distress_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "BanditCampfire",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/bandit_camp.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/bandit_camp_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "BanditCampfireDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/bandit_camp_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/bandit_camp_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "BossAndTreasure",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/guarded_treasure.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/guarded_treasure_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "BossAndTreasureDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/guarded_treasure_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/guarded_treasure_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Contraband",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/contraband.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/contraband_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ContrabandShip",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/contraband.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/contraband_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ContrabandDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/contraband_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/contraband_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "ContrabandShipDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/contraband_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/contraband_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "RescuingTown",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/rescuing_town.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/rescuing_town_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "RescuingTownDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/rescuing_town_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/rescuing_town_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "DungeonCrawl",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/dungeon_crawl.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/dungeon_crawl_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "DungeonCrawlDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/dungeon_crawl_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/dungeon_crawl_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Hideout",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/hansa_hideout.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/hansa_hideout_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "HideoutDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/hansa_hideout_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/hansa_hideout_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Plegmund",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/lebjoda_statue.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/lebjoda_statue_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "PlegmundDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/lebjoda_statue_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/lebjoda_statue_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "KnightErrant",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/knight_errand.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/knight_errand_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "KnightErrantDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/knight_errand_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/knight_errand_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "WineContract",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/wine_contract.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/wine_contract_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "WineContractDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/wine_contract_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/wine_contract_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SignalingStake",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/bandit_campfire.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/bandit_campfire_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "SignalingStakeDisabled",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/bandit_campfire_disabled.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/bandit_campfire_disabled.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#999999\">o</font>",
+        "<font size=\"18\"  >o</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Rift",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/teleport.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/teleport_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cc66ff\">#</font>",
+        "<font size=\"18\"  >#</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Teleport",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/teleport.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/teleport_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cc66ff\">#</font>",
+        "<font size=\"18\"  >#</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "HorseRaceDummy",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/horse_race_dummy.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/horse_race_dummy_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#cc66ff\">x</font>",
+        "<font size=\"18\"  >x</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Herb",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/herb.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/herb_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#8ebd2f\">#</font>",
+        "<font size=\"18\"  >#</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "Enemy",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/enemy.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/enemy_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff6655\">+</font>",
+        "<font size=\"18\"  >+</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "unknown",
+        "lvlDiff": 0,
+        "isActiveQuest": false,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_question_white.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_question_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  >?</font>",
+        "<font size=\"18\"  >?</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "unknown",
+        "lvlDiff": 0,
+        "isActiveQuest": true,
+        "isHighlighted": false
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_orange_sub.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  color=\"#ff9900\">*</font>",
+        "<font size=\"18\"  >*</font>"
+      ]
+    },
+    {
+      "marker": {
+        "visibleType": "unknown",
+        "lvlDiff": 0,
+        "isActiveQuest": true,
+        "isHighlighted": true
+      },
+      "expected": [
+        "<img src=\"img://icons/quests/quest_tracked_orange.png\" width=\"60\" height=\"60\">",
+        "<img src=\"img://icons/quests/quest_tracked_white.png\" width=\"60\" height=\"60\">",
+        "<font size=\"18\"  face=\"$BoldFont\" color=\"#ff9900\">*</font>",
+        "<font size=\"18\"  face=\"$BoldFont\">*</font>"
+      ]
+    }
+  ],
+  "compass": [
+    {
+      "id": 100899,
+      "expected": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 100900,
+      "expected": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 100901,
+      "expected": [
+        "<img src=\"img://icons/quests/compass_N.png\" width=\"102\" height=\"102\">",
+        "<img src=\"img://icons/quests/compass_N_60.png\" width=\"60\" height=\"60\">"
+      ]
+    },
+    {
+      "id": 100902,
+      "expected": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 100903,
+      "expected": [
+        "<img src=\"img://icons/quests/compass_W.png\" width=\"102\" height=\"102\">",
+        "<img src=\"img://icons/quests/compass_W_60.png\" width=\"60\" height=\"60\">"
+      ]
+    },
+    {
+      "id": 100904,
+      "expected": [
+        "<img src=\"img://icons/quests/compass_E.png\" width=\"102\" height=\"102\">",
+        "<img src=\"img://icons/quests/compass_E_60.png\" width=\"60\" height=\"60\">"
+      ]
+    },
+    {
+      "id": 100905,
+      "expected": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 100906,
+      "expected": [
+        "<img src=\"img://icons/quests/compass_S.png\" width=\"102\" height=\"102\">",
+        "<img src=\"img://icons/quests/compass_S_60.png\" width=\"60\" height=\"60\">"
+      ]
+    },
+    {
+      "id": 100907,
+      "expected": [
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 100908,
+      "expected": [
+        "",
+        ""
+      ]
+    }
+  ]
+}

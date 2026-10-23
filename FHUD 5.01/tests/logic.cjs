@@ -23,7 +23,8 @@ function method(file, name, scope, outParams = []) {
     else if (c === '}') depth--;
   }
   let body = source.slice(start, end - 1)
-    .replace(/\/\/[^\n]*|\/\*[\s\S]*?\*\//g, '')
+    // Preserve quoted asset URLs when removing comments.
+    .replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/[^\n]*|\/\*[\s\S]*?\*\//g, token => token.startsWith('//') || token.startsWith('/*') ? '' : token)
     .replace(/\bNULL\b/g, 'null')
     .replace(/\b(\d+(?:\.\d+)?)f\b/g, '$1')
     .replace(/\((?:float|CR4ScriptedHud|CR4HudModuleOneliners|EBuffsDisplayMode)\)/g, '')
@@ -212,4 +213,125 @@ test('cycling retains Buffs when every alternative is empty or unavailable in co
       assert.equal(s.cycle,3,`cycleThroughBuffs=${cycleThroughBuffs}, blockedOil=${blockedOil}`);
     }
   }
+});
+
+test('shared marker styles preserve every original mapping, quest level and active style', () => {
+  const fixture = require('./marker_styles.json');
+  const s = {config: {markersAltTextSize: 18}, QL_NORMAL: 0, QL_HIGH: 1, QL_LOW: 2,
+    GetIconSize: () => 60, GetCompassIconSize: () => 102, COMPASS_START_ID: 100900};
+  const methods = ['GetMarkerIcon','GetMarkerIconBW','GetMarkerAltText','GetMarkerAltTextBW'];
+  for (const f of ['GetQuestIconByLevel','GetQuestAltTextByLevel','GetMarkerIconStyled',
+    'GetMarkerAltTextStyled','BuildCompassIcon','GetCompassIcon','GetCompassIcon60',...methods]) method(markerFile,f,s);
+  for (const {marker,expected} of fixture.rows)
+    assert.deepEqual(methods.map(f => s[f](marker)), expected, JSON.stringify(marker));
+  for (const {id,expected} of fixture.compass)
+    assert.deepEqual([s.GetCompassIcon(id),s.GetCompassIcon60(id)],expected);
+});
+
+test('visibility lookup retains category priority, all modes and pinned/forced overrides', () => {
+  const categories = ['ActiveQuest','Quest','UserMain','UserAdditional','MapLocation','NPC',
+    'POIUndiscovered','POI','POIDisabled','Misc','Herb','Enemy','EnemyDead','WSClue'];
+  const settings = ['Quests','QuestsAll','User','UserAll','MapLoc','NPCs','Undiscovered',
+    'POIs','Disabled','Misc','Herbs','Enemies','DeadEnemies','WSClues'];
+  const s = {config: {}, MV_Show: 1, MV_Pin: 2, MV_Force: 3};
+  for (const category of categories) s['Is'+category] = m => m.categories.includes(category);
+  for (const f of ['GetMarkerVisibilitySetting','ShouldShowMarker','ShouldPinMarker','ShouldForceMarker']) method(markerFile,f,s);
+  for (let i=0;i<categories.length;i++) for(let mode=0;mode<4;mode++) {
+    for(const setting of settings)s.config['markersShow'+setting]=0;
+    s.config['markersShow'+settings[i]]=mode;
+    const marker={categories:categories.slice(i),pin:false,force:false};
+    assert.deepEqual([s.ShouldShowMarker(marker),s.ShouldPinMarker(marker),s.ShouldForceMarker(marker)],
+      [mode===1,mode===2,mode===3]);
+    for(const field of ['pin','force'])assert.equal(s.ShouldShowMarker({...marker,[field]:true}),true);
+  }
+  const unknown={categories:[]};
+  assert.deepEqual([s.ShouldShowMarker(unknown),s.ShouldPinMarker(unknown),s.ShouldForceMarker(unknown)],[false,false,false]);
+});
+
+test('controller selection compacts valid IDs while inventory lists keep missing slots and silver priority', () => {
+  const file='fhudscripts/modRadialMenuPotions.ws';
+  const calls=[]; const used=[];
+  const items={Potion:[11,12,13],Petard:[21],SilverOil:[31,32],SteelOil:[41,42]};
+  const names={11:'potion_a_upgraded',12:'potion_a',13:'potion_b',21:'bomb_a',31:'oil_a',32:'oil_b',41:'oil_a',42:'oil_c'};
+  const s={playerInventory:{IsIdValid:id=>id!==-1,GetItemName:id=>names[id],
+      GetItemsByTag:tag=>{calls.push(tag);return items[tag];}},GetInvalidUniqueId:()=>-1,
+    StrContains:(text,part)=>text.includes(part),NameToString:v=>v,
+    potionNames:['potion_a','missing','potion_b'],bombNames:['bomb_a','missing'],oilNames:['oil_a','oil_b','oil_c','missing'],
+    potions:[],bombs:[],oils:[],ConsumePotion:id=>used.push(id),EquipBomb:id=>used.push(id),ApplyOil:id=>used.push(id)};
+  for(const f of ['FindItemByName','GetValidItemAtIndex','GetInventoryPotions','GetInventoryBombs','GetInventoryOils',
+    'PadUseCurrentPotion','PadUseCurrentBomb','PadUseCurrentOil'])method(file,f,s);
+  s.GetInventoryPotions();s.GetInventoryBombs();s.GetInventoryOils();
+  assert.deepEqual(calls,['Potion','Petard','SilverOil','SteelOil']);
+  assert.deepEqual(s.potions,[11,-1,13]);assert.deepEqual(s.bombs,[21,-1]);assert.deepEqual(s.oils,[31,32,42,-1]);
+  for(const [f,expected] of [['PadUseCurrentPotion',[11,13]],['PadUseCurrentBomb',[21]],['PadUseCurrentOil',[31,32,42]]]) {
+    used.length=0;
+    for(s.padCurrent=-1;s.padCurrent<5;s.padCurrent++)s[f]();
+    assert.deepEqual(used,expected);
+  }
+});
+
+test('interaction constants preserve all prompt modes and the global disable option', () => {
+  const file='fhudconfig/modFriendlyHUDConfig.ws';
+  const s={interactionShowAll:0,interactionShowIcon:1,interactionShowText:2};
+  for(const f of ['ShowInteractionIcon','ShowInteractionText','ShowEntityIcon','ShowEntityText'])method(file,f,s);
+  for(const disabled of [false,true])for(let mode=0;mode<4;mode++)for(const action of ['Talk','Use']) {
+    Object.assign(s,{disableAllInteractionPrompts:disabled,talkBubbleMode:mode,talkButtonMode:mode,interactionButtonMode:mode});
+    for(const f of ['ShowInteractionIcon','ShowEntityIcon'])assert.equal(s[f](action),!disabled&&(mode===0||mode===1));
+    for(const f of ['ShowInteractionText','ShowEntityText'])assert.equal(s[f](action),!disabled&&(mode===0||mode===2));
+  }
+});
+
+test('settings stages preserve the original complete statement order', () => {
+  const source=fs.readFileSync(path.join(scripts,'fhudconfig/modFriendlyHUDConfig.ws'),'utf8');
+  function body(name) {
+    const match=new RegExp('function '+name+'\\([^]*?\\n\\t\\}').exec(source);
+    assert.ok(match,name);
+    return match[0].slice(match[0].indexOf('{')+1,match[0].lastIndexOf('}'));
+  }
+  let expanded=body('UpdateUserSettings');
+  for(const stage of ['HUD','Marker','QuickItem','Inventory','Interaction','Misc','Map']) {
+    const name='Read'+stage+'Settings';
+    expanded=expanded.replace(name+'();',body(name));
+  }
+  const digest=require('node:crypto').createHash('sha256')
+    .update(expanded.replace(/\/\/[^\n]*/g,'').replace(/\s/g,'')).digest('hex');
+  // Captured from the pre-refactor method, with only the reset-helper rename applied.
+  assert.equal(digest,'323fd803dc53423d53842c9857a7b8159d3ecd3753120521c6fbe72b43724e0d');
+});
+
+test('new-item classification preserves results across every combination of item predicates', () => {
+  const predicates=['isItemReadable','isFoodItem','isIngredientItem','isWeaponItem','isArmorItem',
+    'isAlchemyItem','isUpgradeItem','isItemSchematic','isToolItem','isHorseItem','IsItemTrophy',
+    'IsItemDye','isQuestItem','isQuickslotItem','isItemUsable'];
+  const inv={};let bits=0;
+  predicates.forEach((p,i)=>inv[p]=()=>!!(bits&(1<<i)));
+  const s={_playerInv:inv,thePlayer:{inv}};
+  method('game/gui/menus/inventoryMenu.ws','CheckIfShouldResetNewItemFlag',s);
+  for(bits=0;bits<(1<<predicates.length);bits++) {
+    const [read,food,ingredient,weapon,armor,alchemy,upgrade,schematic,tool,horse,trophy,dye,quest,quick,usable]=predicates.map(p=>inv[p]());
+    const junk=!(read||food||ingredient||weapon||armor||alchemy||upgrade||schematic||tool||horse||trophy);
+    const expected={Ingredients:ingredient&&!dye,Quest:quest,Others:(junk||read)&&!quick&&!trophy,
+      Edibles:food,Roach:horse,Alchemy:alchemy&&!food&&!usable&&!dye,
+      Equipment:weapon||armor||upgrade||tool||usable||quick||dye,Unknown:false};
+    for(const [category,result] of Object.entries(expected))assert.equal(s.CheckIfShouldResetNewItemFlag(1,category),result);
+  }
+});
+
+test('shared projection conversion preserves success and behind-camera boolean contracts', () => {
+  const s={screenPos:{X:0,Y:0},theCamera:{WorldVectorToViewRatio:()=>true},
+    hud:{GetScaleformPoint:(X,Y)=>({X:X*1920,Y:Y*1080})},
+    GetOppositeCameraScreenPos:()=>{s.screenPos.X=-0.5;s.screenPos.Y=0.5;}};
+  for(const f of ['ConvertViewRatioToScaleform','GetScreenPos','GetScreenPosOpposite'])
+    method(markerFile,f,s,['screenPos']);
+  for(const front of [true,false]) {
+    s.theCamera.WorldVectorToViewRatio=()=>front;
+    for(const name of ['GetScreenPos','GetScreenPosOpposite']) {
+      s.screenPos={X:-0.5,Y:0.5};
+      assert.equal(s[name]({},false),name==='GetScreenPos'?true:!front);
+      assert.deepEqual(s.screenPos,{X:480,Y:810});
+    }
+  }
+  s.screenPos={X:0.25,Y:-0.25};
+  assert.equal(s.GetScreenPos({},true),false);
+  assert.deepEqual(s.screenPos,{X:0.25,Y:-0.25});
 });
