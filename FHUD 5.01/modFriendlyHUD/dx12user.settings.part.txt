@@ -70,8 +70,8 @@ fhudShowItemCountWhenCrafting=true
 [fhudInteractions]
 fhudDisableAllInteractionPrompts=false
 fhudTalkBubbleMode=3
-fhudTalkButtonMode=2
-fhudInteractionButtonMode=2
+fhudTalkButtonMode=1
+fhudInteractionButtonMode=1
 fhudHideWSInteractionIcons=false
 fhudMaxDistanceToShowNames=3
 fhudMaxDistanceToShowNamesInCbt=10

@@ -581,8 +581,8 @@
 			<Preset id="0" displayName="fhud_defaults">
 				<Entry varId="fhudDisableAllInteractionPrompts" value="false"/>
 				<Entry varId="fhudTalkBubbleMode" value="3"/>
-				<Entry varId="fhudTalkButtonMode" value="2"/>
-				<Entry varId="fhudInteractionButtonMode" value="2"/>
+				<Entry varId="fhudTalkButtonMode" value="1"/>
+				<Entry varId="fhudInteractionButtonMode" value="1"/>
 				<Entry varId="fhudHideWSInteractionIcons" value="false"/>
 				<Entry varId="fhudMaxDistanceToShowNames" value="3"/>
 				<Entry varId="fhudMaxDistanceToShowNamesInCbt" value="10"/>
