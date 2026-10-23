@@ -94,8 +94,6 @@ class CR4HudModuleMinimap2 extends CR4HudModuleBase
 		LoadMinimapSettings();
 		
 		//---=== modFriendlyHUD ===---
-		//m_zoomValue = MINIMAP_EXTERIOR_ZOOM;
-		//SetZoom( m_zoomValue, true );
 		UpdateZoomForced();
 		//---=== modFriendlyHUD ===---
 

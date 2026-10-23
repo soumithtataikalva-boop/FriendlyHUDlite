@@ -187,3 +187,15 @@ test('completed POI modes show/pin/force survive filtering; hidden and disabled 
   s.config.markersShowDisabled=0;assert.equal(s.ShouldSkipDisabledMarker({isDisabled:true,quest:true}),true);
   assert.equal(s.ShouldSkipDisabledMarker({isDisabled:false}),false);
 });
+
+test('normal Remaster movement settings still initialize despite their historical Debug name', () => {
+  const calls = [];
+  const scope = {StringToFloat:parseFloat,theGame:{GetInGameConfigWrapper:()=>({GetVarValue:(group,key)=>'1'})}};
+  const setters = ['SetTargetLockSwitchCooldown','SetUseNewAnimations','SetUseNewLadderAnimations',
+    'SetJumpCooldown','SetLandAddCoefVal','SetLandAddTimeCoefVal','SetLandAddTimeCoefFast',
+    'SetLandAddCoefWalk','SetLandAddTimeCoefWalk'];
+  for(const name of setters) scope[name] = value=>calls.push(name);
+  method('game/player/r4Player.ws','InitRemasterDebugSettings',scope);
+  scope.InitRemasterDebugSettings();
+  assert.deepEqual(calls,setters);
+});

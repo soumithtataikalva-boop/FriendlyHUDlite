@@ -46,7 +46,20 @@
          </VisibleVars>
      </Group>
  	
---- original/content/scripts/fhudconfig/modFriendlyHUDConfig.ws
+--- original/content/scripts/debug/fhuddebug.ws
++++ /dev/null
+@@ -1,11 +0,0 @@
+-exec function showenvs()
+-{
+-	var envs : array< string >;
+-	var i : int;
+-
+-	GetActiveAreaEnvironmentDefinitions( envs );
+-	for(i = 0; i < envs.Size(); i += 1)
+-	{
+-		theGame.witcherLog.AddMessage(envs[i]);
+-	}
+-}--- original/content/scripts/fhudconfig/modFriendlyHUDConfig.ws
 +++ FHUD 5.01/content/scripts/fhudconfig/modFriendlyHUDConfig.ws
 @@ -138,8 +138,6 @@
  	public var minimapZoomBoat : float;
@@ -87,7 +100,31 @@
  //---=== modFriendlyHUD ===---
 --- original/content/scripts/fhudscripts/modHUDToggles.ws
 +++ FHUD 5.01/content/scripts/fhudscripts/modHUDToggles.ws
-@@ -50,100 +50,79 @@
+@@ -20,23 +20,6 @@
+ 	return false;
+ }
+ 
+-function IsHUDModuleEnabledForReason( modName : string, reason : string ) : bool
+-{
+-	var hud : CR4ScriptedHud;
+-	var module : CR4HudModuleBase;
+-	
+-	hud = (CR4ScriptedHud)theGame.GetHud(); 
+-	if ( hud ) 
+-	{
+-		module = (CR4HudModuleBase)hud.GetHudModule( modName );
+-		if ( module )
+-		{
+-			return module.IsEnabledForReason( reason );
+-		}
+-	}
+-	return false;
+-}
+-
+ function ToggleHUDModule( modName : string, toggle : bool, reason : string )
+ {
+ 	var hud : CR4ScriptedHud;
+@@ -50,100 +33,79 @@
  
  function ToggleBuffsModule( toggle : bool, reason : string )
  {
@@ -231,7 +268,15 @@
  //---=== modFriendlyHUD ===---
 --- original/content/scripts/fhudscripts/modMarkers.ws
 +++ FHUD 5.01/content/scripts/fhudscripts/modMarkers.ws
-@@ -120,6 +120,7 @@
+@@ -63,7 +63,6 @@
+ 	{
+ 		if( eventCategory == GetGlobalEventCategory( SEC_OnMapPinChanged ) )
+ 		{
+-			//theGame.witcherLog.AddMessage( "OnMapPinChanged" );
+ 			Mod3DMarkersSignalCache3DMarkers( true );
+ 		}
+ 	}
+@@ -120,6 +119,7 @@
  	var cacheQuestPins						: bool; default cacheQuestPins = false;
  	var delayedCacheTime					: float;
  	var compassLocs							: array< Vector >;
@@ -239,7 +284,7 @@
  	
  	
  	public function Init()
-@@ -132,6 +133,7 @@
+@@ -132,6 +132,7 @@
  		marginLeftTop = hud.GetScaleformPoint( 0.01, 0.025 );
  		marginRightBottom = hud.GetScaleformPoint( 1 - 0.01, 1 - 0.01 );
  		theGame.GetGlobalEventsManager().AddListener( GetGlobalEventCategory( SEC_OnMapPinChanged ), new CModMarkersListener in this );
@@ -247,7 +292,15 @@
  		//cache all markers
  		cacheQuestPins = true;
  		Cache3DMarkers();
-@@ -212,98 +214,71 @@
+@@ -148,7 +149,6 @@
+ 		}
+ 		timeDelta = dt;
+ 		markersAlpha = 100 - config.markersTransparency;
+-		//theGame.witcherLog.AddMessage( "timeDelta = " + timeDelta );
+ 		if( !theGame.GetGuiManager().IsAnyMenu() )
+ 		{
+ 			if( config.compassMarkersEnabled )
+@@ -212,98 +212,71 @@
  		module.FXRemoveOneliner( COMPASS_START_ID + 9 );
  	}
  	
@@ -403,7 +456,7 @@
  	//======================= update compass ==========================
  	
  	function UpdateCompass()
-@@ -397,7 +372,7 @@
+@@ -397,7 +370,7 @@
  			mcOneliner.SetPosition( screenPos.X, screenPos.Y );
  			mcOneliner.SetVisible( true );
  			if( isCompassFadingOut )
@@ -412,7 +465,54 @@
  			else
  				mcOneliner.SetAlpha( markersAlpha );
  		}
-@@ -557,13 +532,27 @@
+@@ -422,7 +395,6 @@
+ 		//if the player has changed
+ 		if( isGeraltNow != isGeralt )
+ 		{
+-			//theGame.witcherLog.AddMessage( "Player has changed." );
+ 			Init();
+ 		}
+ 		else if( isDirty && delayedCacheTime - theGame.GetEngineTimeAsSeconds() <= 0 )
+@@ -435,7 +407,6 @@
+ 			//if world path has changed or markers have changed
+ 			if( mapPinInstances.Size() != cachedNumPins || currentWorldPath != cachedWorldPath )
+ 			{
+-				//theGame.witcherLog.AddMessage( "Map pins changed, caching markers." );
+ 				//if world path has changed, cache everything, if not - only cache map pin entities
+ 				if( currentWorldPath != cachedWorldPath )
+ 					cacheQuestPins = true;
+@@ -482,12 +453,7 @@
+ 			if( !marker.pin && marker.distance > config.markerMaxDistanceSquared )
+ 				continue;
+ 			
+-			//is inside quest zone
+-			/*if( marker.isHighlighted && marker.distance < mapPin.visibleRadius )
+-			{
+-				CleanupCurrentOneliners();
+-				break;
+-			}*/
++
+ 			
+ 			AdjustZLevel( marker );
+ 			UpdateMarker( marker );
+@@ -517,16 +483,6 @@
+ 		marker.position.Z += 2.5;
+ 	}
+ 	
+-	function CleanupCurrentOneliners()
+-	{
+-		var i : int;
+-		for( i = MARKERS_START_ID; i < onelinersMaxID; i += 1 )
+-			module.FXRemoveOneliner( i );
+-		bIconCurrentlyShown = false;
+-		bAltTextCurrentlyShown = false;
+-		bDescriptionCurrentlyShown = false;
+-		bDistanceCurrentlyShown = false;
+-	}
+ 	
+ 	function CleanupUnusedOneliners()
+ 	{
+@@ -557,24 +513,39 @@
  			bDistanceCurrentlyShown = false;
  	}
  	
@@ -439,11 +539,17 @@
  		var markerDistanceText	: string = "";
 -		var onelinerTextFlash	: CScriptedFlashTextField;
 -		var mcOneliner			: CScriptedFlashSprite;
- 		
- 		/*markerText = "id: " + pin.id
- 					+ " tag: " + pin.tag
-@@ -575,6 +564,14 @@
- 		//theGame.witcherLog.AddMessage("size = " + GetIconSize());
+-		
+-		/*markerText = "id: " + pin.id
+-					+ " tag: " + pin.tag
+-					+ " customNameId: " + pin.customNameId
+-					+ " extraTag: " + pin.extraTag
+-					+ " type: " + pin.type
+-					+ " visibleType: " + pin.visibleType
+-					+ " alternateVersion: " + pin.alternateVersion;*/
+-		//theGame.witcherLog.AddMessage("size = " + GetIconSize());
++		
++
  		
  		SetMarkerScreenPosition( marker );
 +		if( bIconCurrentlyShown || marker.force )
@@ -457,7 +563,7 @@
  		
  		if( bIconCurrentlyShown || marker.force )
  		{
-@@ -584,10 +581,7 @@
+@@ -584,10 +555,7 @@
  				markerText = marker.offscreenText;
  			marker.onelinerID = onelinersMaxID;
  			onelinersMaxID += 1;
@@ -469,7 +575,7 @@
  		}
  		else
  		{
-@@ -599,10 +593,7 @@
+@@ -599,10 +567,7 @@
  			markerDescrText = marker.description;
  			marker.descrOnelinerID = onelinersMaxID;
  			onelinersMaxID += 1;
@@ -481,7 +587,7 @@
  		}
  		else
  		{
-@@ -614,10 +605,7 @@
+@@ -614,10 +579,7 @@
  			markerDistanceText = GetMarkerDistanceText( marker );
  			marker.distOnelinerID = onelinersMaxID;
  			onelinersMaxID += 1;
@@ -493,7 +599,7 @@
  		}
  		else
  		{
-@@ -718,7 +706,7 @@
+@@ -718,7 +680,7 @@
  				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y );
  				mcOneliner.SetVisible( true );
  				if( isIconFadingOut && !marker.force )
@@ -502,7 +608,7 @@
  				else
  					mcOneliner.SetAlpha( markersAlpha );
  			}
-@@ -733,7 +721,7 @@
+@@ -733,7 +695,7 @@
  				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y + descrOffset );
  				mcOneliner.SetVisible( true );
  				if( isDescriptionFadingOut )
@@ -511,7 +617,7 @@
  				else
  					mcOneliner.SetAlpha( markersAlpha );
  			}
-@@ -748,7 +736,7 @@
+@@ -748,7 +710,7 @@
  				mcOneliner.SetPosition( marker.screenPosition.X, marker.screenPosition.Y - distOffset );
  				mcOneliner.SetVisible( true );
  				if( isDistanceFadingOut )
@@ -520,7 +626,42 @@
  				else
  					mcOneliner.SetAlpha( markersAlpha );
  			}
-@@ -1925,6 +1913,12 @@
+@@ -1029,11 +991,7 @@
+ 					iconPath = "<img src=\"img://icons/quests/quest_question_yellow.png\"";
+ 					break;
+ 				case 'MonsterQuest':
+-					//iconPath = "<img src=\"img://icons/quests/quest_monsterhunt.png\"";
+-					//break;
+ 				case 'TreasureQuest':
+-					//iconPath = "<img src=\"img://icons/quests/quest_treasure.png\"";
+-					//break;
+ 				case 'StoryQuest':
+ 				case 'ChapterQuest':
+ 				case 'SideQuest':
+@@ -1303,10 +1261,7 @@
+ 	
+ 		if( marker.isActiveQuest )
+ 		{
+-			//if( marker.isHighlighted )
+ 				iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
+-			//else
+-			//	iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
+ 		}
+ 		else
+ 		{
+@@ -1317,11 +1272,7 @@
+ 					iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
+ 					break;
+ 				case 'MonsterQuest':
+-					//iconPath = "<img src=\"img://icons/quests/quest_monsterhunt_white.png\"";
+-					//break;
+ 				case 'TreasureQuest':
+-					//iconPath = "<img src=\"img://icons/quests/quest_treasure_white.png\"";
+-					//break;
+ 				case 'StoryQuest':
+ 				case 'ChapterQuest':
+ 				case 'SideQuest':
+@@ -1925,6 +1876,12 @@
  	
  	//================= on/off conditions ========================
  	
@@ -533,7 +674,84 @@
  	function ShouldShowMarker( marker : SMod3DMarker ) : bool
  	{
  		if( marker.pin || marker.force )
-@@ -2481,11 +2475,7 @@
+@@ -1957,10 +1914,7 @@
+ 			return config.markersShowDeadEnemies == MV_Show;
+ 		if( IsWSClue( marker ) )
+ 			return config.markersShowWSClues == MV_Show;
+-		/*if( pin.type == 'NPC' ||
+-				pin.type == 'PointOfInterestMappin' )
+-			continue;*/
+-		//theGame.witcherLog.AddMessage( "marker: " + marker.visibleType );
++
+ 		return false;
+ 	}
+ 	
+@@ -2254,7 +2208,6 @@
+ 		var i, j, k, m				: int;
+ 		var lvlDiff					: EQuestLevel;
+ 		
+-		//theGame.witcherLog.AddMessage( "CacheQuestMapPins" );
+ 		
+ 		FactsAdd( "quest_map_pins_hack_disable_sound" );
+ 		
+@@ -2285,11 +2238,9 @@
+ 							if( currentObjective && journalManager.GetEntryStatus( currentObjective ) == JS_Active )
+ 							{
+ 								journalManager.SetHighlightedObjective( currentObjective );
+-								//theGame.witcherLog.AddMessage( currentObjective.GetUniqueScriptTag() );
+ 								if( NormalizeArea( currentObjective.GetWorld() ) == NormalizeArea( mapManager.GetAreaFromWorldPath( currentWorldPath ) ) )
+ 								{
+ 									mapPinInstances = mapManager.GetMapPinInstances( currentWorldPath );
+-									//theGame.witcherLog.AddMessage( mapPinInstances.Size() );
+ 									for( m = 0; m < mapPinInstances.Size(); m += 1 )
+ 									{
+ 										pin = mapPinInstances[m];
+@@ -2298,7 +2249,6 @@
+ 											pin.isHighlighted = false;
+ 											cachedQuestPins.PushBack( pin );
+ 											cachedQuestLevels.PushBack( lvlDiff );
+-											//theGame.witcherLog.AddMessage( GetMarkerDescription( pin ) );
+ 										}
+ 									}
+ 								}
+@@ -2315,7 +2265,6 @@
+ 		FactsRemove( "quest_map_pins_hack_disable_sound" );
+ 	}
+ 	
+-	//private function NormalizeArea( area : EAreaName ) : EAreaName
+ 	private function NormalizeArea( area : name ) : name
+ 	{
+ 		if( area == 'AN_Velen' )
+@@ -2393,7 +2342,7 @@
+ 	function InitUserMarker( out userMarker : SMod3DMarker ) : bool
+ 	{
+ 		var mapManager : CCommonMapManager = theGame.GetCommonMapManager();
+-		var /*area,*/ numPins, id, type, i : int;
++		var  numPins, id, type, i : int;
+ 		var pinX, pinY : float;
+ 		var area : name;
+ 		
+@@ -2422,18 +2371,13 @@
+ 		var mapPin					: SCommonMapPinInstance;
+ 		var marker					: SMod3DMarker;
+ 		var questsStartingIdx		: int = 0;
+-		//var mStatic, mDynamic		: array< SMod3DMarker >;
+ 		var userMarker				: SMod3DMarker;
+ 		var hasUserMarker, userMarkerSubstituted : bool;
+ 		var disabledPins			: array< string > = theGame.GetCommonMapManager().GetDisabledMapPins();
+ 		var journalManager			: CWitcherJournalManager = theGame.GetJournalManager();
+ 		var highlightedObjective	: CJournalQuestObjective;
+ 		
+-		/*theGame.witcherLog.AddMessage( "Disabled Pins:" );
+-		for( i = 0; i < disabledPins.Size(); i += 1 )
+-		{
+-			theGame.witcherLog.AddMessage( disabledPins[i] );
+-		}*/
++
+ 		
+ 		cached3DMarkersStatic.Clear();
+ 		cached3DMarkersDynamic.Clear();
+@@ -2481,11 +2425,7 @@
  				if( !IsRoadSign( marker ) || !config.markerShowUndiscoveredRoadsigns )
  					continue;
  			}
@@ -546,10 +764,35 @@
  				continue;
  			if( i >= questsStartingIdx )
  				marker.lvlDiff = cachedQuestLevels[i - questsStartingIdx];
-@@ -2796,6 +2786,13 @@
+@@ -2510,7 +2450,6 @@
+ 					marker.pin = true;
+ 				}
+ 			}
+-			//cached3DMarkers.PushBack( marker );
+ 			//Dynamic markers like herbs and especially WS clues lead to rearranging
+ 			//of array elements and redrawing of oneliners - i.e. they cause flickering
+ 			//when enabled. Without proper map/dictionary proper caching is PITA and
+@@ -2524,13 +2463,8 @@
+ 				else
+ 					cached3DMarkersStatic.PushBack( marker );
+ 			}
+-			//theGame.witcherLog.AddMessage( "MAPPIN " + mapPin.id + ": " + mapPin.tag + " : " + mapPin.visibleType );
+-		}
+-		
+-		//for( i = 0; i < mStatic.Size(); i += 1 )
+-		//	cached3DMarkers.PushBack( mStatic[i] );
+-		//for( i = 0; i < mDynamic.Size(); i += 1 )
+-		//	cached3DMarkers.PushBack( mDynamic[i] );
++		}
++		
+ 		
+ 		if( !userMarkerSubstituted && ShouldShowMarker( userMarker ) )
+ 		{
+@@ -2795,7 +2729,13 @@
+ 
  function Mod3DMarkersSignalCache3DMarkers( questPins : bool )
  {
- 	//theGame.witcherLog.AddMessage( "Mod3DMarkersSignalCache3DMarkers" );
+-	//theGame.witcherLog.AddMessage( "Mod3DMarkersSignalCache3DMarkers" );
 -	((CR4HudModuleOneliners)((CR4ScriptedHud)theGame.GetHud()).GetHudModule( "OnelinersModule" )).SignalCache3DMarkers( questPins );
 +	var hud : CR4ScriptedHud;
 +	var module : CR4HudModuleOneliners;
@@ -907,6 +1150,28 @@
  	private function ConsumePotion( potionID : SItemUniqueId )
  	{
  		if( thePlayer.IsCiri() || !playerInventory.IsIdValid( potionID ) )
+@@ -597,10 +478,7 @@
+ 		if ( GetWitcherPlayer().ToxicityLowEnoughToDrinkPotion( EES_Potion1, potionID ) && playerInventory.SingletonItemGetAmmo( potionID ) != 0 )
+ 		{
+ 			GetWitcherPlayer().DrinkPreparedPotion( EES_Potion1, potionID );
+-			//if( playerInventory.SingletonItemGetAmmo( potionID ) == 0 )
+-			//{
+ 				ReplaceBuffsFlash();
+-			//}
+ 		}
+ 		else
+ 		{
+@@ -1046,10 +924,7 @@
+ 		{
+ 			if ( playerInventory.IsIdValid( bombs[i] ) )
+ 			{
+-				//if( GetWitcherPlayer().IsItemEquipped( bombs[i] ) )
+ 					buffsModule.SetBuffsPercent( j, playerInventory.SingletonItemGetAmmo( bombs[i] ), playerInventory.SingletonItemGetMaxAmmo( bombs[i] ) );
+-				//else
+-					//buffsModule.SetBuffsPercent( j, 0, 0 );
+ 				j += 1;
+ 			}
+ 		}
 --- original/content/scripts/game/gameplay/effects/effects/potion/Cat.ws
 +++ /dev/null
 @@ -1,208 +0,0 @@
@@ -1188,7 +1453,15 @@
  		var partList : array <SItemParts>;
 --- original/content/scripts/game/gui/hud/hud.ws
 +++ FHUD 5.01/content/scripts/game/gui/hud/hud.ws
-@@ -703,7 +703,7 @@
+@@ -673,7 +673,6 @@
+ 		
+ 		case 'Minimap2Module':
+ 		//---=== modFriendlyHUD ===---
+-		//case 'OnelinersModule':
+ 		//---=== modFriendlyHUD ===---
+ 		case 'OxygenBarModule':
+ 		case 'QuestsModule':
+@@ -703,7 +702,7 @@
  				module = (CR4HudModuleBase)(GetHudModule(NameToString(configName)));
  				if (module)
  				{
@@ -1273,9 +1546,28 @@
  		}
  		else
  		{
+--- original/content/scripts/game/gui/hud/modules/hudModuleEnemyFocus.ws
++++ FHUD 5.01/content/scripts/game/gui/hud/modules/hudModuleEnemyFocus.ws
+@@ -742,7 +742,6 @@
+ 																questIcon = "TreasureQuest";
+ 																return questIcon;
+ 															default:
+-																//return "QuestReturn"; //?
+ 																break;
+ 														}
+ 													}
 --- original/content/scripts/game/gui/hud/modules/hudModuleMinimap2.ws
 +++ FHUD 5.01/content/scripts/game/gui/hud/modules/hudModuleMinimap2.ws
-@@ -197,7 +197,6 @@
+@@ -94,8 +94,6 @@
+ 		LoadMinimapSettings();
+ 		
+ 		//---=== modFriendlyHUD ===---
+-		//m_zoomValue = MINIMAP_EXTERIOR_ZOOM;
+-		//SetZoom( m_zoomValue, true );
+ 		UpdateZoomForced();
+ 		//---=== modFriendlyHUD ===---
+ 
+@@ -197,7 +195,6 @@
  	private var fadeInTimer : float;
  	private var isFading, currentlyFading : bool;
  	private var fadeOutTime : float;	default fadeOutTime = 0.3f;
@@ -1283,7 +1575,7 @@
  	
  	private function FadeMinimapOut(dt : float)
  	{		
-@@ -214,18 +213,16 @@
+@@ -214,18 +211,16 @@
  	
  		currentlyFading = true;
  		//---=== modFriendlyHUD ===---
@@ -1308,7 +1600,7 @@
  		if( mAlpha <= 0 )
  		{
  			SetEnabled(false);
-@@ -297,7 +294,6 @@
+@@ -297,7 +292,6 @@
  			else if (!isFading && GetEnabled())
  			{
  				isFading = true;
@@ -1318,7 +1610,12 @@
  			}
 --- original/content/scripts/game/gui/hud/modules/hudModuleOneliners.ws
 +++ FHUD 5.01/content/scripts/game/gui/hud/modules/hudModuleOneliners.ws
-@@ -102,7 +102,6 @@
+@@ -97,12 +97,10 @@
+ 		var oneliner : OnelinerDefinition;
+ 		
+ 		//modFriendlyHUD begin
+-		//theGame.witcherLog.AddMessage( "SHOW " + ID + ": " + value + " [" + target.GetName() + "]" );
+ 		if( modMarkers.IsValidID(ID) )
  			return true;
  		//modFriendlyHUD end
  		
@@ -1326,7 +1623,7 @@
  		
  		
  		value = "<font size = '"+ IntToString( 25 + onelinerScale ) + "' >" + value + "</font>";
-@@ -171,7 +170,8 @@
+@@ -171,7 +169,8 @@
  
  	public function SignalCache3DMarkers( questPins : bool )
  	{
@@ -1434,14 +1731,35 @@
  				m_npcInventory = m_npc.GetInventory();
 --- original/content/scripts/game/player/playerInput.ws
 +++ FHUD 5.01/content/scripts/game/player/playerInput.ws
-@@ -63,7 +63,6 @@
+@@ -63,10 +63,8 @@
  		
  		//---=== modFriendlyHUD ===---
  		theInput.RegisterListener( this, 'On3DMarkersToggle', 'Toggle3DMarkers' );
 -		theInput.RegisterListener( this, 'OnHUDToggle', 'HUDToggle' );
  		theInput.RegisterListener( this, 'OnPauseGameToggle', 'PauseGameToggle' );
  		theInput.RegisterListener( this, 'OnSwitchCrossbow', 'SwitchCrossbow' );
- 		theInput.RegisterListener( this, 'OnPinModuleModfier', 'PinModuleModfier' );
+-		theInput.RegisterListener( this, 'OnPinModuleModfier', 'PinModuleModfier' );
+ 		theInput.RegisterListener( this, 'OnToggleEssentials', 'ToggleEssentials' );
+ 		theInput.RegisterListener( this, 'OnHoldToSeeHub', 'HoldToSeeEssentials' );
+ 		theInput.RegisterListener( this, 'OnHoldToSeeChar', 'HoldToSeeCharStats' );
+@@ -219,9 +217,6 @@
+ 	
+ 	
+ 	//---=== modFriendlyHUD ===---
+-	event OnPinModuleModfier( action : SInputAction )
+-	{
+-	}
+ 	
+ 	private var savedQuickSlot : EEquipmentSlots; default savedQuickSlot = EES_InvalidSlot;
+ 	
+@@ -294,7 +289,6 @@
+ 
+ 	event OnPauseGameToggle( action : SInputAction )
+ 	{
+-		var hud : CR4ScriptedHud;
+ 		
+ 		if( IsPressed( action ) )
+ 		{
 --- original/dx12user.settings.part.txt
 +++ FHUD 5.01/dx12user.settings.part.txt
 @@ -94,5 +94,3 @@

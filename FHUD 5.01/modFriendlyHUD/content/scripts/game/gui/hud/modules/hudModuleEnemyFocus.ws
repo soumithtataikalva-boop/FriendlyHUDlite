@@ -742,7 +742,6 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 																questIcon = "TreasureQuest";
 																return questIcon;
 															default:
-																//return "QuestReturn"; //?
 																break;
 														}
 													}

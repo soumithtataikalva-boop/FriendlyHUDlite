@@ -219,6 +219,10 @@
     {
       "path": "game/gui/hud/modules/hudModuleQuests.ws",
       "reason": "Remove superseded commented-out fade implementations."
+    },
+    {
+      "path": "game/gui/hud/modules/hudModuleEnemyFocus.ws",
+      "reason": "Remove obsolete commented-out quest icon return."
     }
   ],
   "removed_game_files": [
@@ -229,7 +233,8 @@
     }
   ],
   "removed_package_files": [
-    "content/scripts/game/gameplay/effects/effects/potion/Cat.ws"
+    "content/scripts/game/gameplay/effects/effects/potion/Cat.ws",
+    "content/scripts/debug/fhuddebug.ws"
   ],
   "package_changes": [
     {
@@ -295,5 +300,8 @@
   ],
   "removed_features": [
     "Automatic Cat vision suppression outside dark places and automatic restoration at night."
+  ],
+  "restoration_notes": [
+    "Restored vanilla debug/console function bodies, diagnostics, input handlers and debug gameplay guards after comparison with Vanilla Scripts 5.01. FriendlyHUD-specific cleanup and Cat override removal retained."
   ]
 }

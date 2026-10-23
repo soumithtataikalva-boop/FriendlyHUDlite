@@ -20,23 +20,6 @@ function IsHUDGroupEnabledForReason( modNames : array< string >, reason : string
 	return false;
 }
 
-function IsHUDModuleEnabledForReason( modName : string, reason : string ) : bool
-{
-	var hud : CR4ScriptedHud;
-	var module : CR4HudModuleBase;
-	
-	hud = (CR4ScriptedHud)theGame.GetHud(); 
-	if ( hud ) 
-	{
-		module = (CR4HudModuleBase)hud.GetHudModule( modName );
-		if ( module )
-		{
-			return module.IsEnabledForReason( reason );
-		}
-	}
-	return false;
-}
-
 function ToggleHUDModule( modName : string, toggle : bool, reason : string )
 {
 	var hud : CR4ScriptedHud;

@@ -97,7 +97,6 @@ class CR4HudModuleOneliners extends CR4HudModuleBase
 		var oneliner : OnelinerDefinition;
 		
 		//modFriendlyHUD begin
-		//theGame.witcherLog.AddMessage( "SHOW " + ID + ": " + value + " [" + target.GetName() + "]" );
 		if( modMarkers.IsValidID(ID) )
 			return true;
 		//modFriendlyHUD end

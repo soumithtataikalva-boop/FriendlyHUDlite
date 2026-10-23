@@ -44,6 +44,33 @@ for p in package.rglob('*'):
         assert not removed_keys.search(text), str(p)
         if p.suffix == '.csv':
             assert not re.search(r'^211036510[34]\|', text, re.M), str(p)
+# Compare every restored diagnostic entry point directly with the supplied vanilla.
+function_pattern = r'(?m)^[ \t]*(?:(?:public|private|protected|final|timer|latent|exec|saved)\s+)*(?:function|event)\s+{name}\s*\([^;{{]*\)[^;{{]*\{{'
+brace_tokens = re.compile(r'//[^\n]*|/\*.*?\*/|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[{{}}]', re.S)
+def functions(path, name):
+    text = path.read_text(encoding='utf-8-sig')
+    result = []
+    for match in re.finditer(function_pattern.format(name=re.escape(name)), text):
+        depth = 1
+        for token in brace_tokens.finditer(text, match.end()):
+            if token.group() == '{':
+                depth += 1
+            elif token.group() == '}':
+                depth -= 1
+            if depth == 0:
+                result.append(re.sub(r'\s+', ' ', text[match.start():token.end()]).strip())
+                break
+    return result
+entries = json.loads((port / 'tests/vanilla_debug_entries.json').read_text())
+restored_count = 0
+for name, function in sorted(set(map(tuple, entries))):
+    actual_functions = functions(package / 'content/scripts' / name, function)
+    vanilla_functions = functions(repo / 'Vanilla Scripts 5.01' / name, function)
+    assert vanilla_functions and actual_functions == vanilla_functions, (name, function)
+    restored_count += len(actual_functions)
+assert restored_count == 93
+print('PASS: all 93 restored debug/console entry points match Vanilla Scripts 5.01.')
+
 # Delimiter checks skip comments and quoted strings.
 lexer = re.compile(r'//[^\n]*|/\*.*?\*/|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[{}()\[\]]', re.S)
 ws_files = list(package.rglob('*.ws'))

@@ -65,7 +65,6 @@ class CPlayerInput
 		theInput.RegisterListener( this, 'On3DMarkersToggle', 'Toggle3DMarkers' );
 		theInput.RegisterListener( this, 'OnPauseGameToggle', 'PauseGameToggle' );
 		theInput.RegisterListener( this, 'OnSwitchCrossbow', 'SwitchCrossbow' );
-		theInput.RegisterListener( this, 'OnPinModuleModfier', 'PinModuleModfier' );
 		theInput.RegisterListener( this, 'OnToggleEssentials', 'ToggleEssentials' );
 		theInput.RegisterListener( this, 'OnHoldToSeeHub', 'HoldToSeeEssentials' );
 		theInput.RegisterListener( this, 'OnHoldToSeeChar', 'HoldToSeeCharStats' );
@@ -218,9 +217,6 @@ class CPlayerInput
 	
 	
 	//---=== modFriendlyHUD ===---
-	event OnPinModuleModfier( action : SInputAction )
-	{
-	}
 	
 	private var savedQuickSlot : EEquipmentSlots; default savedQuickSlot = EES_InvalidSlot;
 	
@@ -293,7 +289,6 @@ class CPlayerInput
 
 	event OnPauseGameToggle( action : SInputAction )
 	{
-		var hud : CR4ScriptedHud;
 		
 		if( IsPressed( action ) )
 		{

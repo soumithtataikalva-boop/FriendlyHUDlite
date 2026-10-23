@@ -673,7 +673,6 @@ class CR4ScriptedHud extends CR4Hud
 		
 		case 'Minimap2Module':
 		//---=== modFriendlyHUD ===---
-		//case 'OnelinersModule':
 		//---=== modFriendlyHUD ===---
 		case 'OxygenBarModule':
 		case 'QuestsModule':

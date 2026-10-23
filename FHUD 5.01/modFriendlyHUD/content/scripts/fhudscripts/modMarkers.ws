@@ -63,7 +63,6 @@ class CModMarkersListener extends IGlobalEventScriptedListener
 	{
 		if( eventCategory == GetGlobalEventCategory( SEC_OnMapPinChanged ) )
 		{
-			//theGame.witcherLog.AddMessage( "OnMapPinChanged" );
 			Mod3DMarkersSignalCache3DMarkers( true );
 		}
 	}
@@ -150,7 +149,6 @@ class CModMarkers
 		}
 		timeDelta = dt;
 		markersAlpha = 100 - config.markersTransparency;
-		//theGame.witcherLog.AddMessage( "timeDelta = " + timeDelta );
 		if( !theGame.GetGuiManager().IsAnyMenu() )
 		{
 			if( config.compassMarkersEnabled )
@@ -397,7 +395,6 @@ class CModMarkers
 		//if the player has changed
 		if( isGeraltNow != isGeralt )
 		{
-			//theGame.witcherLog.AddMessage( "Player has changed." );
 			Init();
 		}
 		else if( isDirty && delayedCacheTime - theGame.GetEngineTimeAsSeconds() <= 0 )
@@ -410,7 +407,6 @@ class CModMarkers
 			//if world path has changed or markers have changed
 			if( mapPinInstances.Size() != cachedNumPins || currentWorldPath != cachedWorldPath )
 			{
-				//theGame.witcherLog.AddMessage( "Map pins changed, caching markers." );
 				//if world path has changed, cache everything, if not - only cache map pin entities
 				if( currentWorldPath != cachedWorldPath )
 					cacheQuestPins = true;
@@ -457,12 +453,7 @@ class CModMarkers
 			if( !marker.pin && marker.distance > config.markerMaxDistanceSquared )
 				continue;
 			
-			//is inside quest zone
-			/*if( marker.isHighlighted && marker.distance < mapPin.visibleRadius )
-			{
-				CleanupCurrentOneliners();
-				break;
-			}*/
+
 			
 			AdjustZLevel( marker );
 			UpdateMarker( marker );
@@ -492,16 +483,6 @@ class CModMarkers
 		marker.position.Z += 2.5;
 	}
 	
-	function CleanupCurrentOneliners()
-	{
-		var i : int;
-		for( i = MARKERS_START_ID; i < onelinersMaxID; i += 1 )
-			module.FXRemoveOneliner( i );
-		bIconCurrentlyShown = false;
-		bAltTextCurrentlyShown = false;
-		bDescriptionCurrentlyShown = false;
-		bDistanceCurrentlyShown = false;
-	}
 	
 	function CleanupUnusedOneliners()
 	{
@@ -554,14 +535,7 @@ class CModMarkers
 		var markerDescrText		: string = "";
 		var markerDistanceText	: string = "";
 		
-		/*markerText = "id: " + pin.id
-					+ " tag: " + pin.tag
-					+ " customNameId: " + pin.customNameId
-					+ " extraTag: " + pin.extraTag
-					+ " type: " + pin.type
-					+ " visibleType: " + pin.visibleType
-					+ " alternateVersion: " + pin.alternateVersion;*/
-		//theGame.witcherLog.AddMessage("size = " + GetIconSize());
+
 		
 		SetMarkerScreenPosition( marker );
 		if( bIconCurrentlyShown || marker.force )
@@ -1017,11 +991,7 @@ class CModMarkers
 					iconPath = "<img src=\"img://icons/quests/quest_question_yellow.png\"";
 					break;
 				case 'MonsterQuest':
-					//iconPath = "<img src=\"img://icons/quests/quest_monsterhunt.png\"";
-					//break;
 				case 'TreasureQuest':
-					//iconPath = "<img src=\"img://icons/quests/quest_treasure.png\"";
-					//break;
 				case 'StoryQuest':
 				case 'ChapterQuest':
 				case 'SideQuest':
@@ -1291,10 +1261,7 @@ class CModMarkers
 	
 		if( marker.isActiveQuest )
 		{
-			//if( marker.isHighlighted )
 				iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
-			//else
-			//	iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
 		}
 		else
 		{
@@ -1305,11 +1272,7 @@ class CModMarkers
 					iconPath = "<img src=\"img://icons/quests/quest_tracked_white.png\"";
 					break;
 				case 'MonsterQuest':
-					//iconPath = "<img src=\"img://icons/quests/quest_monsterhunt_white.png\"";
-					//break;
 				case 'TreasureQuest':
-					//iconPath = "<img src=\"img://icons/quests/quest_treasure_white.png\"";
-					//break;
 				case 'StoryQuest':
 				case 'ChapterQuest':
 				case 'SideQuest':
@@ -1951,10 +1914,7 @@ class CModMarkers
 			return config.markersShowDeadEnemies == MV_Show;
 		if( IsWSClue( marker ) )
 			return config.markersShowWSClues == MV_Show;
-		/*if( pin.type == 'NPC' ||
-				pin.type == 'PointOfInterestMappin' )
-			continue;*/
-		//theGame.witcherLog.AddMessage( "marker: " + marker.visibleType );
+
 		return false;
 	}
 	
@@ -2248,7 +2208,6 @@ class CModMarkers
 		var i, j, k, m				: int;
 		var lvlDiff					: EQuestLevel;
 		
-		//theGame.witcherLog.AddMessage( "CacheQuestMapPins" );
 		
 		FactsAdd( "quest_map_pins_hack_disable_sound" );
 		
@@ -2279,11 +2238,9 @@ class CModMarkers
 							if( currentObjective && journalManager.GetEntryStatus( currentObjective ) == JS_Active )
 							{
 								journalManager.SetHighlightedObjective( currentObjective );
-								//theGame.witcherLog.AddMessage( currentObjective.GetUniqueScriptTag() );
 								if( NormalizeArea( currentObjective.GetWorld() ) == NormalizeArea( mapManager.GetAreaFromWorldPath( currentWorldPath ) ) )
 								{
 									mapPinInstances = mapManager.GetMapPinInstances( currentWorldPath );
-									//theGame.witcherLog.AddMessage( mapPinInstances.Size() );
 									for( m = 0; m < mapPinInstances.Size(); m += 1 )
 									{
 										pin = mapPinInstances[m];
@@ -2292,7 +2249,6 @@ class CModMarkers
 											pin.isHighlighted = false;
 											cachedQuestPins.PushBack( pin );
 											cachedQuestLevels.PushBack( lvlDiff );
-											//theGame.witcherLog.AddMessage( GetMarkerDescription( pin ) );
 										}
 									}
 								}
@@ -2309,7 +2265,6 @@ class CModMarkers
 		FactsRemove( "quest_map_pins_hack_disable_sound" );
 	}
 	
-	//private function NormalizeArea( area : EAreaName ) : EAreaName
 	private function NormalizeArea( area : name ) : name
 	{
 		if( area == 'AN_Velen' )
@@ -2387,7 +2342,7 @@ class CModMarkers
 	function InitUserMarker( out userMarker : SMod3DMarker ) : bool
 	{
 		var mapManager : CCommonMapManager = theGame.GetCommonMapManager();
-		var /*area,*/ numPins, id, type, i : int;
+		var  numPins, id, type, i : int;
 		var pinX, pinY : float;
 		var area : name;
 		
@@ -2416,18 +2371,13 @@ class CModMarkers
 		var mapPin					: SCommonMapPinInstance;
 		var marker					: SMod3DMarker;
 		var questsStartingIdx		: int = 0;
-		//var mStatic, mDynamic		: array< SMod3DMarker >;
 		var userMarker				: SMod3DMarker;
 		var hasUserMarker, userMarkerSubstituted : bool;
 		var disabledPins			: array< string > = theGame.GetCommonMapManager().GetDisabledMapPins();
 		var journalManager			: CWitcherJournalManager = theGame.GetJournalManager();
 		var highlightedObjective	: CJournalQuestObjective;
 		
-		/*theGame.witcherLog.AddMessage( "Disabled Pins:" );
-		for( i = 0; i < disabledPins.Size(); i += 1 )
-		{
-			theGame.witcherLog.AddMessage( disabledPins[i] );
-		}*/
+
 		
 		cached3DMarkersStatic.Clear();
 		cached3DMarkersDynamic.Clear();
@@ -2500,7 +2450,6 @@ class CModMarkers
 					marker.pin = true;
 				}
 			}
-			//cached3DMarkers.PushBack( marker );
 			//Dynamic markers like herbs and especially WS clues lead to rearranging
 			//of array elements and redrawing of oneliners - i.e. they cause flickering
 			//when enabled. Without proper map/dictionary proper caching is PITA and
@@ -2514,13 +2463,8 @@ class CModMarkers
 				else
 					cached3DMarkersStatic.PushBack( marker );
 			}
-			//theGame.witcherLog.AddMessage( "MAPPIN " + mapPin.id + ": " + mapPin.tag + " : " + mapPin.visibleType );
 		}
 		
-		//for( i = 0; i < mStatic.Size(); i += 1 )
-		//	cached3DMarkers.PushBack( mStatic[i] );
-		//for( i = 0; i < mDynamic.Size(); i += 1 )
-		//	cached3DMarkers.PushBack( mDynamic[i] );
 		
 		if( !userMarkerSubstituted && ShouldShowMarker( userMarker ) )
 		{
@@ -2785,7 +2729,6 @@ class CModMarkers
 
 function Mod3DMarkersSignalCache3DMarkers( questPins : bool )
 {
-	//theGame.witcherLog.AddMessage( "Mod3DMarkersSignalCache3DMarkers" );
 	var hud : CR4ScriptedHud;
 	var module : CR4HudModuleOneliners;
 	hud = (CR4ScriptedHud)theGame.GetHud();

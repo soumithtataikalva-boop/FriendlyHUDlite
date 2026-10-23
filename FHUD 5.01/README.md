@@ -50,7 +50,7 @@ python3 "FHUD 5.01/tests/validate_package.py"
 node --test "FHUD 5.01/tests/logic.cjs"
 ```
 
-The harness reads selected production WitcherScript methods and executes them through a restricted syntax adapter with mocked engine services. Its 14 checks cover the corrected decision logic, visibility transitions, cleanup, allocation and sprite reuse. It is not a WitcherScript compiler and does not validate engine behavior, Flash rendering, or the entire script language.
+The harness reads selected production WitcherScript methods and executes them through a restricted syntax adapter with mocked engine services. Its 15 checks cover the corrected decision logic, visibility transitions, cleanup, allocation and sprite reuse. It is not a WitcherScript compiler and does not validate engine behavior, Flash rendering, or the entire script language.
 
 The game and its script compiler are not present in this cloud workspace. This candidate has not been compiled or run in the game. The 5.01 version label comes from the supplied baseline and was not independently authenticated. Texture/Flash assets and localized strings were retained from the supplied mod and need in-game compatibility verification.
 
@@ -72,3 +72,17 @@ The port no longer overrides `game/gameplay/effects/effects/potion/Cat.ws`. Cat 
 Cat remains available as an ordinary potion in the accepted quick-item interface; this does not add custom vision behavior. Existing user settings may retain obsolete Cat-control keys, which the port no longer reads. The supplied compiled localization bundles are preserved; any old Cat option labels they contain are unused because the corresponding menu entries and code are gone.
 
 When upgrading an installed copy, delete its old FriendlyHUD `content/scripts/game/gameplay/effects/effects/potion/Cat.ws` override and regenerate Script Merger outputs before installing the updated package. Copying over the old folder alone will leave the removed script behind. Replace the installed menu XML as well.
+
+## Dead-code cleanup
+
+Removed the unused `CleanupCurrentOneliners` and `IsHUDModuleEnabledForReason` helpers, the standalone `showenvs` debug command, the empty modifier callback/listener, an unused pause-handler local. Modifier action bindings and polling remain active. Existing mods calling the removed global helper or debug command must stop relying on those unused package APIs.
+
+Obsolete commented-out implementations and debug statements were removed. Author/license headers, configuration guidance, working engine callbacks and Preparations/meditation compatibility hooks are retained. The package contains 69 files and 35 scripts after cleanup.
+
+## Vanilla code restored
+
+The broad diagnostic/debug removal has been reverted. All 93 vanilla debug/console function definitions match the supplied `Vanilla Scripts 5.01` files, including their original console exposure and implementation. Vanilla logging/assertions, visual-debug calls, input registrations, testing-item paths, debug-fact guards and the main-menu random sample/log have been restored.
+
+FriendlyHUD-specific unused helpers, the FriendlyHUD debug command, empty modifier callback and obsolete custom comments remain removed. The prior FriendlyHUD fixes and Cat override removal remain intact.
+
+Package validation compares all restored entry points directly with the supplied vanilla scripts. No source changes were made to the vanilla reference directory. Game compilation/runtime testing remains required.

@@ -478,10 +478,7 @@ class CModRadialMenuPotions
 		if ( GetWitcherPlayer().ToxicityLowEnoughToDrinkPotion( EES_Potion1, potionID ) && playerInventory.SingletonItemGetAmmo( potionID ) != 0 )
 		{
 			GetWitcherPlayer().DrinkPreparedPotion( EES_Potion1, potionID );
-			//if( playerInventory.SingletonItemGetAmmo( potionID ) == 0 )
-			//{
 				ReplaceBuffsFlash();
-			//}
 		}
 		else
 		{
@@ -927,10 +924,7 @@ class CModRadialMenuPotions
 		{
 			if ( playerInventory.IsIdValid( bombs[i] ) )
 			{
-				//if( GetWitcherPlayer().IsItemEquipped( bombs[i] ) )
 					buffsModule.SetBuffsPercent( j, playerInventory.SingletonItemGetAmmo( bombs[i] ), playerInventory.SingletonItemGetMaxAmmo( bombs[i] ) );
-				//else
-					//buffsModule.SetBuffsPercent( j, 0, 0 );
 				j += 1;
 			}
 		}
