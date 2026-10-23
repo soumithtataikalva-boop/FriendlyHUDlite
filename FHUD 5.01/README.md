@@ -50,7 +50,7 @@ python3 "FHUD 5.01/tests/validate_package.py"
 node --test "FHUD 5.01/tests/logic.cjs"
 ```
 
-The harness reads selected production WitcherScript methods and executes them through a restricted syntax adapter with mocked engine services. Its 15 checks cover the corrected decision logic, visibility transitions, cleanup, allocation and sprite reuse. It is not a WitcherScript compiler and does not validate engine behavior, Flash rendering, or the entire script language.
+The harness reads selected production WitcherScript methods and executes them through a restricted syntax adapter with mocked engine services. Its 16 checks cover the corrected decision logic, visibility transitions, cleanup, allocation and sprite reuse. It is not a WitcherScript compiler and does not validate engine behavior, Flash rendering, or the entire script language.
 
 The game and its script compiler are not present in this cloud workspace. This candidate has not been compiled or run in the game. The 5.01 version label comes from the supplied baseline and was not independently authenticated. Texture/Flash assets and localized strings were retained from the supplied mod and need in-game compatibility verification.
 
@@ -86,3 +86,5 @@ The broad diagnostic/debug removal has been reverted. All 93 vanilla debug/conso
 FriendlyHUD-specific unused helpers, the FriendlyHUD debug command, empty modifier callback and obsolete custom comments remain removed. The prior FriendlyHUD fixes and Cat override removal remain intact.
 
 Package validation compares all restored entry points directly with the supplied vanilla scripts. No source changes were made to the vanilla reference directory. Game compilation/runtime testing remains required.
+
+Radial category cycling now retains its original view when all alternatives are empty or disallowed in combat. The regression test covers both Buffs-cycling preferences and unavailable oils. This change only adds logic to the FriendlyHUD helper; vanilla files and restored vanilla code are unchanged.

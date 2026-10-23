@@ -199,3 +199,17 @@ test('normal Remaster movement settings still initialize despite their historica
   scope.InitRemasterDebugSettings();
   assert.deepEqual(calls,setters);
 });
+test('cycling retains Buffs when every alternative is empty or unavailable in combat', () => {
+  for (const cycleThroughBuffs of [true,false]) {
+    for (const blockedOil of [false,true]) {
+      const s = {cycle:3, BDM_ShowPotions:0, BDM_ShowBombs:1, BDM_ShowOils:2, BDM_ShowBuffs:3,
+        config:{cycleThroughBuffs}, potions:Array(12).fill(null), bombs:Array(8).fill(null),
+        oils:blockedOil?[42]:Array(12).fill(null), disallowOilsInCombat:blockedOil,
+        thePlayer:{IsInCombat:()=>true}, playerInventory:{IsIdValid:id=>id!==null}};
+      const file = 'fhudscripts/modRadialMenuPotions.ws';
+      method(file,'HasValidItems',s); method(file,'CycleModes',s,['cycle']);
+      s.CycleModes();
+      assert.equal(s.cycle,3,`cycleThroughBuffs=${cycleThroughBuffs}, blockedOil=${blockedOil}`);
+    }
+  }
+});

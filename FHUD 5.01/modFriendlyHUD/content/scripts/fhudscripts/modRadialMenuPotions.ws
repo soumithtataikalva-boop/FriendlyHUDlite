@@ -341,6 +341,8 @@ class CModRadialMenuPotions
 	private function CycleModes( out cycle : EBuffsDisplayMode )
 	{
 		var i : int;
+		var initialMode : EBuffsDisplayMode;
+		initialMode = cycle;
 	
 		for( i = 1; i <= 3; i += 1 )
 		{
@@ -375,6 +377,8 @@ class CModRadialMenuPotions
 					break;
 			}
 		}
+		// No valid alternative: retain the view active before cycling.
+		cycle = initialMode;
 	}
 	
 	private function HasValidItems( items : array< SItemUniqueId > ) : bool

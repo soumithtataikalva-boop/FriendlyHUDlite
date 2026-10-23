@@ -223,6 +223,10 @@
     {
       "path": "game/gui/hud/modules/hudModuleEnemyFocus.ws",
       "reason": "Remove obsolete commented-out quest icon return."
+    },
+    {
+      "path": "fhudscripts/modRadialMenuPotions.ws",
+      "reason": "Retain the current radial view when no alternative item category is valid or permitted in combat."
     }
   ],
   "removed_game_files": [

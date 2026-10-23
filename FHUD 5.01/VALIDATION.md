@@ -17,13 +17,13 @@ Command: `python3 "FHUD 5.01/tests/validate_package.py"` from the repository roo
 
 Command: `node --test "FHUD 5.01/tests/logic.cjs"` from the repository root.
 
-15 tests passed, 0 failed, 0 skipped. The harness executes selected production method bodies through a restricted JavaScript syntax adapter and mocks engine services. Covered cases include absent player/HUD/helper, zero and interrupted fades, overlapping visibility reasons, all radial listener cleanup, empty item categories, fixed hotkey slots, zero/fractional prices, marker ID limits, sprite reuse and completed-POI modes.
+16 tests passed, 0 failed, 0 skipped. The harness executes selected production method bodies through a restricted JavaScript syntax adapter and mocks engine services. Covered cases include absent player/HUD/helper, zero and interrupted fades, overlapping visibility reasons, all radial listener cleanup, empty item categories, fixed hotkey slots, zero/fractional prices, marker ID limits, sprite reuse and completed-POI modes.
 
 This is hosted logic validation, not game compilation. Engine lifecycles, WitcherScript type/dispatch behavior, assets and Flash rendering still need in-game testing.
 
 ## Dead-code cleanup checks
 
-Removed package helpers were checked for active callers in the supplied runtime files. The modifier action still exists in input definitions/settings and is polled by the hold/pin handlers. Comment-only cleanup was compared at the token level to ensure it did not remove active statements. All 15 hosted regression checks pass after cleanup.
+Removed package helpers were checked for active callers in the supplied runtime files. The modifier action still exists in input definitions/settings and is polled by the hold/pin handlers. Comment-only cleanup was compared at the token level to ensure it did not remove active statements. All 16 hosted regression checks pass after cleanup.
 
 ## Vanilla restoration checks
 
@@ -31,5 +31,7 @@ Removed package helpers were checked for active callers in the supplied runtime 
 - Vanilla logging/assertions, visual-debug paths, console exposure, debug input registrations, testing-item activation and debug-fact guards are restored.
 - The redundant vanilla main-menu random sample/debug log is also restored, preserving the baseline.
 - FriendlyHUD-specific cleanup, prior bug fixes and Cat override removal are preserved.
-- Hosted regression suite: 15 passed, 0 failed, 0 skipped.
+- Hosted regression suite: 16 passed, 0 failed, 0 skipped.
 - Engine compilation/runtime testing remains outstanding.
+
+Radial category cycling now retains its original view when all alternatives are empty or disallowed in combat. The regression test covers both Buffs-cycling preferences and unavailable oils. This change only adds logic to the FriendlyHUD helper; vanilla files and restored vanilla code are unchanged.
