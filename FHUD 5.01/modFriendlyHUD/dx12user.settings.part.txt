@@ -43,6 +43,8 @@ fhudMarkersShowWSClues=1
 fhudMarkerHideActivities=false
 fhudMarkerShowUndiscoveredRoadsigns=false
 fhudMarkerPinWithUserMarker=true
+fhudMarkersSyncWithMap=false
+fhudMarkersTransparency=0
 
 [fhudQuickItems]
 fhudEnableItemsInRadialMenu=true
@@ -83,3 +85,4 @@ fhudHideNPCQuestMarkers=true
 fhudDoNotShowDamage=false
 fhudDoNotShowLevels=0
 fhudSilentJournalUpdates=false
+fhudShowBossHP=false
