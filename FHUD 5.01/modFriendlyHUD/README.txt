@@ -65,7 +65,6 @@ List of changes:
 
 - Patch 1.22 feature where you can split stack of items when moving it to stash was improved: you can now also split stack of items when moving it from stash back into your inventory.
 
-- Selectable main menu animation (default, random, base game, HoS, B&W).
 
 4. Miscellaneous
 

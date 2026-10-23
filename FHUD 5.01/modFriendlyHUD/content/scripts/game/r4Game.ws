@@ -1464,9 +1464,7 @@ import class CR4Game extends CCommonGame
 		seed = CalcSeed( theGame );
 		index = (int)RandNoiseF( seed, availableMainMenuTypes.Size() );
 
-		//---=== modFriendlyHUD ===---
-		_mainMenuType = ChooseMainMenuType(availableMainMenuTypes);
-		//---=== modFriendlyHUD ===---
+		_mainMenuType = availableMainMenuTypes[ index ];
 		LogChannel('asd', "RAND " + seed + "   " + index + "   " + _mainMenuType );
 
 		return _mainMenuType;

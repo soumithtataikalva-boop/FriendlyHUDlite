@@ -690,40 +690,6 @@
         </VisibleVars>
     </Group>
 	
-    <Group id="fhudMainMenu" displayName="Mods.friendly_hud.fhud_mainMenu">
-		<PresetsArray>
-			<Preset id="0" displayName="fhud_vanilla">
-				<Entry varId="fhudMainMenuMode" value="0"/>
-				<Entry varId="fhudHideDLC" value="false"/>
-			</Preset>
-			<Preset id="1" displayName="fhud_goty">
-				<Entry varId="fhudMainMenuMode" value="1"/>
-				<Entry varId="fhudHideDLC" value="true"/>
-			</Preset>
-		</PresetsArray>
-        <VisibleVars>
-            <Var id="Virtual_fhudMainMenuMode" displayName="fhud_mainMenuMode" displayType="OPTIONS" >
-				<OptionsArray>
-					<Option id="0" displayName="fhud_mainMenuMode_default">
-						<Entry varId="fhudMainMenuMode" value="0"/>
-					</Option>
-					<Option id="1" displayName="fhud_mainMenuMode_random">
-						<Entry varId="fhudMainMenuMode" value="1"/>
-					</Option>
-					<Option id="2" displayName="fhud_mainMenuMode_base">
-						<Entry varId="fhudMainMenuMode" value="2"/>
-					</Option>
-					<Option id="3" displayName="fhud_mainMenuMode_hos">
-						<Entry varId="fhudMainMenuMode" value="3"/>
-					</Option>
-					<Option id="4" displayName="fhud_mainMenuMode_baw">
-						<Entry varId="fhudMainMenuMode" value="4"/>
-					</Option>
-				</OptionsArray>
-			</Var>
-			<Var id="fhudHideDLC" displayName="fhud_hideDLC" displayType="TOGGLE"/>
-        </VisibleVars>
-    </Group>
 	
     <Group id="fhudMisc" displayName="Mods.friendly_hud.fhud_misc">
 		<PresetsArray>

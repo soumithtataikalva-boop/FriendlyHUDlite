@@ -87,10 +87,6 @@ fhudHideAnimalNames=true
 fhudHideHerbNames=false
 fhudHideNPCQuestMarkers=true
 
-[fhudMainMenu]
-fhudMainMenuMode=0
-fhudHideDLC=false
-
 [fhudMisc]
 fhudDoNotShowDamage=false
 fhudDoNotShowLevels=0

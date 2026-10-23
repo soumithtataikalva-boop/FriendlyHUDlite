@@ -16,6 +16,8 @@ FriendlyHUD for the supplied Vanilla Scripts 5.01 baseline. Original author: wgh
 
 Custom Cat vision controls have been removed; Cat uses the game's normal implementation. Cat remains available as an ordinary potion in the quick-item interface. Removing the previous installed mod folder before updating ensures its old Cat script override is removed too.
 
-The menu contains 85 settings across 8 sections. Original documentation includes historical version labels and may describe removed features.
+The menu contains 83 settings across 7 sections. Original documentation includes historical version labels and may describe removed features.
+
+Main-menu background selection and DLC-icon hiding have been removed; the game uses its vanilla main-menu behavior. When upgrading, remove the old installed mod folder before copying this version so its deleted helper script does not remain.
 
 This port has not been compiled or tested in the game.

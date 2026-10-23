@@ -341,10 +341,8 @@ class CR4IngameMenu extends CR4MenuBase
 			
 			StartShowingCustomDialogs();
 			
-			//---=== modFriendlyHUD ===---
-			if(!ShouldHideDLCIcons())
-			//---=== modFriendlyHUD ===---
-			{
+
+
 			if (theGame.GetDLCManager().IsEP1Available())
 			{
 				ep1StatusText = GetLocStringByKeyExt("expansion_status_installed");
@@ -365,7 +363,6 @@ class CR4IngameMenu extends CR4MenuBase
 			}			
 
 			
-			} //---=== modFriendlyHUD ===---
 			
 			if (theGame.AreConfigResetInThisSession() && !theGame.HasShownConfigChangedMessage())
 			{
@@ -542,9 +539,6 @@ class CR4IngameMenu extends CR4MenuBase
 		}
 		
 		
-		//---=== modFriendlyHUD ===---
-		if(!ShouldHideDLCIcons())
-		//---=== modFriendlyHUD ===---
 		{
 			
 			
@@ -4796,13 +4790,6 @@ class CR4IngameMenu extends CR4MenuBase
 		OnPlaySoundEvent("gui_global_denied");
 	}
 	
-	//---=== modFriendlyHUD ===---
-	function ShouldHideDLCIcons() : bool
-	{
-		return theGame.GetInGameConfigWrapper().GetVarValue('fhudMainMenu', 'fhudHideDLC') == "true";
-	}
-	//---=== modFriendlyHUD ===---
-
 	event  OnResetKeybinds():void
 	{
 		mInGameConfigWrapper.ResetGroupToDefaults('PCInput');

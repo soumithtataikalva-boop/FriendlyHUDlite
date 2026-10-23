@@ -91,16 +91,6 @@
 2110365114|        |option_fhud_hideAnimalNames|隐藏动物名字
 2110365115|        |option_fhud_hideHerbNames|隐藏草药名字
 2110365116|        |option_fhud_hideNPCQuestMarkers|隐藏NPC任务标识
-2110365117|        |panel_fhud_mainMenu|主菜单
-2110365118|        |option_fhud_mainMenuMode|主菜单背景动画
-2110365119|        |preset_value_fhud_mainMenuMode_default|默认
-2110365120|        |preset_value_fhud_mainMenuMode_random|随机显示
-2110365121|        |preset_value_fhud_mainMenuMode_base|游戏本体
-2110365122|        |preset_value_fhud_mainMenuMode_hos|石之心
-2110365123|        |preset_value_fhud_mainMenuMode_baw|血与酒
-2110365124|        |option_fhud_hideDLC|隐藏已安装DLC标识
-2110365125|        |preset_value_fhud_goty|年度版GOTY
-2110365126|        |preset_Mods_friendly_hud_fhud_mainMenu|主菜单预设方案
 2110365127|        |option_fhud_recyclingParts|显示杂物分解后可得的材料
 2110365128|        |fhud_recycling_parts|分解后可得到
 2110365129|        |option_fhud_itemCountWhenCrafting|显示炼金/锻造原料数量
