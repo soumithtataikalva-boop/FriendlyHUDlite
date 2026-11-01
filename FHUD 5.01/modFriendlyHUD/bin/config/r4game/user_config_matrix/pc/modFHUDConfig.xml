@@ -51,8 +51,8 @@
 				<Entry varId="fhudMarkerMinDistance" value="4"/>
 				<Entry varId="fhudMarkerMaxDistance" value="100"/>
 				<Entry varId="fhudCompassMarkersEnabled" value="true"/>
-				<Entry varId="fhudMarkerCompassDisplayMode" value="0"/>
-				<Entry varId="fhudProject3DMarkersOnCompass" value="true"/>
+				<Entry varId="fhudMarkerCompassDisplayMode" value="2"/>
+				<Entry varId="fhudProject3DMarkersOnCompass" value="false"/>
 				<Entry varId="fhudCompassScreenPosY" value="1.0"/>
 				<Entry varId="fhudMarkersFadeOutDelay" value="3"/>
 				<Entry varId="fhudMarkersShowQuests" value="2"/>
