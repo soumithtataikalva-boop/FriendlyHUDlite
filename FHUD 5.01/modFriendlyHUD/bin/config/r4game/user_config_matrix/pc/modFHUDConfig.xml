@@ -514,7 +514,7 @@
     <Group id="fhudInventory" displayName="Mods.friendly_hud.fhud_inventory">
 		<PresetsArray>
 			<Preset id="0" displayName="fhud_defaults">
-				<Entry varId="fhudDefaultInventoryTab" value="1"/>
+				<Entry varId="fhudDefaultInventoryTab" value="0"/>
 				<Entry varId="fhudResetNewItemsIngredients" value="true"/>
 				<Entry varId="fhudResetNewItemsQuest" value="true"/>
 				<Entry varId="fhudResetNewItemsOthers" value="true"/>

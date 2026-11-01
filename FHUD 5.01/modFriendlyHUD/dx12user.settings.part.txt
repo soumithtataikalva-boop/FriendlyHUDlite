@@ -56,7 +56,7 @@ fhudApplyOilToDrawnSword=false
 fhudRadialMenuTimescale=0.05
 
 [fhudInventory]
-fhudDefaultInventoryTab=1
+fhudDefaultInventoryTab=0
 fhudResetNewItemsIngredients=true
 fhudResetNewItemsQuest=true
 fhudResetNewItemsOthers=true
